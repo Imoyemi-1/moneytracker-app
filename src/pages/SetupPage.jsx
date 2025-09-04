@@ -1,4 +1,5 @@
 import { FaCogs } from 'react-icons/fa';
+import MainPage from '../setupPage/MainPage';
 
 const SetupPage = () => {
   return (
@@ -11,6 +12,7 @@ const SetupPage = () => {
           </span>
         </h2>
       </header>
+      <MainPage />
     </>
   );
 };
