@@ -1,3 +1,5 @@
+import Form from './Form';
+
 const MainPage = () => {
   return (
     <main className='border-t border-gray-100 p-3.5 space-y-3.5'>
@@ -13,6 +15,7 @@ const MainPage = () => {
         You can also select any number of additional currencies, if you use
         them.
       </p>
+      <Form />
     </main>
   );
 };
