@@ -10,3 +10,22 @@
     sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Roboto,
     Helvetica Neue;
 }
+
+.dropdown::-webkit-scrollbar {
+  width: 0.785rem;
+  border-radius: 5px;
+  background-color: rgb(250, 249, 249);
+  padding: 1px;
+}
+
+.dropdown::-webkit-scrollbar-thumb {
+  background-color: rgb(196, 194, 194);
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+.dropdown::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(163, 163, 163);
+  border-radius: 10px;
+}
