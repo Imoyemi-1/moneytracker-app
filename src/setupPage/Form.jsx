@@ -1,17 +1,20 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Field from '../components/Field';
+import { useDropdown } from '../contexts/Setup';
+
+// get countries data from currencies data
 
 const Form = () => {
-  const [baseSelection, setBaseSelection] = useState('House');
+  const { currenciesData, selected, setSelected } = useDropdown();
 
   return (
     <form>
       <div>
         <Field
           label='Base Currency'
-          selection={baseSelection}
+          selection={selected.baseSelection.code}
           defaultPh=''
-          FocusPh={baseSelection}
+          FocusPh={selected.baseSelection.code}
         />
         <Field
           label='Additional Currencies (optional)'

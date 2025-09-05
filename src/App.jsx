@@ -1,10 +1,13 @@
 import SetupPage from './pages/SetupPage';
+import { DropdownProvider } from './contexts/Setup';
 
 const App = () => {
   return (
-    <div className='pt-4 bg-white max-w-[700px] m-auto'>
-      <SetupPage />
-    </div>
+    <DropdownProvider>
+      <div className='pt-4 bg-white max-w-[700px] m-auto'>
+        <SetupPage />
+      </div>
+    </DropdownProvider>
   );
 };
 

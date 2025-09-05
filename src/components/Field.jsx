@@ -35,7 +35,7 @@ const Field = ({ label, selection, defaultPh, FocusPh }) => {
           placeholder={isFocused ? FocusPh : defaultPh}
         />
 
-        <button className='px-4 cursor-pointer'>
+        <button type='button' className='px-4 cursor-pointer'>
           <IoMdArrowDropdown />
         </button>
 
