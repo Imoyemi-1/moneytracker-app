@@ -7,19 +7,22 @@ import { useDropdown } from '../contexts/Setup';
 const Form = () => {
   const { currenciesData, selected, setSelected } = useDropdown();
 
+  // remove currencies already selected from base list
+  const filteredForBase = currenciesData.filter(
+    (currency) => currency.code !== selected.baseSelection.code
+  );
+
   return (
     <form>
       <div>
         <Field
           label='Base Currency'
-          selection={selected.baseSelection.code}
-          defaultPh=''
-          FocusPh={selected.baseSelection.code}
+          selection={selected.baseSelection}
+          placeholder=''
         />
         <Field
           label='Additional Currencies (optional)'
-          defaultPh='Select additional currencies'
-          FocusPh='Select additional currencies'
+          placeholder='Select additional currencies'
         />
       </div>
     </form>

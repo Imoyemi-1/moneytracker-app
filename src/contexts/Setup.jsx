@@ -4,6 +4,8 @@ import currenciesData from '../../currencies.json';
 const DropdownContext = createContext(null);
 
 function DropdownProvider({ children }) {
+  // add selection currencies to dropdown states
+
   const [selected, setSelected] = useState({
     baseSelection: currenciesData.find((currency) => currency.code === 'USD'),
     additionalSelection: [],
@@ -16,6 +18,7 @@ function DropdownProvider({ children }) {
   );
 }
 
+// Dropdown helper hooks to get dropdown context
 const useDropdown = () => {
   return useContext(DropdownContext);
 };

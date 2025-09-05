@@ -1,6 +1,6 @@
 import clsx from 'clsx/lite';
 
-const Dropdown = ({ isFocused }) => {
+const Dropdown = ({ isFocused, data }) => {
   return (
     // Todo: add accessibility to jsx later
     <ul
