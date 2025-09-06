@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { createContext, useState } from 'react';
 import Field from '../components/Field';
 import { useDropdown } from '../contexts/Setup';
 import { clsx } from 'clsx/lite';
@@ -21,6 +21,7 @@ const Form = () => {
           id='baseField'
           openId={openId}
           setBaseInputEmpty={setBaseInputEmpty}
+          dropDownList={currenciesData}
           setOpenId={setOpenId}
           label='Base Currency'
           selection={
@@ -49,6 +50,7 @@ const Form = () => {
           setBaseInputEmpty={setBaseInputEmpty}
           openId={openId}
           setOpenId={setOpenId}
+          dropDownList={filteredForBase}
           label='Additional Currencies (optional)'
           placeholder='Select additional currencies'
           selection={<div></div>}

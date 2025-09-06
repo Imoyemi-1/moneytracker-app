@@ -11,6 +11,7 @@ const Field = ({
   openId,
   setOpenId,
   setBaseInputEmpty,
+  dropDownList,
 }) => {
   const isOpen = openId === id;
   const inputRef = useRef(null);
@@ -83,7 +84,7 @@ const Field = ({
           <IoMdArrowDropdown />
         </button>
 
-        <Dropdown isOpen={isOpen} />
+        <Dropdown dropDownList={dropDownList} isOpen={isOpen} />
       </div>
     </div>
   );

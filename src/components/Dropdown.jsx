@@ -1,6 +1,21 @@
 import clsx from 'clsx/lite';
 
-const Dropdown = ({ isOpen }) => {
+const Dropdown = ({ isOpen, dropDownList }) => {
+  const currenciesList = dropDownList.map((currency) => (
+    <li
+      key={currency.code}
+      className='text-sm  flex items-center px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100'
+    >
+      <img
+        className='mr-2.5 h-3.5 w-4 object-cover'
+        src={currency.flag}
+        alt={currency.country}
+      />
+      <span>
+        {currency.code}, {currency.name}
+      </span>
+    </li>
+  ));
   return (
     // Todo: add accessibility to jsx later
     <ul
@@ -11,14 +26,7 @@ const Dropdown = ({ isOpen }) => {
         !isOpen && 'hidden'
       )}
     >
-      {/* Todo: add real data to todo later */}
-      <li className='px-4 py-2 border-t border-gray-50 cursor-pointer'>
-        House
-      </li>
-      <li className='px-4 py-2 border-t border-gray-50'>CVE</li>
-      <li className='px-4 py-2 border-t border-gray-50'>Books</li>
-      <li className='px-4 py-2 border-t border-gray-50'>Drinks</li>
-      <li className='px-4 py-2 border-t border-gray-50'>Bags</li>
+      {currenciesList}
     </ul>
   );
 };
