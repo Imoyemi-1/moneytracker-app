@@ -20,6 +20,7 @@ const Form = () => {
         <Field
           id='baseField'
           openId={openId}
+          setBaseInputEmpty={setBaseInputEmpty}
           setOpenId={setOpenId}
           label='Base Currency'
           selection={
@@ -27,7 +28,8 @@ const Form = () => {
               className={clsx(
                 //  toggle selection display when input have value
                 'text-sm px-3.5 flex items-center',
-                openId === 'baseField' && 'opacity-50'
+                openId === 'baseField' && 'opacity-50',
+                !baseInputEmpty && 'invisible'
               )}
             >
               <img
@@ -44,6 +46,7 @@ const Form = () => {
         />
         <Field
           id='additionalField'
+          setBaseInputEmpty={setBaseInputEmpty}
           openId={openId}
           setOpenId={setOpenId}
           label='Additional Currencies (optional)'

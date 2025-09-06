@@ -3,14 +3,27 @@ import Dropdown from './Dropdown';
 import { clsx } from 'clsx/lite';
 import { useEffect, useRef } from 'react';
 
-const Field = ({ label, selection, placeholder, id, openId, setOpenId }) => {
+const Field = ({
+  label,
+  selection,
+  placeholder,
+  id,
+  openId,
+  setOpenId,
+  setBaseInputEmpty,
+}) => {
   const isOpen = openId === id;
   const inputRef = useRef(null);
 
   // focus on the input when state change
 
   useEffect(() => {
-    isOpen ? inputRef.current?.focus() : inputRef.current?.blur();
+    if (isOpen) inputRef.current?.focus();
+    else {
+      inputRef.current?.blur();
+      inputRef.current.value = '';
+      setBaseInputEmpty(true);
+    }
   }, [isOpen]);
 
   // handle toggle for which field is click
@@ -21,6 +34,16 @@ const Field = ({ label, selection, placeholder, id, openId, setOpenId }) => {
     setOpenId(nextOpen ? id : null);
     if (nextOpen) inputRef.current.focus();
     else inputRef.current.blur();
+  };
+
+  //   handle base selection when typed in input
+
+  const handleBaseSelection = (id) => {
+    if (id === 'baseField' && inputRef.current.value.trim()) {
+      setBaseInputEmpty(false);
+    } else {
+      setBaseInputEmpty(true);
+    }
   };
 
   return (
@@ -44,6 +67,9 @@ const Field = ({ label, selection, placeholder, id, openId, setOpenId }) => {
           ref={inputRef}
           className='absolute w-full py-2 px-4 pr-7  full outline-0 min-w-12.5 flex-1 border-0 text-[0.9375rem]'
           type='text'
+          onChange={() => {
+            handleBaseSelection(id);
+          }}
           onFocus={() => setOpenId(id)}
           onBlur={() => setOpenId(null)}
           placeholder={placeholder}
