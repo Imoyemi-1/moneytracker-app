@@ -12,12 +12,17 @@ const Field = ({
   setBaseInputEmpty,
   dropDownList,
 }) => {
-  const { openId, setOpenId } = useDropdown();
+  const { openId, setOpenId, setQuery, query } = useDropdown();
 
   const isOpen = openId === id;
   const inputRef = useRef(null);
 
-  let currenciesList = dropDownList;
+  // for search in input field
+  const filtered = dropDownList.filter(
+    (currency) =>
+      currency.code.toLowerCase().includes(query.toLowerCase()) ||
+      currency.name.toLowerCase().includes(query.toLowerCase())
+  );
 
   // focus on the input when state change
 
@@ -57,7 +62,7 @@ const Field = ({
       <label className='font-medium mb-1 text-sm '>{label}</label>
       <div
         className={clsx(
-          'relative w-full flex flex-wrap items-center h-9.5 rounded  border-gray-300 border  justify-between',
+          'relative w-full flex flex-wrap items-center h-9.5 rounded  border  justify-between',
 
           // update border when input is focus or blur
           isOpen &&
@@ -71,11 +76,15 @@ const Field = ({
           ref={inputRef}
           className='absolute w-full py-2 px-4 pr-7  full outline-0 min-w-12.5 flex-1 border-0 text-[0.9375rem]'
           type='text'
-          onChange={() => {
+          onChange={(e) => {
             handleBaseSelection(id);
+            setQuery(e.target.value.trim());
           }}
           onFocus={() => setOpenId(id)}
-          onBlur={() => setOpenId(null)}
+          onBlur={() => {
+            setOpenId(null);
+            setQuery('');
+          }}
           placeholder={placeholder}
         />
 
@@ -87,7 +96,7 @@ const Field = ({
           <IoMdArrowDropdown />
         </button>
 
-        <Dropdown id={id} dropDownList={currenciesList} isOpen={isOpen} />
+        <Dropdown id={id} dropDownList={filtered} isOpen={isOpen} />
       </div>
     </div>
   );

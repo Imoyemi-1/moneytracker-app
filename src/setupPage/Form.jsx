@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { useState } from 'react';
 import Field from '../components/Field';
 import { useDropdown } from '../contexts/Setup';
 import { clsx } from 'clsx/lite';
@@ -9,7 +9,7 @@ const Form = () => {
   const [baseInputEmpty, setBaseInputEmpty] = useState(true);
 
   // remove currencies already selected from base list
-  const filteredForBase = currenciesData.filter(
+  const filteredForSearch = currenciesData.filter(
     (currency) => currency.code !== selected.baseSelection.code
   );
 
@@ -45,7 +45,7 @@ const Form = () => {
         <Field
           id='additionalField'
           setBaseInputEmpty={setBaseInputEmpty}
-          dropDownList={filteredForBase}
+          dropDownList={filteredForSearch}
           label='Additional Currencies (optional)'
           placeholder='Select additional currencies'
           selection={<div></div>}

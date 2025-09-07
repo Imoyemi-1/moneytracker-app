@@ -14,6 +14,9 @@ function DropdownProvider({ children }) {
   //
   const [openId, setOpenId] = useState(null);
 
+  //
+  const [query, setQuery] = useState('');
+
   // handle selection from dropdown
 
   const handleSelected = (id, code) => {
@@ -39,6 +42,8 @@ function DropdownProvider({ children }) {
         handleSelected,
         openId,
         setOpenId,
+        query,
+        setQuery,
       }}
     >
       {children}
