@@ -7,12 +7,40 @@ function DropdownProvider({ children }) {
   // add selection currencies to dropdown states
 
   const [selected, setSelected] = useState({
-    baseSelection: currenciesData.find((currency) => currency.code === 'USD'),
+    baseSelection: currenciesData.find((currency) => currency.code === 'AED'),
     additionalSelection: [],
   });
 
+  //
+  const [openId, setOpenId] = useState(null);
+
+  // handle selection from dropdown
+
+  const handleSelected = (id, code) => {
+    id === 'baseField'
+      ? setSelected((prev) => ({
+          ...prev,
+          baseSelection: currenciesData.find(
+            (currency) => currency.code === code
+          ),
+        }))
+      : setSelected((prev) => ({
+          ...prev,
+          additionalSelection: [],
+        }));
+  };
+
   return (
-    <DropdownContext.Provider value={{ currenciesData, selected, setSelected }}>
+    <DropdownContext.Provider
+      value={{
+        currenciesData,
+        selected,
+        setSelected,
+        handleSelected,
+        openId,
+        setOpenId,
+      }}
+    >
       {children}
     </DropdownContext.Provider>
   );

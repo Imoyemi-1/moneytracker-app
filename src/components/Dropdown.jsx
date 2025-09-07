@@ -1,10 +1,22 @@
 import clsx from 'clsx/lite';
+import { useDropdown } from '../contexts/Setup';
 
-const Dropdown = ({ isOpen, dropDownList }) => {
+const Dropdown = ({ isOpen, dropDownList, id }) => {
+  const { selected, handleSelected, setOpenId } = useDropdown();
+
   const currenciesList = dropDownList.map((currency) => (
     <li
+      onMouseDown={(e) => {
+        e.preventDefault();
+        handleSelected(id, currency.code);
+        setOpenId(null);
+      }}
       key={currency.code}
-      className='text-sm  flex items-center px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100'
+      className={clsx(
+        'text-sm  flex items-center px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto',
+        currency.name === selected.baseSelection.name &&
+          'bg-gray-100 font-medium'
+      )}
     >
       <img
         className='mr-2.5 h-3.5 w-4 object-cover'

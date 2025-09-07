@@ -5,9 +5,8 @@ import { clsx } from 'clsx/lite';
 // get countries data from currencies data
 
 const Form = () => {
-  const { currenciesData, selected, setSelected } = useDropdown();
+  const { currenciesData, selected, openId } = useDropdown();
   const [baseInputEmpty, setBaseInputEmpty] = useState(true);
-  const [openId, setOpenId] = useState(null);
 
   // remove currencies already selected from base list
   const filteredForBase = currenciesData.filter(
@@ -19,10 +18,8 @@ const Form = () => {
       <div>
         <Field
           id='baseField'
-          openId={openId}
           setBaseInputEmpty={setBaseInputEmpty}
           dropDownList={currenciesData}
-          setOpenId={setOpenId}
           label='Base Currency'
           selection={
             <div
@@ -48,8 +45,6 @@ const Form = () => {
         <Field
           id='additionalField'
           setBaseInputEmpty={setBaseInputEmpty}
-          openId={openId}
-          setOpenId={setOpenId}
           dropDownList={filteredForBase}
           label='Additional Currencies (optional)'
           placeholder='Select additional currencies'

@@ -2,19 +2,22 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import Dropdown from './Dropdown';
 import { clsx } from 'clsx/lite';
 import { useEffect, useRef } from 'react';
+import { useDropdown } from '../contexts/Setup';
 
 const Field = ({
   label,
   selection,
   placeholder,
   id,
-  openId,
-  setOpenId,
   setBaseInputEmpty,
   dropDownList,
 }) => {
+  const { openId, setOpenId } = useDropdown();
+
   const isOpen = openId === id;
   const inputRef = useRef(null);
+
+  let currenciesList = dropDownList;
 
   // focus on the input when state change
 
@@ -84,7 +87,7 @@ const Field = ({
           <IoMdArrowDropdown />
         </button>
 
-        <Dropdown dropDownList={dropDownList} isOpen={isOpen} />
+        <Dropdown id={id} dropDownList={currenciesList} isOpen={isOpen} />
       </div>
     </div>
   );
