@@ -44,8 +44,7 @@ const Form = () => {
           selection={
             <div
               className={clsx(
-                //  toggle selection display when input have value
-                'text-sm px-3.5 flex items-center',
+                'flex items-center absolute',
                 openId === 'baseField' && 'opacity-50',
                 !baseInputEmpty && 'invisible'
               )}
@@ -72,16 +71,7 @@ const Form = () => {
               ? ''
               : 'Select additional currencies'
           }
-          selection={
-            <div
-              className={clsx(
-                'flex gap-2 flex-wrap',
-                selected.additionalSelection.length > 0 && 'ml-4'
-              )}
-            >
-              {addCurrencyList}
-            </div>
-          }
+          selection={addCurrencyList}
         />
       </div>
     </form>

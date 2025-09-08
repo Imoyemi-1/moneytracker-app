@@ -60,41 +60,44 @@ const Field = ({
 
     <div className='mb-3.5 flex flex-col'>
       <label className='font-medium mb-1 text-sm '>{label}</label>
-      <div
-        className={clsx(
-          'relative w-full flex flex-wrap items-center h-9.5 rounded  border  justify-between',
 
-          // update border when input is focus or blur
-          isOpen &&
-            ' border-blue-200  border border-b-0 rounded-bl-none rounded-br-none',
-          !isOpen && ' border-gray-300 border '
-        )}
-      >
-        <>{selection}</>
-
-        <input
-          ref={inputRef}
-          className='absolute w-full py-2 px-4 pr-7  full outline-0 min-w-12.5 flex-1 border-0 text-[0.9375rem]'
-          type='text'
-          onChange={(e) => {
-            handleBaseSelection(id);
-            setQuery(e.target.value.trim());
-          }}
-          onFocus={() => setOpenId(id)}
-          onBlur={() => {
-            setOpenId(null);
-            setQuery('');
-          }}
-          placeholder={placeholder}
-        />
-
-        <button
-          onPointerDown={onToggle}
-          type='button'
-          className='px-4 cursor-pointer relative right-0'
+      <div className='relative'>
+        <div
+          className={clsx(
+            'flex  rounded-md  pl-4 py-1.5',
+            isOpen &&
+              'border border-b-0 border-blue-200 rounded-bl-none rounded-br-none',
+            !isOpen && 'border border-gray-300'
+          )}
         >
-          <IoMdArrowDropdown />
-        </button>
+          <div className='flex w-full flex-wrap gap-x-3 gap-y-2 m-auto'>
+            <>{selection}</>
+
+            <input
+              ref={inputRef}
+              className='w-full  flex-1 outline-0'
+              type='text'
+              onChange={(e) => {
+                handleBaseSelection(id);
+                setQuery(e.target.value.trim());
+              }}
+              onFocus={() => setOpenId(id)}
+              onBlur={() => {
+                setOpenId(null);
+                setQuery('');
+              }}
+              placeholder={placeholder}
+            />
+          </div>
+
+          <button
+            onPointerDown={onToggle}
+            type='button'
+            className='px-4 cursor-pointer'
+          >
+            <IoMdArrowDropdown />
+          </button>
+        </div>
 
         <Dropdown id={id} dropDownList={filtered} isOpen={isOpen} />
       </div>
