@@ -25,6 +25,7 @@ function DropdownProvider({ children }) {
         ...prev,
         baseSelection: currenciesData.find((cur) => cur.code === code),
       }));
+      removeAdditionalCur(code);
     } else {
       setSelected((prev) => {
         const found = currenciesData.find((cur) => cur.code === code);
@@ -44,6 +45,19 @@ function DropdownProvider({ children }) {
     }
   };
 
+  // remove currencies from additional list
+
+  const removeAdditionalCur = (code) => {
+    setSelected((prev) => {
+      return {
+        ...prev,
+        additionalSelection: prev.additionalSelection.filter(
+          (cur) => cur.code !== code
+        ),
+      };
+    });
+  };
+
   return (
     <DropdownContext.Provider
       value={{
@@ -55,6 +69,7 @@ function DropdownProvider({ children }) {
         setOpenId,
         query,
         setQuery,
+        removeAdditionalCur,
       }}
     >
       {children}

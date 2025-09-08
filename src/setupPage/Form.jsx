@@ -6,7 +6,8 @@ import { ImCross } from 'react-icons/im';
 // get countries data from currencies data
 
 const Form = () => {
-  const { currenciesData, selected, openId } = useDropdown();
+  const { currenciesData, selected, openId, removeAdditionalCur } =
+    useDropdown();
   const [baseInputEmpty, setBaseInputEmpty] = useState(true);
 
   // remove currencies already selected from base list
@@ -25,11 +26,13 @@ const Form = () => {
       className='flex items-center gap-x-2 text-sm whitespace-normal align-top py-0.5 px-2.5 bg-gray-100 shadow hover:bg-gray-200 transition-colors duration-300 rounded-[2px] cursor-pointer'
       key={cur.code}
       onMouseDown={(e) => {
+        const removeBtn = e.target.closest('.removeBtn');
         e.preventDefault();
+        removeBtn ? removeAdditionalCur(cur.code) : null;
       }}
     >
       {cur.code}
-      <ImCross className='text-gray-300 text-[0.75rem] hover:text-gray-500 active:text-[0.625rem]' />
+      <ImCross className='removeBtn text-gray-300 text-[0.75rem] hover:text-gray-500 active:text-[0.625rem]' />
     </div>
   ));
 
