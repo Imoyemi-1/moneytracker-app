@@ -5,7 +5,7 @@ import { clsx } from 'clsx/lite';
 import { ImCross } from 'react-icons/im';
 // get countries data from currencies data
 
-const Form = () => {
+const CurrenciesForm = () => {
   const { currenciesData, selected, openId, removeAdditionalCur } =
     useDropdown();
   const [baseInputEmpty, setBaseInputEmpty] = useState(true);
@@ -81,4 +81,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default CurrenciesForm;

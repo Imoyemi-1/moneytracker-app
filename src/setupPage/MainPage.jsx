@@ -1,4 +1,4 @@
-import Form from './Form';
+import CurrenciesForm from './CurrenciesForm';
 
 const MainPage = () => {
   return (
@@ -15,7 +15,14 @@ const MainPage = () => {
         You can also select any number of additional currencies, if you use
         them.
       </p>
-      <Form />
+      <CurrenciesForm />
+      <h2 className='font-roboto text-2xl '>Accounts</h2>
+      <p>
+        Create accounts that you would like to keep track of.
+        <br />
+        It could be cash in your wallet, bank accounts, credit cards or even a
+        loan to your friend.
+      </p>
     </main>
   );
 };
