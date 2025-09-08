@@ -20,17 +20,28 @@ function DropdownProvider({ children }) {
   // handle selection from dropdown
 
   const handleSelected = (id, code) => {
-    id === 'baseField'
-      ? setSelected((prev) => ({
+    if (id === 'baseField') {
+      setSelected((prev) => ({
+        ...prev,
+        baseSelection: currenciesData.find((cur) => cur.code === code),
+      }));
+    } else {
+      setSelected((prev) => {
+        const found = currenciesData.find((cur) => cur.code === code);
+
+        // check if it's already in the array
+        const exists = prev.additionalSelection.some(
+          (cur) => cur.code === found.code
+        );
+
+        return {
           ...prev,
-          baseSelection: currenciesData.find(
-            (currency) => currency.code === code
-          ),
-        }))
-      : setSelected((prev) => ({
-          ...prev,
-          additionalSelection: [],
-        }));
+          additionalSelection: exists
+            ? prev.additionalSelection
+            : [...prev.additionalSelection, found],
+        };
+      });
+    }
   };
 
   return (
