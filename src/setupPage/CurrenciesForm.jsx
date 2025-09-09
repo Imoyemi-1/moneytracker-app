@@ -26,8 +26,8 @@ const CurrenciesForm = () => {
       className='flex items-center gap-x-2 text-sm whitespace-normal align-top py-0.5 px-2.5 bg-gray-100 shadow hover:bg-gray-200 transition-colors duration-300 rounded-[2px] cursor-pointer'
       key={cur.code}
       onMouseDown={(e) => {
+        e.stopPropagation();
         const removeBtn = e.target.closest('.removeBtn');
-        e.preventDefault();
         removeBtn ? removeAdditionalCur(cur.code) : null;
       }}
     >
@@ -41,6 +41,7 @@ const CurrenciesForm = () => {
       <div>
         <Field
           id='baseField'
+          isInput={true}
           setBaseInputEmpty={setBaseInputEmpty}
           dropDownList={currenciesData}
           label='Base Currency'
@@ -64,8 +65,10 @@ const CurrenciesForm = () => {
           }
           placeholder=''
         />
+
         <Field
           id='additionalField'
+          isInput={true}
           setBaseInputEmpty={setBaseInputEmpty}
           dropDownList={filteredForSearch}
           label='Additional Currencies (optional)'

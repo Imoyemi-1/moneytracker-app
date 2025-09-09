@@ -7,7 +7,7 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
   const currenciesList = dropDownList.map((currency) => (
     <li
       onMouseDown={(e) => {
-        e.preventDefault();
+        e.stopPropagation();
         handleSelected(id, currency.code);
         setOpenId(null);
         setQuery('');
