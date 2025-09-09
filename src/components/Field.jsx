@@ -116,7 +116,11 @@ const Field = ({
           </button>
         </div>
 
-        <Dropdown id={id} dropDownList={filtered} isOpen={isOpen} />
+        <Dropdown
+          id={id}
+          dropDownList={id === 'groupField' ? dropDownList : filtered}
+          isOpen={isOpen}
+        />
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import { useDropdown } from '../contexts/Setup';
 const Dropdown = ({ isOpen, dropDownList, id }) => {
   const { selected, handleSelected, setOpenId, setQuery } = useDropdown();
 
+  // list item for currencies dropdown
+
   const currenciesList = dropDownList.map((currency) => (
     <li
       onMouseDown={(e) => {
@@ -29,6 +31,26 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
       </span>
     </li>
   ));
+
+  // list item for group dropdown
+
+  const AccountGroupList = dropDownList.map((list) => (
+    <li
+      className={clsx(
+        'text-sm  flex items-center px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto',
+        list === selected.groupSelection && 'bg-gray-100 font-medium'
+      )}
+      key={list}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+        handleSelected(id, list);
+        setOpenId(null);
+      }}
+    >
+      {list}
+    </li>
+  ));
+
   return (
     // Todo: add accessibility to jsx later
     <ul
@@ -40,7 +62,11 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
       )}
     >
       {dropDownList.length > 0 ? (
-        currenciesList
+        id === 'groupField' ? (
+          AccountGroupList
+        ) : (
+          currenciesList
+        )
       ) : (
         <li className=' px-4 py-1.5 border-t border-gray-50 text-gray-400'>
           No result found

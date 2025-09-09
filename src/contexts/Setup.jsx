@@ -9,6 +9,7 @@ function DropdownProvider({ children }) {
   const [selected, setSelected] = useState({
     baseSelection: currenciesData.find((currency) => currency.code === 'AED'),
     additionalSelection: [],
+    groupSelection: 'Cash',
   });
 
   //
@@ -26,6 +27,11 @@ function DropdownProvider({ children }) {
         baseSelection: currenciesData.find((cur) => cur.code === code),
       }));
       removeAdditionalCur(code);
+    } else if (id === 'groupField') {
+      setSelected((prev) => ({
+        ...prev,
+        groupSelection: code,
+      }));
     } else {
       setSelected((prev) => {
         const found = currenciesData.find((cur) => cur.code === code);

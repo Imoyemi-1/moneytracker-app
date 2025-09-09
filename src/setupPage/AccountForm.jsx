@@ -1,8 +1,11 @@
 import Field from '../components/Field';
+import { useDropdown } from '../contexts/Setup';
 
 const groupList = ['Cash', 'Bank Account', 'Deposit', 'Credit', 'Asset'];
 
 const AccountForm = () => {
+  const { selected } = useDropdown();
+
   return (
     <form>
       <div className='flex flex-col '>
@@ -21,7 +24,9 @@ const AccountForm = () => {
         isInput={false}
         dropDownList={groupList}
         label='Group'
-        selection={<div></div>}
+        selection={
+          <div className='text-sm py-0.5'>{selected.groupSelection}</div>
+        }
       />
     </form>
   );
