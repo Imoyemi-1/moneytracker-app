@@ -23,7 +23,7 @@ const AccountForm = () => {
       <div className='w-[41%] box-border'>
         <div className='flex '>
           <input
-            className='border text-end border-gray-200 rounded px-3.5 py-2 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-200'
+            className='border w-full text-end border-gray-200 rounded px-3.5 py-2 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-200'
             type='number'
             placeholder='Balance'
             step='0.01'
