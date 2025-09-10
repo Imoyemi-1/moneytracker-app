@@ -20,7 +20,7 @@ const AccountForm = () => {
           {cur.name}
         </label>
       </div>
-      <div className='w-[41%]'>
+      <div className='w-[41%] box-border'>
         <div className='flex '>
           <input
             className='border text-end border-gray-200 rounded px-3.5 py-2 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-200'
@@ -74,10 +74,10 @@ const AccountForm = () => {
             {selected.baseSelection.name}
           </label>
         </div>
-        <div className='w-[41%]'>
+        <div className='w-[41%] box-border'>
           <div className='flex '>
             <input
-              className='border text-end border-gray-200 rounded px-3.5 py-2 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-200'
+              className='border w-full text-end border-gray-200 rounded px-3.5 py-2 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-200'
               type='number'
               placeholder='Balance'
               step='0.01'
@@ -100,7 +100,7 @@ const AccountForm = () => {
               type='checkbox'
               defaultChecked
             />
-            {selected.baseSelection.name}
+            Show on Dashboard
           </label>
         </div>
         <button className='bg-blue-700 text-white py-2.5 px-5 w-[41%] rounded'>
