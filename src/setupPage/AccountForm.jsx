@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import Field from '../components/Field';
 import { useDropdown } from '../contexts/Setup';
+import { useSaveAccount } from '../hooks/useAccount';
 
 const groupList = ['Cash', 'Bank Account', 'Deposit', 'Credit', 'Asset'];
 
 const AccountForm = () => {
   const { selected } = useDropdown();
-  const [accounts, setAccounts] = useState({});
 
   const handleSubmit = (formData) => {
     const accountName = formData.get('accountName');
@@ -22,29 +21,21 @@ const AccountForm = () => {
       };
     });
 
-    setAccounts((prev) => {
-      const key = selected.groupSelection;
-      const newAccount = {
-        id: crypto.randomUUID(),
-        name: accountName,
-        currencies: [
-          {
-            code: selected.baseSelection.code,
-            amount: +baseCurAmount || 0,
-            enabled: baseCurLabel,
-          },
-          ...additionalCurrencies,
-        ],
-        showOnDashboard: showOnDashboard,
-      };
-
-      return {
-        ...prev,
-        [key]: prev[key] ? [...prev[key], newAccount] : [newAccount],
-      };
+    // add account to the list
+    useSaveAccount({
+      type: selected.groupSelection,
+      name: accountName,
+      showOnDashboard,
+      currencies: [
+        {
+          code: selected.baseSelection.code,
+          amount: +baseCurAmount || 0,
+          enabled: baseCurLabel,
+        },
+        ...additionalCurrencies,
+      ],
     });
   };
-  console.log(accounts);
 
   // for additional currencies amount
 
