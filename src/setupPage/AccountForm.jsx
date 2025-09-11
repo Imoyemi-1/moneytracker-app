@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Field from '../components/Field';
 import { useDropdown } from '../contexts/Setup';
 
@@ -5,6 +6,45 @@ const groupList = ['Cash', 'Bank Account', 'Deposit', 'Credit', 'Asset'];
 
 const AccountForm = () => {
   const { selected } = useDropdown();
+  const [accounts, setAccounts] = useState({});
+
+  const handleSubmit = (formData) => {
+    const accountName = formData.get('accountName');
+    const baseCurLabel = formData.get('baseCurLabel') !== null;
+    const baseCurAmount = formData.get('baseCurAmount');
+    const showOnDashboard = formData.get('showOnDashboard') !== null;
+
+    const additionalCurrencies = selected.additionalSelection.map((cur) => {
+      return {
+        code: cur.code,
+        enabled: formData.get(`additional[${cur.code}][enabled]`) !== null,
+        amount: +formData.get(`additional[${cur.code}][amount]`) || 0,
+      };
+    });
+
+    setAccounts((prev) => {
+      const key = selected.groupSelection;
+      const newAccount = {
+        id: crypto.randomUUID(),
+        name: accountName,
+        currencies: [
+          {
+            code: selected.baseSelection.code,
+            amount: +baseCurAmount || 0,
+            enabled: baseCurLabel,
+          },
+          ...additionalCurrencies,
+        ],
+        showOnDashboard: showOnDashboard,
+      };
+
+      return {
+        ...prev,
+        [key]: prev[key] ? [...prev[key], newAccount] : [newAccount],
+      };
+    });
+  };
+  console.log(accounts);
 
   // for additional currencies amount
 
@@ -13,9 +53,9 @@ const AccountForm = () => {
       <div className='flex-1'>
         <label className='flex items-center  cursor-pointer w-fit'>
           <input
+            name={`additional[${cur.code}][enabled]`}
             className='w-4 h-4 accent-blue-500 mr-2 '
             type='checkbox'
-            defaultChecked
           />
           {cur.name}
         </label>
@@ -27,6 +67,7 @@ const AccountForm = () => {
             type='number'
             placeholder='Balance'
             step='0.01'
+            name={`additional[${cur.code}][amount]`}
           />
           <div className='bg-gray-200 px-2.5 py-2 rounded rounded-tl-none rounded-bl-none'>
             {cur.code}
@@ -37,13 +78,14 @@ const AccountForm = () => {
   ));
 
   return (
-    <form>
+    <form action={handleSubmit}>
       <div>
         <div className='flex flex-col '>
           <label className='font-medium mb-1 text-sm ' htmlFor='accountName'>
             Name <span className='text-red-600 '>*</span>
           </label>
           <input
+            name='accountName'
             className='border border-gray-200 outline-0 rounded-md pl-4 py-1.5'
             type='text'
             id='accountName'
@@ -67,6 +109,7 @@ const AccountForm = () => {
         <div className='flex-1'>
           <label className='flex items-center  cursor-pointer w-fit'>
             <input
+              name='baseCurLabel'
               className='w-4 h-4 accent-blue-500 mr-2 '
               type='checkbox'
               defaultChecked
@@ -81,6 +124,7 @@ const AccountForm = () => {
               type='number'
               placeholder='Balance'
               step='0.01'
+              name='baseCurAmount'
             />
             <div className='bg-gray-200 px-2.5 py-2 rounded rounded-tl-none rounded-bl-none'>
               {selected.baseSelection.code}
@@ -96,6 +140,7 @@ const AccountForm = () => {
         <div className='flex-1'>
           <label className='flex items-center  cursor-pointer w-fit'>
             <input
+              name='showOnDashboard'
               className='w-4 h-4 accent-blue-500 mr-2 '
               type='checkbox'
               defaultChecked
