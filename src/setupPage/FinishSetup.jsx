@@ -4,6 +4,7 @@ import { useDropdown } from '../contexts/Setup';
 import { MdOutlineEdit } from 'react-icons/md';
 import clsx from 'clsx';
 
+// group account by there type
 function groupByType(accounts) {
   return accounts.reduce((groups, acc) => {
     if (!groups[acc.type]) groups[acc.type] = [];
@@ -12,11 +13,17 @@ function groupByType(accounts) {
   }, {});
 }
 
+// handle route index so dashboard become index when setup is completed
+
+const handleSetupComplete = async () => {
+  await db.settings.put({ key: 'setupComplete', value: true });
+};
+
 const FinishSetup = () => {
   const { selected } = useDropdown();
   const accounts = useLiveQuery(() => db.accounts.toArray(), []);
 
-  if (!accounts) return <p>Loading...</p>;
+  if (!accounts) return;
 
   const grouped = groupByType(accounts);
 
@@ -60,7 +67,10 @@ const FinishSetup = () => {
           ))}
         </div>
         <div className='flex justify-end p-4'>
-          <button className='bg-blue-800 py-2 px-5 text-white text-sm rounded mr-3.5 cursor-pointer hover:bg-blue-900 duration-300 transition-colors'>
+          <button
+            onClick={handleSetupComplete}
+            className='bg-blue-800 py-2 px-5 text-white text-sm rounded mr-3.5 cursor-pointer hover:bg-blue-900 duration-300 transition-colors'
+          >
             Finish
           </button>
         </div>
