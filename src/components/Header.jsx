@@ -5,7 +5,7 @@ const Header = () => {
   const { setOpenSidebar } = useAsideBar();
 
   return (
-    <header className='p-4 h-15.5 bg-blue-bg sticky top-0 w-full shadow-header'>
+    <header className='p-4 h-15.5 bg-blue-bg sticky top-0 w-full shadow-header z-50'>
       <div className='flex items-center text-white font-roboto'>
         <GiHamburgerMenu
           onClick={() => setOpenSidebar((prev) => !prev)}

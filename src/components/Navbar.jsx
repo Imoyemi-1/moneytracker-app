@@ -9,6 +9,7 @@ import {
 import { IoIosOptions } from 'react-icons/io';
 import { clsx } from 'clsx/lite';
 import { useAsideBar } from '../contexts/aside';
+import Modal from './Modal';
 
 const Navbar = () => {
   const { isOpenSidebar, setOpenSidebar } = useAsideBar();
@@ -23,7 +24,7 @@ const Navbar = () => {
     <aside
       onClick={closeSideBar}
       className={clsx(
-        'fixed top-15.5 w-31 min-h-full bg-white translate -translate-x-full transition-transform duration-300 ease-linear',
+        'fixed top-15.5 w-31 min-h-full bg-white translate -translate-x-full transition-transform duration-300 ease-linear z-50',
         isOpenSidebar && 'translate-x-0'
       )}
     >
@@ -53,6 +54,7 @@ const Navbar = () => {
           <span>Settings</span>
         </NavLink>
       </nav>
+      <Modal content={''} />
     </aside>
   );
 };
