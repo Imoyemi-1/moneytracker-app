@@ -21,33 +21,34 @@ const Navbar = () => {
 
   return (
     <aside
+      onClick={closeSideBar}
       className={clsx(
         'fixed top-15.5 w-31 min-h-full bg-white translate -translate-x-full transition-transform duration-300 ease-linear',
         isOpenSidebar && 'translate-x-0'
       )}
     >
       <nav>
-        <NavLink onClick={closeSideBar} className='nav-item' to='/'>
+        <NavLink className='nav-item' to='/'>
           <FaNewspaper className='nav-item-icon' />
           <span>Dashboard</span>
         </NavLink>
-        <NavLink onClick={closeSideBar} className='nav-item' to='transactions'>
+        <NavLink className='nav-item' to='transactions'>
           <FaExchangeAlt className='nav-item-icon' />
           <span>Transactions</span>
         </NavLink>
-        <NavLink onClick={closeSideBar} className='nav-item' to='accounts'>
+        <NavLink className='nav-item' to='accounts'>
           <FaCreditCard className='nav-item-icon' />
           <span>Accounts</span>
         </NavLink>
-        <NavLink onClick={closeSideBar} className='nav-item' to='reports'>
+        <NavLink className='nav-item' to='reports'>
           <FaChartLine className='nav-item-icon' />
           <span>Reports</span>
         </NavLink>
-        <NavLink onClick={closeSideBar} className='nav-item' to='budget'>
+        <NavLink className='nav-item' to='budget'>
           <FaShoppingBasket className='nav-item-icon' />
           <span>Budget</span>
         </NavLink>
-        <NavLink onClick={closeSideBar} className='nav-item' to='settings'>
+        <NavLink className='nav-item' to='settings'>
           <IoIosOptions className='nav-item-icon' />
           <span>Settings</span>
         </NavLink>
