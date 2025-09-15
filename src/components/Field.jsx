@@ -84,7 +84,8 @@ const Field = ({
             'flex  rounded-md  pl-4 py-1.5',
             isOpen &&
               'border border-b-0 border-blue-200 rounded-bl-none rounded-br-none',
-            !isOpen && 'border border-gray-200'
+            !isOpen &&
+              'border border-gray-200 hover:border-gray-400 duration-300 transition-colors'
           )}
         >
           <div className='flex w-full flex-wrap gap-x-3 gap-y-2 m-auto'>
