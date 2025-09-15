@@ -10,10 +10,10 @@ import RootLayout from './layout/RootLayout';
 import TransactionsPage from './pages/TransactionsPage';
 import { useEffect, useState } from 'react';
 import db from './db/data';
-import { SidebarProvider } from './contexts/aside';
+import { useAsideBar } from './contexts/aside';
 
 const App = () => {
-  const [setupComplete, setSetupComplete] = useState(null);
+  const { setupComplete, setSetupComplete } = useAsideBar();
 
   useEffect(() => {
     const fetchSetupStatus = async () => {
@@ -62,9 +62,7 @@ const App = () => {
 
   return (
     <DropdownProvider>
-      <SidebarProvider>
-        <RouterProvider router={router} />
-      </SidebarProvider>
+      <RouterProvider router={router} />
     </DropdownProvider>
   );
 };

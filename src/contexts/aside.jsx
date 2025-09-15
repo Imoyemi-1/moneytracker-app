@@ -6,11 +6,14 @@ function SidebarProvider({ children }) {
   // handle toggle states of sidebar
   const [isOpenSidebar, setOpenSidebar] = useState(false);
 
+  const [setupComplete, setSetupComplete] = useState(null);
   return (
     <SidebarContext.Provider
       value={{
         isOpenSidebar,
         setOpenSidebar,
+        setupComplete,
+        setSetupComplete,
       }}
     >
       {children}
