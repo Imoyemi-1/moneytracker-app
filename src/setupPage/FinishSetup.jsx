@@ -5,6 +5,8 @@ import { MdOutlineEdit } from 'react-icons/md';
 import clsx from 'clsx';
 import { getTotalAmt } from '../hooks/useExchangeRates';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { useAsideBar } from '../contexts/aside';
 
 // group account by there type
 function groupByType(accounts) {
@@ -15,16 +17,12 @@ function groupByType(accounts) {
   }, {});
 }
 
-// handle route index so dashboard become index when setup is completed
-
-const handleSetupComplete = async () => {
-  await db.settings.put({ key: 'setupComplete', value: true });
-};
-
 const FinishSetup = () => {
   const { selected } = useDropdown();
+  const { setSetupComplete } = useAsideBar();
   const accounts = useLiveQuery(() => db.accounts.toArray(), []);
   const [rates, setRates] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRate = async () => {
@@ -52,6 +50,14 @@ const FinishSetup = () => {
     };
     fetchRate();
   }, []);
+
+  // handle route index so dashboard become index when setup is completed
+
+  const handleSetupComplete = async () => {
+    await db.settings.put({ key: 'setupComplete', value: true });
+    setSetupComplete(true);
+    navigate('/');
+  };
 
   if (!accounts) return;
 
