@@ -10,6 +10,7 @@ import RootLayout from './layout/RootLayout';
 import TransactionsPage from './pages/TransactionsPage';
 import { useEffect, useState } from 'react';
 import db from './db/data';
+import { SidebarProvider } from './contexts/aside';
 
 const App = () => {
   const [setupComplete, setSetupComplete] = useState(null);
@@ -61,7 +62,9 @@ const App = () => {
 
   return (
     <DropdownProvider>
-      <RouterProvider router={router} />
+      <SidebarProvider>
+        <RouterProvider router={router} />
+      </SidebarProvider>
     </DropdownProvider>
   );
 };
