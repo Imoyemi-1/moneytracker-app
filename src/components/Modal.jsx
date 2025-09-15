@@ -5,6 +5,7 @@ const Modal = ({ content }) => {
   const { isOpenSidebar, setOpenSidebar } = useAsideBar();
   return (
     <>
+      {/* remove modal is dropdown is close */}
       {isOpenSidebar &&
         createPortal(
           <div
