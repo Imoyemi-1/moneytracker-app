@@ -25,6 +25,7 @@ const FinishSetup = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // get rate from storage and fetch from api if no rate in storage or time up
     const fetchRate = async () => {
       const cached = await db.exchangeRates.get('latestRates');
       const now = Date.now();
