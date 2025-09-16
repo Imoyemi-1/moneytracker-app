@@ -11,6 +11,7 @@ import TransactionsPage from './pages/TransactionsPage';
 import { useEffect, useState } from 'react';
 import db from './db/data';
 import { useAsideBar } from './contexts/aside';
+import { AppContextProvider } from './contexts/AppContext';
 
 const App = () => {
   const { setupComplete, setSetupComplete } = useAsideBar();
@@ -62,7 +63,9 @@ const App = () => {
 
   return (
     <DropdownProvider>
-      <RouterProvider router={router} />
+      <AppContextProvider>
+        <RouterProvider router={router} />
+      </AppContextProvider>
     </DropdownProvider>
   );
 };

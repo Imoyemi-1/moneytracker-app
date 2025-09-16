@@ -8,16 +8,19 @@ const useExchangeRates = (amount, fromCode, toCode, rates) => {
 
 // calculating total amount per account types
 
-const getTotalAmt = (account, toCode, rates) => {
+const getTotalAmt = (account, toCode, rates, isNetWorth = false) => {
   const amounts = [];
   const currencies = account.map((acc) => acc.currencies);
 
   currencies.forEach((acc) => {
-    return acc.forEach((amt) =>
-      amt.enabled
-        ? amounts.push(useExchangeRates(amt.amount, amt.code, toCode, rates))
-        : null
-    );
+    return acc.forEach((amt) => {
+      if (isNetWorth)
+        amounts.push(useExchangeRates(amt.amount, amt.code, toCode, rates));
+      else
+        amt.enabled
+          ? amounts.push(useExchangeRates(amt.amount, amt.code, toCode, rates))
+          : null;
+    });
   });
 
   return amounts.reduce((cur, acc) => cur + acc, 0);

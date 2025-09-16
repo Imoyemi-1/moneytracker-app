@@ -4,9 +4,10 @@ import { useDropdown } from '../contexts/Setup';
 import { MdOutlineEdit } from 'react-icons/md';
 import clsx from 'clsx';
 import { getTotalAmt } from '../hooks/useExchangeRates';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { useAsideBar } from '../contexts/aside';
+import { AppContext } from '../contexts/AppContext';
 
 // group account by there type
 function groupByType(accounts) {
@@ -21,36 +22,8 @@ const FinishSetup = () => {
   const { selected } = useDropdown();
   const { setSetupComplete } = useAsideBar();
   const accounts = useLiveQuery(() => db.accounts.toArray(), []);
-  const [rates, setRates] = useState(null);
+  const { rates } = useContext(AppContext);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // get rate from storage and fetch from api if no rate in storage or time up
-    const fetchRate = async () => {
-      const cached = await db.exchangeRates.get('latestRates');
-      const now = Date.now();
-
-      if (!cached || now > new Date(cached.nextUpdate).getTime()) {
-        const res = await fetch(
-          'https://v6.exchangerate-api.com/v6/eb7e378c2f0c2d0d8b6d630b/latest/USD'
-        );
-        const data = await res.json();
-
-        await db.exchangeRates.put({
-          id: 'latestRates',
-          base: 'USD',
-          data: data.conversion_rates,
-          lastFetchedAt: Date.now(),
-          nextUpdate: data.time_update_utc,
-        });
-
-        setRates(data.conversion_rates);
-      } else {
-        setRates(cached.data);
-      }
-    };
-    fetchRate();
-  }, []);
 
   // handle route index so dashboard become index when setup is completed
 
