@@ -15,7 +15,7 @@ const Section = ({ title, isNetWorth, sectionBody }) => {
   if (!accounts) return;
 
   const totalNetWorth = rates
-    ? getTotalAmt(accounts, selected.baseSelection.code, rates, true)
+    ? getTotalAmt(accounts, selected.baseSelection.code, rates)
     : null;
 
   return (
