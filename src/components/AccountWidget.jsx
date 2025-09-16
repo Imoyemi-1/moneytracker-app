@@ -23,12 +23,15 @@ const AccountWidget = ({ isDashboard }) => {
 
   if (!accounts) return;
 
+  //   group each base of their type and check if its for dashboard to remove account that the show on dashboard is not enable
+
   const grouped = isDashboard
     ? groupByType(accounts.filter((acc) => acc.showOnDashboard))
     : groupByType(accounts);
 
   return (
     <>
+      {/* map to each account to display account on their type */}
       {Object.entries(grouped).map(([type, accList], index) => {
         const totalAmount = rates
           ? getTotalAmt(accList, selected.baseSelection.code, rates).toFixed(2)
@@ -36,6 +39,7 @@ const AccountWidget = ({ isDashboard }) => {
 
         return (
           <div key={index}>
+            {/* Toggle account body if section header  is click*/}
             <div
               onClick={(e) =>
                 e.currentTarget.nextElementSibling.classList.toggle('hidden')
@@ -73,6 +77,7 @@ const AccountWidget = ({ isDashboard }) => {
                         </div>
                       ))}
                   </div>
+                  {/* display edit button is its not on dashboard */}
                   {!isDashboard && (
                     <div className='p-3 pl-0 '>
                       <button className='group hover:border-gray-400 duration-300 transition-colors p-2 rounded-full border border-gray-200 cursor-pointer '>

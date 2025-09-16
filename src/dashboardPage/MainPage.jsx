@@ -4,6 +4,7 @@ import AccountWidget from '../components/AccountWidget';
 export const MainPage = () => {
   return (
     <main>
+      {/* Section for dashboard net worth  and account widget section*/}
       <Section
         title='net worth'
         isNetWorth={true}
@@ -13,7 +14,8 @@ export const MainPage = () => {
           </div>
         }
       />
-      <Section title='New Transaction' sectionBody={''} />
+      {/* Section for creating  new Transaction*/}
+      <Section title='New Transaction' sectionBody={<div>transactions</div>} />
     </main>
   );
 };
