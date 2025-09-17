@@ -34,7 +34,7 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
 
   // list item for group dropdown
 
-  const AccountGroupList = dropDownList.map((list) => (
+  const accountGroupList = dropDownList.map((list) => (
     <li
       className={clsx(
         'text-sm  flex items-center px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto',
@@ -51,6 +51,21 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
     </li>
   ));
 
+  // list item for selection of new transactions
+
+  const accountTransactionList = dropDownList.map((list) => (
+    <li
+      className={clsx(
+        'text-sm  flex items-center justify-between px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto',
+        list.name === 'opay' && 'bg-gray-100 font-medium'
+      )}
+      key={list.id}
+    >
+      <span>{list.name}</span>
+      <span className='text-gray-400'>{list.type}</span>
+    </li>
+  ));
+
   return (
     // Todo: add accessibility to jsx later
     <ul
@@ -61,9 +76,12 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
         !isOpen && 'hidden'
       )}
     >
+      {/* display list base on the dropdown */}
       {dropDownList.length > 0 ? (
         id === 'groupField' ? (
-          AccountGroupList
+          accountGroupList
+        ) : id === 'firstTransaction' ? (
+          accountTransactionList
         ) : (
           currenciesList
         )

@@ -69,7 +69,7 @@ const Field = ({
   return (
     // Todo: add accessibility to jsx later
 
-    <div className='mb-3.5 flex flex-col'>
+    <div className='mb-3.5 flex flex-col '>
       <label className='font-medium mb-1 text-[0.8125rem]'>{label}</label>
 
       <div
@@ -117,9 +117,14 @@ const Field = ({
           </button>
         </div>
 
+        {/* checked if the dropdown have search input to see to filter by search */}
         <Dropdown
           id={id}
-          dropDownList={id === 'groupField' ? dropDownList : filtered}
+          dropDownList={
+            id === 'groupField' || id === 'firstTransaction'
+              ? dropDownList
+              : filtered
+          }
           isOpen={isOpen}
         />
       </div>
