@@ -70,7 +70,7 @@ const Field = ({
     // Todo: add accessibility to jsx later
 
     <div className='mb-3.5 flex flex-col'>
-      <label className='font-medium mb-1 text-sm '>{label}</label>
+      <label className='font-medium mb-1 text-[0.8125rem]'>{label}</label>
 
       <div
         onMouseDown={(e) => {

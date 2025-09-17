@@ -4,8 +4,6 @@ import { clsx } from 'clsx/lite';
 import { getTotalAmt } from '../hooks/useExchangeRates';
 import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
-import db from '../db/data';
-import { useLiveQuery } from 'dexie-react-hooks';
 
 // group account by there type
 function groupByType(accounts) {
@@ -17,8 +15,8 @@ function groupByType(accounts) {
 }
 
 const AccountWidget = ({ isDashboard }) => {
-  const { rates } = useContext(AppContext);
-  const accounts = useLiveQuery(() => db.accounts.toArray(), []);
+  const { rates, accounts } = useContext(AppContext);
+
   const { selected } = useDropdown();
 
   if (!accounts) return;

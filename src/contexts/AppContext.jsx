@@ -1,10 +1,12 @@
 import { createContext, useState, useEffect } from 'react';
 import db from '../db/data';
+import { useLiveQuery } from 'dexie-react-hooks';
 
 const AppContext = createContext(null);
 
 const AppContextProvider = ({ children }) => {
   const [rates, setRates] = useState(null);
+  const accounts = useLiveQuery(() => db.accounts.toArray(), []);
 
   useEffect(() => {
     // get rate from storage and fetch from api if no rate in storage or time up
@@ -35,7 +37,7 @@ const AppContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ rates, setRates }}>
+    <AppContext.Provider value={{ rates, setRates, accounts }}>
       {children}
     </AppContext.Provider>
   );

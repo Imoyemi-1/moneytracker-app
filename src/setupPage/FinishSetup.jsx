@@ -1,12 +1,13 @@
-import { useLiveQuery } from 'dexie-react-hooks';
 import db from '../db/data';
 import { useNavigate } from 'react-router';
 import { useAsideBar } from '../contexts/aside';
 import AccountWidget from '../components/AccountWidget';
+import { useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 const FinishSetup = () => {
   const { setSetupComplete } = useAsideBar();
-  const accounts = useLiveQuery(() => db.accounts.toArray(), []);
+  const { accounts } = useContext(AppContext);
   const navigate = useNavigate();
 
   // handle route index so dashboard become index when setup is completed

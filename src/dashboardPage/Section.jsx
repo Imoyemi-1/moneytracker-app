@@ -1,6 +1,4 @@
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { useLiveQuery } from 'dexie-react-hooks';
-import db from '../db/data';
 import { getTotalAmt } from '../hooks/useExchangeRates';
 import { useDropdown } from '../contexts/Setup';
 import { useContext, useState } from 'react';
@@ -8,9 +6,8 @@ import { AppContext } from '../contexts/AppContext';
 import { clsx } from 'clsx/lite';
 
 const Section = ({ title, isNetWorth, sectionBody }) => {
-  const accounts = useLiveQuery(() => db.accounts.toArray(), []);
   const { selected } = useDropdown();
-  const { rates } = useContext(AppContext);
+  const { rates, accounts } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(true);
 
   if (!accounts) return;

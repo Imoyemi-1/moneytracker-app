@@ -1,8 +1,11 @@
 import { clsx } from 'clsx/lite';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import NewTransactionForm from './NewTransactionForm';
+import { AppContext } from '../contexts/AppContext';
 
 const NewTransactions = () => {
   const [activeTab, setActiveTab] = useState('expense');
+  const { accounts } = useContext(AppContext);
 
   return (
     <>
@@ -16,21 +19,28 @@ const NewTransactions = () => {
         >
           Expense
         </a>
-        <a
-          onClick={() => setActiveTab('transfer')}
-          className={clsx(
-            'item black border-r border-gray-300',
-            activeTab === 'transfer' && 'active'
-          )}
-        >
-          Transfer
-        </a>
+        {accounts.length > 1 && (
+          <a
+            onClick={() => setActiveTab('transfer')}
+            className={clsx(
+              'item black border-r border-gray-300',
+              activeTab === 'transfer' && 'active'
+            )}
+          >
+            Transfer
+          </a>
+        )}
+
         <a
           onClick={() => setActiveTab('income')}
           className={clsx('item green', activeTab === 'income' && 'active')}
         >
           Income
         </a>
+      </div>
+      {/* add new transaction form to add new transactions  */}
+      <div className='px-3.5 pb-3.5'>
+        <NewTransactionForm activeTab={activeTab} />
       </div>
     </>
   );
