@@ -48,7 +48,7 @@ const Section = ({ title, isNetWorth, sectionBody }) => {
           <div
             // if amount is negative color red and  green if 0 or greater 0
             className={clsx(
-              'pr-4 font-bold text-right text-[1.35rem] font-mono',
+              'pr-4 font-bold text-right text-xl font-mono',
               totalNetWorth >= 0 && 'text-green-500',
               totalNetWorth < 0 && 'text-red-500'
             )}

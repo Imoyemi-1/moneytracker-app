@@ -26,6 +26,26 @@
   @apply text-2xl text-center m-auto;
 }
 
+.transaction > .item {
+  @apply flex-1 py-2.5 text-center  hover:bg-gray-100 duration-300 transition-colors ease-initial;
+}
+
+.transaction > .item.active {
+  @apply bg-[rgba(0,0,0,0.05)];
+  box-shadow: inset 0 1px 4px 0 rgba(34, 36, 38, 0.12);
+  transition: background 0.1s ease, box-shadow 0.1s ease, color 0.1s ease;
+}
+
+.transaction > .item.active.red {
+  @apply text-red-500;
+}
+.transaction > .item.active.black {
+  @apply text-black/85;
+}
+.transaction > .item.active.green {
+  @apply text-green-600;
+}
+
 .dropdown::-webkit-scrollbar {
   width: 0.785rem;
   border-radius: 5px;
