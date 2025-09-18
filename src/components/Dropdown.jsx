@@ -95,7 +95,10 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
           currenciesList
         )
       ) : (
-        <li className=' px-4 py-1.5 border-t border-gray-50 text-gray-400'>
+        <li
+          onMouseDown={(e) => e.stopPropagation()}
+          className=' flex items-center px-4  min-h-9 border-t border-gray-50 text-gray-400'
+        >
           No result found
         </li>
       )}

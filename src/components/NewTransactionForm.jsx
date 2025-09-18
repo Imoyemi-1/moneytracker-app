@@ -6,7 +6,7 @@ import { useDropdown } from '../contexts/Setup';
 import { DashboardContext } from '../contexts/DashboardContext';
 
 const NewTransactionForm = ({ activeTab }) => {
-  const { accounts } = useContext(AppContext);
+  const { accounts, setBaseInputEmpty } = useContext(AppContext);
   const { selected } = useDropdown();
   const { transactionCurSelected } = useContext(DashboardContext);
 
@@ -51,6 +51,21 @@ const NewTransactionForm = ({ activeTab }) => {
           />
         </div>
       )}
+      <div className='mt-3.5'>
+        <Field
+          id='tagsField'
+          isInput={true}
+          setBaseInputEmpty={setBaseInputEmpty}
+          dropDownList={[]}
+          label='Tags'
+          placeholder={
+            selected.additionalSelection.length > 0
+              ? ''
+              : 'Choose existing tags or add new'
+          }
+          selection={[]}
+        />
+      </div>
     </form>
   );
 };

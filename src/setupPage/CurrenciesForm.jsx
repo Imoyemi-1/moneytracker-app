@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import Field from '../components/Field';
 import { useDropdown } from '../contexts/Setup';
 import { clsx } from 'clsx/lite';
 import { ImCross } from 'react-icons/im';
+import { AppContext } from '../contexts/AppContext';
 // get countries data from currencies data
 
 const CurrenciesForm = () => {
   const { currenciesData, selected, openId, removeAdditionalCur } =
     useDropdown();
-  const [baseInputEmpty, setBaseInputEmpty] = useState(true);
+  const { baseInputEmpty, setBaseInputEmpty } = useContext(AppContext);
 
   // remove currencies already selected from base list
   const filteredForSearch = currenciesData

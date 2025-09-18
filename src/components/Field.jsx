@@ -86,20 +86,20 @@ const Field = ({
       >
         <div
           className={clsx(
-            'flex  rounded-md  pl-4 py-1.5',
+            'flex  rounded-md  pl-4  min-h-9.5',
             isOpen &&
               'border border-b-0 border-blue-200 rounded-bl-none rounded-br-none',
             !isOpen &&
               'border border-gray-200 hover:border-gray-400 duration-300 transition-colors'
           )}
         >
-          <div className='flex w-full flex-wrap gap-x-3 gap-y-2 m-auto'>
+          <div className='flex w-full flex-wrap gap-x-3 gap-y-2 m-auto text-sm'>
             <>{selection}</>
 
             {isInput && (
               <input
                 ref={inputRef}
-                className='w-full  flex-1 outline-0'
+                className='w-full h-full min-h-9 flex-1 outline-0 placeholder:text-gray-200'
                 type='text'
                 onMouseDown={(e) => {
                   e.stopPropagation();
