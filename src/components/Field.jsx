@@ -28,19 +28,24 @@ const Field = ({
   // focus on the input when state change
 
   useEffect(() => {
+    // close dropdown if click on the body
     const handleClickOutside = () => {
       setOpenId(null);
       setQuery('');
     };
 
-    if (!isInput) return;
+    // handle dropdown with input to  focus if open
+    const handleDropdownInput = () => {
+      if (!isInput) return;
 
-    if (isOpen && inputRef.current) {
-      setTimeout(() => inputRef.current?.focus(), 0);
-    } else {
-      inputRef.current.value = '';
-      setBaseInputEmpty(true);
-    }
+      if (isOpen && inputRef.current) {
+        setTimeout(() => inputRef.current?.focus(), 0);
+      } else {
+        inputRef.current.value = '';
+        setBaseInputEmpty(true);
+      }
+    };
+    handleDropdownInput();
 
     document.addEventListener('mousedown', handleClickOutside);
 
@@ -75,7 +80,7 @@ const Field = ({
       <div
         onMouseDown={(e) => {
           e.stopPropagation();
-          setOpenId(id);
+          onToggle();
         }}
         className='relative'
       >
@@ -96,6 +101,10 @@ const Field = ({
                 ref={inputRef}
                 className='w-full  flex-1 outline-0'
                 type='text'
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  setOpenId(id);
+                }}
                 onChange={(e) => {
                   handleBaseSelection(id);
                   setQuery(e.target.value.trim());
@@ -105,14 +114,7 @@ const Field = ({
             )}
           </div>
 
-          <button
-            onMouseDown={(e) => {
-              e.stopPropagation();
-              onToggle();
-            }}
-            type='button'
-            className='dropDownBtn px-4 cursor-pointer'
-          >
+          <button type='button' className='dropDownBtn px-4 cursor-pointer'>
             <IoMdArrowDropdown />
           </button>
         </div>
