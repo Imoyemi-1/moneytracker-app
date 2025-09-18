@@ -1,6 +1,7 @@
 import Section from './Section';
 import AccountWidget from '../components/AccountWidget';
-import NewTransactions from '../components/NewTransactions';
+import NewTransactions from './NewTransactions';
+import TransactionSection from './TransactionSection';
 
 export const MainPage = () => {
   return (
@@ -20,6 +21,15 @@ export const MainPage = () => {
         title='New Transaction'
         sectionBody={
           <div className='border-t border-gray-300 '>{<NewTransactions />}</div>
+        }
+      />
+      {/* Section for creating  new Transaction*/}
+      <Section
+        title='Recent Transactions'
+        sectionBody={
+          <div className='border-t border-gray-300 '>
+            {<TransactionSection />}
+          </div>
         }
       />
     </main>

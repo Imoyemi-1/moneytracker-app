@@ -39,7 +39,7 @@ const NewTransactions = () => {
         </a>
       </div>
       {/* add new transaction form to add new transactions  */}
-      <div className='p-3.5'>
+      <div className='p-3.5 border-b border-gray-300'>
         <NewTransactionForm activeTab={activeTab} />
       </div>
     </>
