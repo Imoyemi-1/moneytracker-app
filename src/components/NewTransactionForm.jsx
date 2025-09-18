@@ -52,19 +52,26 @@ const NewTransactionForm = ({ activeTab }) => {
         </div>
       )}
       <div className='mt-3.5'>
-        <Field
-          id='tagsField'
-          isInput={true}
-          setBaseInputEmpty={setBaseInputEmpty}
-          dropDownList={[]}
-          label='Tags'
-          placeholder={
-            selected.additionalSelection.length > 0
-              ? ''
-              : 'Choose existing tags or add new'
-          }
-          selection={[]}
-        />
+        <div>
+          <Field
+            id='tagsField'
+            isInput={true}
+            setBaseInputEmpty={setBaseInputEmpty}
+            dropDownList={[]}
+            label='Tags'
+            placeholder={
+              selected.additionalSelection.length > 0
+                ? ''
+                : 'Choose existing tags or add new'
+            }
+            selection={[]}
+          />
+          <input
+            className=' border text-sm w-full min-h-9.5 border-gray-200 rounded-md px-3.5 outline-0 focus:border-blue-200'
+            type='text'
+            placeholder='Note'
+          />
+        </div>
       </div>
     </form>
   );
