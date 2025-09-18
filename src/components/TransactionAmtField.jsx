@@ -1,22 +1,81 @@
 import { IoMdArrowDropdown } from 'react-icons/io';
+import { useDropdown } from '../contexts/Setup';
+import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 
 const TransactionAmtField = () => {
+  const { selected } = useDropdown();
+  const [isOpenDropDown, setIsOpenDropDown] = useState(false);
+
+  // handle toggle onclick of dropdown selection container
+  const onToggle = () => {
+    if (selected.firstAccountTransaction.currencies.length <= 1) return;
+    setIsOpenDropDown((prev) => !prev);
+  };
+
+  // transaction amount field dropdown list
+  const currencyList = selected.firstAccountTransaction.currencies.map(
+    (cur) => (
+      <li
+        key={cur.code}
+        className={clsx(
+          'py-2 flex justify-center whitespace-nowrap border-b border-gray-300 hover:bg-gray-100',
+          cur.code === 'AED' && 'font-semibold bg-gray-100'
+        )}
+      >
+        {cur.code}
+      </li>
+    )
+  );
+
+  // close dropdown if click on body
+  useEffect(() => {
+    const handleClickOut = () => {
+      setIsOpenDropDown(false);
+    };
+    document.addEventListener('click', handleClickOut);
+
+    return () => {
+      document.removeEventListener('click', handleClickOut);
+    };
+  });
+
   return (
     <div className='flex'>
+      {/* input for amount transaction */}
       <input
         className='border w-full text-end border-gray-200 rounded px-3.5 py-1.5 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-200'
         type='number'
         step='0.01'
         required
       />
-      <div className='relative flex items-center text-sm font-mono gap-2 bg-gray-200 rounded px-3 py-1.5 rounded-tl-none rounded-bl-none'>
+      {/* Container for selection and dropdown list  */}
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          onToggle();
+        }}
+        className={clsx(
+          'relative flex items-center text-sm font-mono min-w-16 justify-center gap-2 bg-gray-100 rounded px-3 py-1.5 rounded-tl-none rounded-bl-none',
+          selected.firstAccountTransaction.currencies.length <= 1 &&
+            'cursor-auto',
+          isOpenDropDown && 'bg-gray-300'
+        )}
+      >
         <span>USD</span>
-        <IoMdArrowDropdown className='text-base' />
-        <ul className='hidden absolute min-w-full left-0 top-full rounded bg-white border border-gray-200 z-10 tran-menu'>
-          <li className='py-2 flex justify-center whitespace-nowrap hover:bg-gray-100'>
-            USD
-          </li>
-        </ul>
+        {selected.firstAccountTransaction.currencies.length > 1 && (
+          <>
+            <IoMdArrowDropdown className='text-lg' />
+            <ul
+              className={clsx(
+                ' absolute min-w-full left-0 top-full rounded bg-white border border-gray-200 z-5 tran-menu',
+                !isOpenDropDown && 'hidden'
+              )}
+            >
+              {currencyList}
+            </ul>
+          </>
+        )}
       </div>
     </div>
   );
