@@ -53,24 +53,42 @@ const NewTransactionForm = ({ activeTab }) => {
       )}
       <div className='mt-3.5'>
         <div>
-          <Field
-            id='tagsField'
-            isInput={true}
-            setBaseInputEmpty={setBaseInputEmpty}
-            dropDownList={[]}
-            label='Tags'
-            placeholder={
-              selected.additionalSelection.length > 0
-                ? ''
-                : 'Choose existing tags or add new'
-            }
-            selection={[]}
-          />
+          {activeTab !== 'transfer' && (
+            <Field
+              id='tagsField'
+              isInput={true}
+              setBaseInputEmpty={setBaseInputEmpty}
+              dropDownList={[]}
+              label='Tags'
+              placeholder={
+                selected.additionalSelection.length > 0
+                  ? ''
+                  : 'Choose existing tags or add new'
+              }
+              selection={[]}
+            />
+          )}
+
           <input
             className=' border text-sm w-full min-h-9.5 border-gray-200 rounded-md px-3.5 outline-0 focus:border-blue-200'
             type='text'
             placeholder='Note'
           />
+        </div>
+        <div className='flex mt-3.5 gap-3'>
+          <div className='flex-1'>
+            <input
+              className=' border text-sm w-full  border-gray-200 rounded-md px-3.5 py-2 outline-0 focus:border-blue-200 '
+              required
+              type='date'
+              defaultValue='2025-09-18'
+            />
+          </div>
+          <div className='flex-1'>
+            <button className='w-full bg-blue-800 text-sm  rounded-md text-white py-2'>
+              Add {activeTab}
+            </button>
+          </div>
         </div>
       </div>
     </form>
