@@ -3,10 +3,12 @@ import Field from './Field';
 import { AppContext } from '../contexts/AppContext';
 import TransactionAmtField from './TransactionAmtField';
 import { useDropdown } from '../contexts/Setup';
+import { DashboardContext } from '../contexts/DashboardContext';
 
 const NewTransactionForm = ({ activeTab }) => {
   const { accounts } = useContext(AppContext);
   const { selected } = useDropdown();
+  const { transactionCurSelected } = useContext(DashboardContext);
 
   return (
     <form>
@@ -23,25 +25,32 @@ const NewTransactionForm = ({ activeTab }) => {
           }
         />
         <TransactionAmtField
+          id='firstTransactionAmt'
+          selection={transactionCurSelected.firstAccountCur}
           dropDownList={selected.firstAccountTransaction.currencies}
         />
       </div>
-      <div>
-        <Field
-          id='secondTransaction'
-          isInput={false}
-          label='To'
-          dropDownList={accounts}
-          selection={
-            <div className='text-sm py-0.5'>
-              {selected.secondAccountTransaction.name}
-            </div>
-          }
-        />
-        <TransactionAmtField
-          dropDownList={selected.secondAccountTransaction.currencies}
-        />
-      </div>
+      {/* show second field if only nav tab is on transfer */}
+      {activeTab === 'transfer' && (
+        <div className='mt-3.5'>
+          <Field
+            id='secondTransaction'
+            isInput={false}
+            label='To'
+            dropDownList={accounts}
+            selection={
+              <div className='text-sm py-0.5'>
+                {selected.secondAccountTransaction.name}
+              </div>
+            }
+          />
+          <TransactionAmtField
+            id='secondTransactionAmt'
+            selection={transactionCurSelected.secondAccountCur}
+            dropDownList={selected.secondAccountTransaction.currencies}
+          />
+        </div>
+      )}
     </form>
   );
 };

@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import db from './db/data';
 import { useAsideBar } from './contexts/aside';
 import { AppContextProvider } from './contexts/AppContext';
+import { DashboardContextProvider } from './contexts/DashboardContext';
 
 const App = () => {
   const { setupComplete, setSetupComplete } = useAsideBar();
@@ -64,7 +65,9 @@ const App = () => {
   return (
     <AppContextProvider>
       <DropdownProvider>
-        <RouterProvider router={router} />
+        <DashboardContextProvider>
+          <RouterProvider router={router} />
+        </DashboardContextProvider>
       </DropdownProvider>
     </AppContextProvider>
   );

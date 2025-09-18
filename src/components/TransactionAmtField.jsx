@@ -1,9 +1,12 @@
 import { IoMdArrowDropdown } from 'react-icons/io';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-const TransactionAmtField = ({ dropDownList }) => {
+import { DashboardContext } from '../contexts/DashboardContext';
+
+const TransactionAmtField = ({ dropDownList, selection, id }) => {
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
+  const { handleChangeSelected } = useContext(DashboardContext);
 
   // handle toggle onclick of dropdown selection container
   const onToggle = () => {
@@ -14,10 +17,13 @@ const TransactionAmtField = ({ dropDownList }) => {
   // transaction amount field dropdown list
   const currencyList = dropDownList.map((cur) => (
     <li
+      onClick={(e) => {
+        handleChangeSelected(id, cur.code);
+      }}
       key={cur.code}
       className={clsx(
         'py-2 flex justify-center whitespace-nowrap border-b border-gray-300 hover:bg-gray-100',
-        cur.code === 'AED' && 'font-semibold bg-gray-100'
+        cur.code === selection && 'font-semibold bg-gray-100'
       )}
     >
       {cur.code}
@@ -57,7 +63,7 @@ const TransactionAmtField = ({ dropDownList }) => {
           isOpenDropDown && 'bg-gray-300'
         )}
       >
-        <span>USD</span>
+        <span>{selection}</span>
         {dropDownList.length > 1 && (
           <>
             <IoMdArrowDropdown className='text-lg' />
