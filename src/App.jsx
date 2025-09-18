@@ -62,11 +62,11 @@ const App = () => {
   ]);
 
   return (
-    <DropdownProvider>
-      <AppContextProvider>
+    <AppContextProvider>
+      <DropdownProvider>
         <RouterProvider router={router} />
-      </AppContextProvider>
-    </DropdownProvider>
+      </DropdownProvider>
+    </AppContextProvider>
   );
 };
 

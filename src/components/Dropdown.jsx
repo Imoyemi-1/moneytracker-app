@@ -57,9 +57,15 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
     <li
       className={clsx(
         'text-sm  flex items-center justify-between px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto',
-        list.name === 'opay' && 'bg-gray-100 font-medium'
+        list.name === selected.firstAccountTransaction.name &&
+          'bg-gray-100 font-medium'
       )}
       key={list.id}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+        handleSelected(id, list.id);
+        setOpenId(null);
+      }}
     >
       <span>{list.name}</span>
       <span className='text-gray-400'>{list.type}</span>

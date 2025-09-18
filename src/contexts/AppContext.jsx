@@ -36,6 +36,7 @@ const AppContextProvider = ({ children }) => {
     fetchRate();
   }, []);
 
+  if (!accounts) return;
   return (
     <AppContext.Provider value={{ rates, setRates, accounts }}>
       {children}

@@ -1,15 +1,19 @@
 import { createContext, useContext, useState } from 'react';
 import currenciesData from '../../currencies.json';
+import { AppContext } from './AppContext';
 
 const DropdownContext = createContext(null);
 
 function DropdownProvider({ children }) {
+  const { accounts } = useContext(AppContext);
   // add selection currencies to dropdown states
 
   const [selected, setSelected] = useState({
-    baseSelection: currenciesData.find((currency) => currency.code === 'AED'),
+    // selected default selection for dropdowns component
+    baseSelection: currenciesData.find((currency) => currency.code === 'USD'),
     additionalSelection: [],
     groupSelection: 'Cash',
+    firstAccountTransaction: accounts[0],
   });
 
   //
@@ -21,18 +25,33 @@ function DropdownProvider({ children }) {
   // handle selection from dropdown
 
   const handleSelected = (id, code) => {
+    // set base currency selection for base currency dropdown
     if (id === 'baseField') {
       setSelected((prev) => ({
         ...prev,
         baseSelection: currenciesData.find((cur) => cur.code === code),
       }));
       removeAdditionalCur(code);
-    } else if (id === 'groupField') {
+    }
+
+    // set account type selection for group dropdown
+    else if (id === 'groupField') {
       setSelected((prev) => ({
         ...prev,
         groupSelection: code,
       }));
-    } else {
+    }
+
+    // set first new transaction  selection for first account  transaction dropdown
+    else if (id === 'firstTransaction') {
+      setSelected((prev) => ({
+        ...prev,
+        firstAccountTransaction: accounts.find((acc) => acc.id === code),
+      }));
+    }
+
+    // set additional currency selections for additional currency dropdown
+    else {
       setSelected((prev) => {
         const found = currenciesData.find((cur) => cur.code === code);
 
