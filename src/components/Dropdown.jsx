@@ -57,8 +57,11 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
     <li
       className={clsx(
         'text-sm  flex items-center justify-between px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto',
-        list.name === selected.firstAccountTransaction.name &&
-          'bg-gray-100 font-medium'
+        id === 'firstTransaction'
+          ? list.name === selected.firstAccountTransaction.name &&
+              'bg-gray-100 font-medium'
+          : list.name === selected.secondAccountTransaction.name &&
+              'bg-gray-100 font-medium'
       )}
       key={list.id}
       onMouseDown={(e) => {
@@ -86,7 +89,7 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
       {dropDownList.length > 0 ? (
         id === 'groupField' ? (
           accountGroupList
-        ) : id === 'firstTransaction' ? (
+        ) : id === 'firstTransaction' || id === 'secondTransaction' ? (
           accountTransactionList
         ) : (
           currenciesList

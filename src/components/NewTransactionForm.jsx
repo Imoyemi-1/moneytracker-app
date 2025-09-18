@@ -22,7 +22,25 @@ const NewTransactionForm = ({ activeTab }) => {
             </div>
           }
         />
-        <TransactionAmtField />
+        <TransactionAmtField
+          dropDownList={selected.firstAccountTransaction.currencies}
+        />
+      </div>
+      <div>
+        <Field
+          id='secondTransaction'
+          isInput={false}
+          label='To'
+          dropDownList={accounts}
+          selection={
+            <div className='text-sm py-0.5'>
+              {selected.secondAccountTransaction.name}
+            </div>
+          }
+        />
+        <TransactionAmtField
+          dropDownList={selected.secondAccountTransaction.currencies}
+        />
       </div>
     </form>
   );

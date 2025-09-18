@@ -1,32 +1,28 @@
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { useDropdown } from '../contexts/Setup';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
-const TransactionAmtField = () => {
-  const { selected } = useDropdown();
+const TransactionAmtField = ({ dropDownList }) => {
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
 
   // handle toggle onclick of dropdown selection container
   const onToggle = () => {
-    if (selected.firstAccountTransaction.currencies.length <= 1) return;
+    if (dropDownList.length <= 1) return;
     setIsOpenDropDown((prev) => !prev);
   };
 
   // transaction amount field dropdown list
-  const currencyList = selected.firstAccountTransaction.currencies.map(
-    (cur) => (
-      <li
-        key={cur.code}
-        className={clsx(
-          'py-2 flex justify-center whitespace-nowrap border-b border-gray-300 hover:bg-gray-100',
-          cur.code === 'AED' && 'font-semibold bg-gray-100'
-        )}
-      >
-        {cur.code}
-      </li>
-    )
-  );
+  const currencyList = dropDownList.map((cur) => (
+    <li
+      key={cur.code}
+      className={clsx(
+        'py-2 flex justify-center whitespace-nowrap border-b border-gray-300 hover:bg-gray-100',
+        cur.code === 'AED' && 'font-semibold bg-gray-100'
+      )}
+    >
+      {cur.code}
+    </li>
+  ));
 
   // close dropdown if click on body
   useEffect(() => {
@@ -56,14 +52,13 @@ const TransactionAmtField = () => {
           onToggle();
         }}
         className={clsx(
-          'relative flex items-center text-sm font-mono min-w-16 justify-center gap-2 bg-gray-100 rounded px-3 py-1.5 rounded-tl-none rounded-bl-none',
-          selected.firstAccountTransaction.currencies.length <= 1 &&
-            'cursor-auto',
+          'relative flex items-center text-sm font-mono min-w-16 justify-center gap-2 bg-gray-200 rounded px-3 py-1.5 rounded-tl-none rounded-bl-none',
+          dropDownList.length <= 1 && 'cursor-auto',
           isOpenDropDown && 'bg-gray-300'
         )}
       >
         <span>USD</span>
-        {selected.firstAccountTransaction.currencies.length > 1 && (
+        {dropDownList.length > 1 && (
           <>
             <IoMdArrowDropdown className='text-lg' />
             <ul

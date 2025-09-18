@@ -14,6 +14,7 @@ function DropdownProvider({ children }) {
     additionalSelection: [],
     groupSelection: 'Cash',
     firstAccountTransaction: accounts[0],
+    secondAccountTransaction: accounts[1] || accounts[0],
   });
 
   //
@@ -47,6 +48,14 @@ function DropdownProvider({ children }) {
       setSelected((prev) => ({
         ...prev,
         firstAccountTransaction: accounts.find((acc) => acc.id === code),
+      }));
+    }
+
+    // set first new transaction  selection for second account  transaction dropdown
+    else if (id === 'secondTransaction') {
+      setSelected((prev) => ({
+        ...prev,
+        secondAccountTransaction: accounts.find((acc) => acc.id === code),
       }));
     }
 

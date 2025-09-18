@@ -123,7 +123,7 @@ const Field = ({
         <Dropdown
           id={id}
           dropDownList={
-            id === 'groupField' || id === 'firstTransaction'
+            id !== 'baseField' || id !== 'additionalField'
               ? dropDownList
               : filtered
           }
