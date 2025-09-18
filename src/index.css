@@ -64,3 +64,10 @@
   background-color: rgb(163, 163, 163);
   border-radius: 10px;
 }
+
+.tran-menu {
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  -webkit-transition: opacity 0.1s ease;
+  transition: opacity 0.1s ease;
+  will-change: transform, opacity;
+}
