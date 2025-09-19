@@ -60,6 +60,14 @@ function DropdownProvider({ children }) {
       }));
     }
 
+    // set tags selections for transaction tag dropdown
+    else if (id === 'tagsField') {
+      setSelected((prev) => ({
+        ...prev,
+        tags: prev.tags.includes(code) ? prev.tags : [...prev.tags, code],
+      }));
+    }
+
     // set additional currency selections for additional currency dropdown
     else {
       setSelected((prev) => {
@@ -93,6 +101,17 @@ function DropdownProvider({ children }) {
     });
   };
 
+  // remove currencies from additional list
+
+  const removeTag = (tag) => {
+    setSelected((prev) => {
+      return {
+        ...prev,
+        tags: prev.tags.filter((word) => word !== tag),
+      };
+    });
+  };
+
   return (
     <DropdownContext.Provider
       value={{
@@ -105,6 +124,7 @@ function DropdownProvider({ children }) {
         query,
         setQuery,
         removeAdditionalCur,
+        removeTag,
       }}
     >
       {children}

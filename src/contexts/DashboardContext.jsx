@@ -1,5 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { useDropdown } from './Setup';
+import db from '../db/data';
+import { useLiveQuery } from 'dexie-react-hooks';
 
 const DashboardContext = createContext(null);
 
@@ -11,6 +13,9 @@ const DashboardContextProvider = ({ children }) => {
   const [secondAccountCode, setSecondAccountCode] = useState(
     selected.secondAccountTransaction.currencies[1]?.code ||
       selected.secondAccountTransaction.currencies[0]?.code
+  );
+  const [tags, setTags] = useState(
+    useLiveQuery(() => db.tags.toArray(), []) || []
   );
 
   // Auto set code when change account
@@ -41,7 +46,7 @@ const DashboardContextProvider = ({ children }) => {
 
   return (
     <DashboardContext.Provider
-      value={{ transactionCurSelected, handleChangeSelected }}
+      value={{ transactionCurSelected, handleChangeSelected, tags, setTags }}
     >
       {children}
     </DashboardContext.Provider>

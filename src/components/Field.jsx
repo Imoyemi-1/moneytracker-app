@@ -125,6 +125,8 @@ const Field = ({
           dropDownList={
             id !== 'baseField' || id !== 'additionalField'
               ? dropDownList
+              : id !== 'tagsField'
+              ? dropDownList
               : filtered
           }
           isOpen={isOpen}

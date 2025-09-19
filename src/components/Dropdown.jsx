@@ -1,8 +1,12 @@
 import clsx from 'clsx/lite';
 import { useDropdown } from '../contexts/Setup';
+import { DashboardContext } from '../contexts/DashboardContext';
+import { useContext } from 'react';
 
 const Dropdown = ({ isOpen, dropDownList, id }) => {
-  const { selected, handleSelected, setOpenId, setQuery } = useDropdown();
+  const { selected, handleSelected, setOpenId, setQuery, query } =
+    useDropdown();
+  const { setTags, tags } = useContext(DashboardContext);
 
   // list item for currencies dropdown
 
@@ -85,16 +89,66 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
         !isOpen && 'hidden'
       )}
     >
+      {/*  add display list to add tags  */}
+      {id === 'tagsField' && query.length > 0
+        ? !tags
+            .filter(
+              (tag) =>
+                selected.tags.length === 0 ||
+                selected.tags.every((word) => tag !== word)
+            )
+            .includes(query) && (
+            <li
+              onMouseDown={(e) => {
+                e.stopPropagation();
+                if (!tags.includes(query)) {
+                  handleSelected(id, query);
+                  setTags((prev) =>
+                    prev.includes(query) ? prev : [...prev, query]
+                  );
+                } else {
+                  alert('Tag already Exist');
+                }
+
+                setOpenId(null);
+                setQuery('');
+              }}
+              className='text-sm gap-1 flex items-center px-4 py-2 border-t border-gray-50 cursor-pointer bg-gray-100 pointer-events-auto'
+            >
+              Add {<b> {query}</b>}
+            </li>
+          )
+        : null}
       {/* display list base on the dropdown */}
       {dropDownList.length > 0 ? (
         id === 'groupField' ? (
           accountGroupList
+        ) : id === 'tagsField' ? (
+          // list item for Tags dropdown
+          dropDownList
+            .filter((tag) => tag.toLowerCase().includes(query.toLowerCase()))
+            .map((list) => (
+              <li
+                className={
+                  'text-sm  flex items-center px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto'
+                }
+                key={list}
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  handleSelected(id, list);
+                  setOpenId(null);
+                  setQuery('');
+                }}
+              >
+                {list}
+              </li>
+            ))
         ) : id === 'firstTransaction' || id === 'secondTransaction' ? (
           accountTransactionList
         ) : (
           currenciesList
         )
-      ) : (
+      ) : id === 'tagsField' && query.length > 0 ? null : (
         <li
           onMouseDown={(e) => e.stopPropagation()}
           className=' flex items-center px-4  min-h-9 border-t border-gray-50 text-gray-400'

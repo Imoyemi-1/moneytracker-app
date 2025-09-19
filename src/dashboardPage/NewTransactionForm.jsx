@@ -5,11 +5,12 @@ import TransactionAmtField from './TransactionAmtField';
 import { useDropdown } from '../contexts/Setup';
 import { DashboardContext } from '../contexts/DashboardContext';
 import { useSaveTransactions } from '../hooks/useAccount';
+import { ImCross } from 'react-icons/im';
 
 const NewTransactionForm = ({ activeTab }) => {
   const { accounts, setBaseInputEmpty, rates } = useContext(AppContext);
-  const { selected } = useDropdown();
-  const { transactionCurSelected } = useContext(DashboardContext);
+  const { selected, removeTag } = useDropdown();
+  const { transactionCurSelected, tags } = useContext(DashboardContext);
 
   // add new transactions
   const handleSubmit = (formData) => {
@@ -35,6 +36,29 @@ const NewTransactionForm = ({ activeTab }) => {
       rates
     );
   };
+
+  // remove tags from list already if its selected
+  const filteredForTags = tags.filter(
+    (tag) =>
+      selected.tags.length === 0 || selected.tags.every((word) => tag !== word)
+  );
+
+  // tags selection  display
+
+  const addCurrencyList = selected.tags.map((tag) => (
+    <div
+      className='flex gap-x-2 my-auto items-center text-sm whitespace-normal align-top  px-2.5 h-fit  bg-gray-300 shadow hover:bg-gray-400 transition-colors duration-500 rounded-[2px] cursor-pointer'
+      key={tag}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+        const removeBtn = e.target.closest('.removeBtn');
+        removeBtn ? removeTag(tag) : null;
+      }}
+    >
+      <span className='mb-1'>{tag}</span>
+      <ImCross className='removeBtn text-gray-500 text-[0.65rem]  hover:text-gray-600 active:text-[0.625rem]' />
+    </div>
+  ));
 
   return (
     <form action={handleSubmit}>
@@ -86,14 +110,14 @@ const NewTransactionForm = ({ activeTab }) => {
               id='tagsField'
               isInput={true}
               setBaseInputEmpty={setBaseInputEmpty}
-              dropDownList={[]}
+              dropDownList={filteredForTags}
               label='Tags'
               placeholder={
-                selected.additionalSelection.length > 0
+                selected.tags.length > 0
                   ? ''
                   : 'Choose existing tags or add new'
               }
-              selection={[]}
+              selection={addCurrencyList}
             />
           )}
 
@@ -101,6 +125,7 @@ const NewTransactionForm = ({ activeTab }) => {
             className=' border text-sm w-full min-h-9.5 border-gray-200 rounded-md px-3.5 outline-0 focus:border-blue-200'
             type='text'
             placeholder='Note'
+            autoComplete='false'
             name='transactionNote'
           />
         </div>
