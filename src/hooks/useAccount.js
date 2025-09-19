@@ -13,21 +13,35 @@ const useSaveAccount = async (account) => {
 };
 
 const useSaveTransactions = async (transaction) => {
+  // for  account and amount that use for debit expense or add income
+
+  const firstAccountTransaction = {
+    id: transaction.firstAccountInfo?.id,
+    amount: transaction.firstAccountAmount,
+    code: transaction.firstAccountCode,
+    name: transaction.firstAccountInfo.name,
+  };
+
+  // for  account and amount that use receive amount from transfer
+  const secondAccountTransaction = {
+    id: transaction?.secondAccountInfo.id,
+    amount: transaction?.secondAccountAmount,
+    code: transaction?.secondAccountCode,
+    name: transaction?.secondAccountInfo.name,
+  };
+
+  const accountTransactionInfo =
+    transaction.type !== 'transfer'
+      ? [firstAccountTransaction]
+      : [firstAccountTransaction, secondAccountTransaction];
+
   // save transaction to db itself
   const transactionsId = await db.transactions.add({
     type: transaction.type,
 
-    // for  account and amount that use for debit expense or add income
-    firstAccountTransaction: {
-      id: transaction.firstAccountId,
-      amount: transaction.firstAccountAmount,
-    },
+    // add accountTransactions info
 
-    // for  account and amount that use receive amount from transfer
-    secondAccountTransaction: {
-      id: transaction?.secondAccountId,
-      amount: transaction?.secondAccountAmount,
-    },
+    accountTransactionInfo,
 
     // add note and date for transactions
     note: transaction.note,
@@ -48,4 +62,5 @@ const useSaveTags = async (tag) => {
 
   return tagsId;
 };
+
 export { useSaveAccount, useSaveTransactions, useSaveTags };
