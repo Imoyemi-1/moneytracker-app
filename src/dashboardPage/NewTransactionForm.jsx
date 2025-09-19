@@ -23,11 +23,11 @@ const NewTransactionForm = ({ activeTab }) => {
       {
         type: activeTab,
         firstAccountInfo: selected.firstAccountTransaction,
-        firstAccountCode: transactionCurSelected?.firstAccountCur,
+        firstAccountCode: transactionCurSelected?.firstAccountCode,
         firstAccountAmount: +firstAccountAmount || 0,
         secondAccountInfo: selected.secondAccountTransaction || null,
         secondAccountAmount: +secondAccountAmount || 0,
-        secondAccountCode: transactionCurSelected?.secondAccountCur,
+        secondAccountCode: transactionCurSelected?.secondAccountCode,
         note: transactionNote || '',
         date: transactionDate,
         tag: selected.tags,
@@ -53,7 +53,7 @@ const NewTransactionForm = ({ activeTab }) => {
         <TransactionAmtField
           id='firstTransactionAmt'
           name='firstAccountAmount'
-          selection={transactionCurSelected.firstAccountCur}
+          selection={transactionCurSelected.firstAccountCode}
           dropDownList={selected.firstAccountTransaction.currencies}
         />
       </div>
@@ -74,7 +74,7 @@ const NewTransactionForm = ({ activeTab }) => {
           <TransactionAmtField
             id='secondTransactionAmt'
             name='secondAccountAmount'
-            selection={transactionCurSelected.secondAccountCur}
+            selection={transactionCurSelected.secondAccountCode}
             dropDownList={selected.secondAccountTransaction.currencies}
           />
         </div>

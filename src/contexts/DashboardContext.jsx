@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useDropdown } from './Setup';
 
 const DashboardContext = createContext(null);
@@ -13,10 +13,22 @@ const DashboardContextProvider = ({ children }) => {
       selected.secondAccountTransaction.currencies[0]?.code
   );
 
-  //   derived account selected transaction amount for selection
+  // Auto set code when change account
+  useEffect(() => {
+    setFirstAccountCode(selected.firstAccountTransaction.currencies[0]?.code);
+    setSecondAccountCode(
+      selected.secondAccountTransaction.currencies[1]?.code ||
+        selected.secondAccountTransaction.currencies[0]?.code
+    );
+  }, [
+    selected.firstAccountTransaction.id,
+    selected.secondAccountTransaction.id,
+  ]);
+
+  //   derived account selected transaction amount code
   const transactionCurSelected = {
-    firstAccountCur: firstAccountCode,
-    secondAccountCur: secondAccountCode,
+    firstAccountCode: firstAccountCode,
+    secondAccountCode: secondAccountCode,
   };
 
   // handle change selection of account currencies
