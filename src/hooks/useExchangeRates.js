@@ -1,4 +1,4 @@
-const useExchangeRates = (amount, fromCode, toCode, rates) => {
+const convertCurrency = (amount, fromCode, toCode, rates) => {
   if (!rates[fromCode] || !rates[toCode]) {
     throw new Error(`Missing rate for ${fromCode} or ${toCode}`);
   }
@@ -15,10 +15,10 @@ const getTotalAmt = (account, toCode, rates, isNetWorth = false) => {
   currencies.forEach((acc) => {
     return acc.forEach((amt) => {
       if (isNetWorth)
-        amounts.push(useExchangeRates(amt.amount, amt.code, toCode, rates));
+        amounts.push(convertCurrency(amt.amount, amt.code, toCode, rates));
       else
         amt.enabled
-          ? amounts.push(useExchangeRates(amt.amount, amt.code, toCode, rates))
+          ? amounts.push(convertCurrency(amt.amount, amt.code, toCode, rates))
           : null;
     });
   });
@@ -26,4 +26,4 @@ const getTotalAmt = (account, toCode, rates, isNetWorth = false) => {
   return amounts.reduce((cur, acc) => cur + acc, 0);
 };
 
-export { getTotalAmt };
+export { getTotalAmt, convertCurrency };

@@ -15,6 +15,7 @@ function DropdownProvider({ children }) {
     groupSelection: 'Cash',
     firstAccountTransaction: accounts[0],
     secondAccountTransaction: accounts[1] || accounts[0],
+    tags: [],
   });
 
   //

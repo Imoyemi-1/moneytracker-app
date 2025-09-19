@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import { DashboardContext } from '../contexts/DashboardContext';
 
-const TransactionAmtField = ({ dropDownList, selection, id }) => {
+const TransactionAmtField = ({ dropDownList, selection, id, name }) => {
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
   const { handleChangeSelected } = useContext(DashboardContext);
 
@@ -17,7 +17,7 @@ const TransactionAmtField = ({ dropDownList, selection, id }) => {
   // transaction amount field dropdown list
   const currencyList = dropDownList.map((cur) => (
     <li
-      onClick={(e) => {
+      onClick={() => {
         handleChangeSelected(id, cur.code);
       }}
       key={cur.code}
@@ -50,6 +50,7 @@ const TransactionAmtField = ({ dropDownList, selection, id }) => {
         type='number'
         step='0.01'
         required
+        name={name}
       />
       {/* Container for selection and dropdown list  */}
       <div

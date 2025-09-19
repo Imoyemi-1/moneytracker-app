@@ -4,14 +4,40 @@ import { AppContext } from '../contexts/AppContext';
 import TransactionAmtField from './TransactionAmtField';
 import { useDropdown } from '../contexts/Setup';
 import { DashboardContext } from '../contexts/DashboardContext';
+import { useSaveTransactions } from '../hooks/useAccount';
 
 const NewTransactionForm = ({ activeTab }) => {
-  const { accounts, setBaseInputEmpty } = useContext(AppContext);
+  const { accounts, setBaseInputEmpty, rates } = useContext(AppContext);
   const { selected } = useDropdown();
   const { transactionCurSelected } = useContext(DashboardContext);
 
+  // add new transactions
+  const handleSubmit = (formData) => {
+    const firstAccountAmount = formData.get('firstAccountAmount');
+    const secondAccountAmount = formData.get('secondAccountAmount');
+    const transactionNote = formData.get('transactionNote');
+    const transactionDate = formData.get('transactionDate');
+
+    // save new transaction to indexdb
+    useSaveTransactions(
+      {
+        type: activeTab,
+        firstAccountInfo: selected.firstAccountTransaction,
+        firstAccountCode: transactionCurSelected?.firstAccountCur,
+        firstAccountAmount: +firstAccountAmount || 0,
+        secondAccountInfo: selected.secondAccountTransaction || null,
+        secondAccountAmount: +secondAccountAmount || 0,
+        secondAccountCode: transactionCurSelected?.secondAccountCur,
+        note: transactionNote || '',
+        date: transactionDate,
+        tag: selected.tags,
+      },
+      rates
+    );
+  };
+
   return (
-    <form>
+    <form action={handleSubmit}>
       <div>
         <Field
           id='firstTransaction'
@@ -26,6 +52,7 @@ const NewTransactionForm = ({ activeTab }) => {
         />
         <TransactionAmtField
           id='firstTransactionAmt'
+          name='firstAccountAmount'
           selection={transactionCurSelected.firstAccountCur}
           dropDownList={selected.firstAccountTransaction.currencies}
         />
@@ -46,6 +73,7 @@ const NewTransactionForm = ({ activeTab }) => {
           />
           <TransactionAmtField
             id='secondTransactionAmt'
+            name='secondAccountAmount'
             selection={transactionCurSelected.secondAccountCur}
             dropDownList={selected.secondAccountTransaction.currencies}
           />
@@ -73,6 +101,7 @@ const NewTransactionForm = ({ activeTab }) => {
             className=' border text-sm w-full min-h-9.5 border-gray-200 rounded-md px-3.5 outline-0 focus:border-blue-200'
             type='text'
             placeholder='Note'
+            name='transactionNote'
           />
         </div>
         <div className='flex mt-3.5 gap-3'>
@@ -82,6 +111,7 @@ const NewTransactionForm = ({ activeTab }) => {
               required
               type='date'
               defaultValue='2025-09-18'
+              name='transactionDate'
             />
           </div>
           <div className='flex-1'>
