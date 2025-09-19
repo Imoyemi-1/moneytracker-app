@@ -41,11 +41,11 @@ const useSaveTransactions = async (transaction) => {
 };
 
 const useSaveTags = async (tag) => {
-  // save account to db itself
-  const accountId = await db.tags.add({
+  // save tag to db itself
+  const tagsId = await db.tags.add({
     name: tag,
   });
 
-  return accountId;
+  return tagsId;
 };
 export { useSaveAccount, useSaveTransactions, useSaveTags };
