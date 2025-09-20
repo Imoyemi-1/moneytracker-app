@@ -6,7 +6,6 @@ import clsx from 'clsx';
 
 const TransactionSection = () => {
   const { transactions } = useContext(AppContext);
-  console.log(transactions);
 
   // display transaction list to dom
   const transactionList = transactions

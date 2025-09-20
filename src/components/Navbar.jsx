@@ -54,7 +54,7 @@ const Navbar = () => {
           <span>Settings</span>
         </NavLink>
       </nav>
-      <Modal content={''} />
+      {isOpenSidebar && <Modal content={''} />}
     </aside>
   );
 };

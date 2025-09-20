@@ -8,6 +8,7 @@ const AppContextProvider = ({ children }) => {
   const [rates, setRates] = useState(null);
   const accounts = useLiveQuery(() => db.accounts.toArray(), []);
   const transactions = useLiveQuery(() => db.transactions.toArray(), []);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const [baseInputEmpty, setBaseInputEmpty] = useState(true);
 
@@ -49,6 +50,8 @@ const AppContextProvider = ({ children }) => {
         baseInputEmpty,
         setBaseInputEmpty,
         transactions,
+        isEditMode,
+        setIsEditMode,
       }}
     >
       {children}
