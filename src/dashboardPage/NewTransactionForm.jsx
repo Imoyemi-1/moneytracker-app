@@ -52,7 +52,7 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
 
   const addCurrencyList = selected.tags.map((tag) => (
     <div
-      className='flex gap-x-2 my-auto items-center text-sm whitespace-normal align-top  px-2.5 h-fit  bg-gray-300 shadow hover:bg-gray-400 transition-colors duration-500 rounded-[2px] cursor-pointer'
+      className='tag flex gap-x-2 my-auto items-center text-sm whitespace-normal align-top  px-2.5 h-fit  bg-gray-300  hover:bg-gray-400 transition-colors duration-500 rounded-[2px] cursor-pointer'
       key={tag}
       onMouseDown={(e) => {
         e.stopPropagation();
