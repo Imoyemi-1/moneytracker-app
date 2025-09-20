@@ -7,6 +7,8 @@ const AppContext = createContext(null);
 const AppContextProvider = ({ children }) => {
   const [rates, setRates] = useState(null);
   const accounts = useLiveQuery(() => db.accounts.toArray(), []);
+  const transactions = useLiveQuery(() => db.transactions.toArray(), []);
+
   const [baseInputEmpty, setBaseInputEmpty] = useState(true);
 
   useEffect(() => {
@@ -37,10 +39,17 @@ const AppContextProvider = ({ children }) => {
     fetchRate();
   }, []);
 
-  if (!accounts) return;
+  if (!accounts || !transactions) return;
   return (
     <AppContext.Provider
-      value={{ rates, setRates, accounts, baseInputEmpty, setBaseInputEmpty }}
+      value={{
+        rates,
+        setRates,
+        accounts,
+        baseInputEmpty,
+        setBaseInputEmpty,
+        transactions,
+      }}
     >
       {children}
     </AppContext.Provider>

@@ -7,9 +7,9 @@ import { DashboardContext } from '../contexts/DashboardContext';
 import { useSaveTransactions } from '../hooks/useAccount';
 import { ImCross } from 'react-icons/im';
 
-const NewTransactionForm = ({ activeTab }) => {
+const NewTransactionForm = ({ activeTab, setActiveTab }) => {
   const { accounts, setBaseInputEmpty, rates } = useContext(AppContext);
-  const { selected, removeTag } = useDropdown();
+  const { selected, removeTag, resetAccountTransaction } = useDropdown();
   const { transactionCurSelected, tags } = useContext(DashboardContext);
 
   // add new transactions
@@ -35,6 +35,10 @@ const NewTransactionForm = ({ activeTab }) => {
       },
       rates
     );
+
+    // auto reset account transaction  when added new transaction
+    resetAccountTransaction();
+    setActiveTab('expense');
   };
 
   // remove tags from list already if its selected
@@ -125,7 +129,8 @@ const NewTransactionForm = ({ activeTab }) => {
             className=' border text-sm w-full min-h-9.5 border-gray-200 rounded-md px-3.5 outline-0 focus:border-blue-200'
             type='text'
             placeholder='Note'
-            autoComplete='false'
+            autoComplete='off'
+            auto
             name='transactionNote'
           />
         </div>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import currenciesData from '../../currencies.json';
 import { AppContext } from './AppContext';
 
@@ -17,6 +17,26 @@ function DropdownProvider({ children }) {
     secondAccountTransaction: accounts[1] || accounts[0],
     tags: [],
   });
+
+  // auto reset group selection when added new accounts
+
+  useEffect(() => {
+    setSelected((prev) => ({
+      ...prev,
+      groupSelection: 'Cash',
+    }));
+  }, [accounts.length]);
+
+  // auto reset account transaction  when added new transaction
+
+  const resetAccountTransaction = () => {
+    setSelected((prev) => ({
+      ...prev,
+      firstAccountTransaction: accounts[0],
+      secondAccountTransaction: accounts[1] || accounts[0],
+      tags: [],
+    }));
+  };
 
   //
   const [openId, setOpenId] = useState(null);
@@ -125,6 +145,7 @@ function DropdownProvider({ children }) {
         setQuery,
         removeAdditionalCur,
         removeTag,
+        resetAccountTransaction,
       }}
     >
       {children}
