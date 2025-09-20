@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Field from '../components/Field';
 import { AppContext } from '../contexts/AppContext';
 import TransactionAmtField from './TransactionAmtField';
@@ -11,6 +11,7 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
   const { accounts, setBaseInputEmpty, rates } = useContext(AppContext);
   const { selected, removeTag, resetAccountTransaction } = useDropdown();
   const { transactionCurSelected, tags } = useContext(DashboardContext);
+  const [today, setToday] = useState(new Date().toISOString().split('T')[0]);
 
   // add new transactions
   const handleSubmit = (formData) => {
@@ -130,7 +131,6 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
             type='text'
             placeholder='Note'
             autoComplete='off'
-            auto
             name='transactionNote'
           />
         </div>
@@ -140,7 +140,7 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
               className=' border text-sm w-full  border-gray-200 rounded-md px-3.5 py-2 outline-0 focus:border-blue-200 '
               required
               type='date'
-              defaultValue='2025-09-18'
+              defaultValue={today}
               name='transactionDate'
             />
           </div>
