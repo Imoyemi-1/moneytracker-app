@@ -4,7 +4,15 @@ import { useContext, useEffect, useState } from 'react';
 
 import { DashboardContext } from '../contexts/DashboardContext';
 
-const TransactionAmtField = ({ dropDownList, selection, id, name }) => {
+const TransactionAmtField = ({
+  dropDownList,
+  selection,
+  id,
+  name,
+  isReadOnly,
+  value,
+  setFirstAccountValue,
+}) => {
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
   const { handleChangeSelected } = useContext(DashboardContext);
 
@@ -46,11 +54,17 @@ const TransactionAmtField = ({ dropDownList, selection, id, name }) => {
     <div className='flex'>
       {/* input for amount transaction */}
       <input
-        className='border w-full text-end border-gray-200 rounded px-3.5 py-1.5 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-200'
+        className={clsx(
+          'border w-full text-end border-gray-200 rounded px-3.5 py-1.5 rounded-tr-none rounded-br-none outline-0 ',
+          !isReadOnly && 'focus:border focus:border-blue-200'
+        )}
         type='number'
         step='0.01'
         required
         name={name}
+        readOnly={isReadOnly}
+        defaultValue={value}
+        onInput={(e) => setFirstAccountValue(e.target.value)}
       />
       {/* Container for selection and dropdown list  */}
       <div

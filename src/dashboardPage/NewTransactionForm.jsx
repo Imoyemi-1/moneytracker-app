@@ -6,12 +6,14 @@ import { useDropdown } from '../contexts/Setup';
 import { DashboardContext } from '../contexts/DashboardContext';
 import { useSaveTransactions } from '../hooks/useAccount';
 import { ImCross } from 'react-icons/im';
+import { convertCurrency } from '../hooks/useExchangeRates';
 
 const NewTransactionForm = ({ activeTab, setActiveTab }) => {
   const { accounts, setBaseInputEmpty, rates } = useContext(AppContext);
   const { selected, removeTag, resetAccountTransaction } = useDropdown();
   const { transactionCurSelected, tags } = useContext(DashboardContext);
   const [today, setToday] = useState(new Date().toISOString().split('T')[0]);
+  const [firstAccountValue, setFirstAccountValue] = useState('');
 
   // add new transactions
   const handleSubmit = (formData) => {
@@ -84,6 +86,9 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
           name='firstAccountAmount'
           selection={transactionCurSelected.firstAccountCode}
           dropDownList={selected.firstAccountTransaction.currencies}
+          isReadOnly={false}
+          value=''
+          setFirstAccountValue={setFirstAccountValue}
         />
       </div>
       {/* show second field if only nav tab is on transfer */}
@@ -105,6 +110,17 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
             name='secondAccountAmount'
             selection={transactionCurSelected.secondAccountCode}
             dropDownList={selected.secondAccountTransaction.currencies}
+            isReadOnly={true}
+            value={
+              firstAccountValue
+                ? convertCurrency(
+                    +firstAccountValue,
+                    transactionCurSelected?.firstAccountCode,
+                    transactionCurSelected?.secondAccountCode,
+                    rates
+                  ).toFixed(4)
+                : null
+            }
           />
         </div>
       )}
