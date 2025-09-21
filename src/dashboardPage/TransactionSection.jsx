@@ -7,7 +7,8 @@ import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
 
 const TransactionSection = () => {
-  const { transactions, isEditMode, setIsEditMode } = useContext(AppContext);
+  const { transactions, isEditMode, setIsEditMode, setTransactionToEdit } =
+    useContext(AppContext);
 
   // display transaction list to dom
   const transactionList = transactions
@@ -92,7 +93,10 @@ const TransactionSection = () => {
           <div className=''>
             {/*  add edit button to edit  transactions */}
             <button
-              onClick={() => setIsEditMode(true)}
+              onClick={() => {
+                setTransactionToEdit(list);
+                setIsEditMode(true);
+              }}
               className='group ml-3 p-[0.5645rem] rounded-full border border-gray-200 hover:border-gray-400 duration-300 transition-colors active:scale-95'
             >
               <MdOutlineEdit className='font-bold text-lg text-gray-400 group-hover:text-gray-500 ' />
