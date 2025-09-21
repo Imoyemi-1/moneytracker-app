@@ -41,13 +41,6 @@ const AppContextProvider = ({ children }) => {
     fetchRate();
   }, []);
 
-  // reset states after edit
-  const resetStateEdit = () => {
-    setIsEditMode(false);
-    setActiveTab('expense');
-    setTransactionToEdit('');
-  };
-
   if (!accounts || !transactions) return;
   return (
     <AppContext.Provider
@@ -64,7 +57,6 @@ const AppContextProvider = ({ children }) => {
         setTransactionToEdit,
         activeTab,
         setActiveTab,
-        resetStateEdit,
       }}
     >
       {children}

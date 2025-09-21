@@ -3,11 +3,14 @@ import { useAsideBar } from '../contexts/aside';
 import { useContext, useEffect } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import clsx from 'clsx';
+import { DashboardContext } from '../contexts/DashboardContext';
 
 const Modal = ({ content }) => {
   const { isOpenSidebar, setOpenSidebar } = useAsideBar();
-  const { isEditMode, resetStateEdit } = useContext(AppContext);
+  const { isEditMode } = useContext(AppContext);
+  const { resetStateEdit } = useContext(DashboardContext);
   const isOpen = isOpenSidebar || isEditMode;
+
   useEffect(() => {
     const body = document.body;
     if (isOpen) body.classList.add('overflow-hidden');

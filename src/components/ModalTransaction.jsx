@@ -3,10 +3,10 @@ import { FaRegFile } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import NewTransactions from '../dashboardPage/NewTransactions';
 import { useContext } from 'react';
-import { AppContext } from '../contexts/AppContext';
+import { DashboardContext } from '../contexts/DashboardContext';
 
 const ModalTransaction = () => {
-  const { resetStateEdit } = useContext(AppContext);
+  const { resetStateEdit } = useContext(DashboardContext);
   return (
     <div
       onClick={(e) => e.stopPropagation()}

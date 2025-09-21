@@ -1,12 +1,15 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useDropdown } from './Setup';
 import db from '../db/data';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { AppContext } from './AppContext';
 
 const DashboardContext = createContext(null);
 
 const DashboardContextProvider = ({ children }) => {
   const { selected } = useDropdown();
+  const { setActiveTab, setIsEditMode, setTransactionToEdit } =
+    useContext(AppContext);
   const [firstAccountCode, setFirstAccountCode] = useState(
     selected.firstAccountTransaction.currencies[0]?.code
   );
@@ -44,9 +47,22 @@ const DashboardContextProvider = ({ children }) => {
       : setSecondAccountCode(code);
   };
 
+  // reset states after edit
+  const resetStateEdit = () => {
+    setIsEditMode(false);
+    setActiveTab('expense');
+    setTransactionToEdit('');
+  };
+
   return (
     <DashboardContext.Provider
-      value={{ transactionCurSelected, handleChangeSelected, tags, setTags }}
+      value={{
+        transactionCurSelected,
+        handleChangeSelected,
+        tags,
+        setTags,
+        resetStateEdit,
+      }}
     >
       {children}
     </DashboardContext.Provider>
