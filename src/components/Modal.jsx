@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom';
 import { useAsideBar } from '../contexts/aside';
 import { useContext, useEffect } from 'react';
 import { AppContext } from '../contexts/AppContext';
+import clsx from 'clsx';
 
 const Modal = ({ content }) => {
   const { isOpenSidebar, setOpenSidebar } = useAsideBar();
@@ -26,7 +27,10 @@ const Modal = ({ content }) => {
           setOpenSidebar(false);
           setIsEditMode(false);
         }}
-        className='flex opacity-100 fixed top-0 left-0 w-full h-full p-3.5 bg-[rgba(0,0,0,.85)] z-40'
+        className={clsx(
+          'flex opacity-100 fixed top-0 left-0 w-full h-full p-3.5 bg-[rgba(0,0,0,.85)] z-40 overflow-auto',
+          isEditMode && 'z-50'
+        )}
       >
         {content}
       </div>,

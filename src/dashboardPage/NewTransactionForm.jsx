@@ -9,7 +9,8 @@ import { ImCross } from 'react-icons/im';
 import { convertCurrency } from '../hooks/useExchangeRates';
 
 const NewTransactionForm = ({ activeTab, setActiveTab }) => {
-  const { accounts, setBaseInputEmpty, rates } = useContext(AppContext);
+  const { accounts, setBaseInputEmpty, rates, isEditMode } =
+    useContext(AppContext);
   const { selected, removeTag, resetAccountTransaction } = useDropdown();
   const { transactionCurSelected, tags } = useContext(DashboardContext);
   const [today, setToday] = useState(new Date().toISOString().split('T')[0]);
@@ -161,8 +162,8 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
             />
           </div>
           <div className='flex-1'>
-            <button className='w-full bg-blue-800 text-sm  rounded-md text-white py-2'>
-              Add {activeTab}
+            <button className='w-full bg-blue-800 opacity-90 hover:opacity-100 duration-300 transition-opacity cursor-pointer text-sm  rounded-md text-white py-2'>
+              {isEditMode ? 'Save' : 'Add'} {activeTab}
             </button>
           </div>
         </div>

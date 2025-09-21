@@ -3,9 +3,11 @@ import { AppContext } from '../contexts/AppContext';
 import { MdOutlineEdit } from 'react-icons/md';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import clsx from 'clsx';
+import Modal from '../components/Modal';
+import ModalTransaction from '../components/ModalTransaction';
 
 const TransactionSection = () => {
-  const { transactions } = useContext(AppContext);
+  const { transactions, isEditMode, setIsEditMode } = useContext(AppContext);
 
   // display transaction list to dom
   const transactionList = transactions
@@ -89,19 +91,27 @@ const TransactionSection = () => {
           </div>
           <div className=''>
             {/*  add edit button to edit  transactions */}
-            <button className='group ml-3 p-[0.5645rem] rounded-full border border-gray-200 hover:border-gray-400 duration-300 transition-colors active:scale-95'>
+            <button
+              onClick={() => setIsEditMode(true)}
+              className='group ml-3 p-[0.5645rem] rounded-full border border-gray-200 hover:border-gray-400 duration-300 transition-colors active:scale-95'
+            >
               <MdOutlineEdit className='font-bold text-lg text-gray-400 group-hover:text-gray-500 ' />
             </button>
           </div>
         </div>
       );
     });
-  return transactions.length > 0 ? (
-    transactionList
-  ) : (
-    <div className='px-3.5 text-sm min-h-12.5 flex items-center'>
-      No transactions found.
-    </div>
+  return (
+    <>
+      {transactions.length > 0 ? (
+        transactionList
+      ) : (
+        <div className='px-3.5 text-sm min-h-12.5 flex items-center'>
+          No transactions found.
+        </div>
+      )}
+      {isEditMode && <Modal content={<ModalTransaction />} />}
+    </>
   );
 };
 
