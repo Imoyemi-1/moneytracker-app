@@ -1,5 +1,5 @@
 import { clsx } from 'clsx/lite';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import NewTransactionForm from './NewTransactionForm';
 import { AppContext } from '../contexts/AppContext';
 
@@ -9,7 +9,7 @@ const NewTransactions = () => {
 
   return (
     <>
-      <div className='transaction text-sm flex border-b border-gray-300'>
+      <div className='transaction text-sm flex border-b border-gray-300 cursor-pointer'>
         <a
           onClick={() => setActiveTab('expense')}
           className={clsx(

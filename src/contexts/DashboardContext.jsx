@@ -28,6 +28,9 @@ const DashboardContextProvider = ({ children }) => {
     useLiveQuery(() => db.tags.toArray(), []) || []
   );
 
+  const [amount1, setAmount1] = useState('');
+  const [amount2, setAmount2] = useState('');
+
   // set transaction amount  code edit mode
 
   const setAmtCodeEdit = (firstCode, secondCode) => {
@@ -68,6 +71,7 @@ const DashboardContextProvider = ({ children }) => {
     setActiveTab('expense');
     setTransactionToEdit('');
     resetAccountTransaction();
+    setAmount1('');
   };
 
   return (
@@ -79,6 +83,10 @@ const DashboardContextProvider = ({ children }) => {
         setTags,
         resetStateEdit,
         setAmtCodeEdit,
+        amount1,
+        setAmount1,
+        amount2,
+        setAmount2,
       }}
     >
       {children}

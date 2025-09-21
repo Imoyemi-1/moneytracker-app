@@ -19,7 +19,7 @@ const TransactionSection = () => {
   } = useContext(AppContext);
 
   const { setAccountTransactionEdit } = useDropdown();
-  const { setAmtCodeEdit } = useContext(DashboardContext);
+  const { setAmtCodeEdit, setAmount1 } = useContext(DashboardContext);
 
   // set edit form modal with transaction details
 
@@ -45,6 +45,8 @@ const TransactionSection = () => {
       list.accountTransactionInfo[0]?.code,
       list.accountTransactionInfo[1]?.code
     );
+
+    setAmount1(list.accountTransactionInfo[0]?.amount);
   };
 
   // display transaction list to dom
@@ -133,7 +135,7 @@ const TransactionSection = () => {
               onClick={() => {
                 startEditing(list);
               }}
-              className='group ml-3 p-[0.5645rem] rounded-full border border-gray-200 hover:border-gray-400 duration-300 transition-colors active:scale-95'
+              className='group ml-3 p-[0.5645rem] rounded-full border border-gray-200 hover:border-gray-400 duration-300 transition-colors active:scale-95 cursor-pointer'
             >
               <MdOutlineEdit className='font-bold text-lg text-gray-400 group-hover:text-gray-500 ' />
             </button>

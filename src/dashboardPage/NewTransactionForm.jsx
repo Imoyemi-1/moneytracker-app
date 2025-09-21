@@ -9,12 +9,13 @@ import { ImCross } from 'react-icons/im';
 import { convertCurrency } from '../hooks/useExchangeRates';
 
 const NewTransactionForm = ({ activeTab, setActiveTab }) => {
-  const { accounts, setBaseInputEmpty, rates, isEditMode } =
+  const { accounts, setBaseInputEmpty, rates, isEditMode, transactionToEdit } =
     useContext(AppContext);
   const { selected, removeTag, resetAccountTransaction } = useDropdown();
-  const { transactionCurSelected, tags } = useContext(DashboardContext);
+  const { transactionCurSelected, tags, amount1, setAmount1, setAmount2 } =
+    useContext(DashboardContext);
+
   const [today, setToday] = useState(new Date().toISOString().split('T')[0]);
-  const [firstAccountValue, setFirstAccountValue] = useState('');
 
   // add new transactions
   const handleSubmit = (formData) => {
@@ -88,8 +89,8 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
           selection={transactionCurSelected.firstAccountCode}
           dropDownList={selected.firstAccountTransaction.currencies}
           isReadOnly={false}
-          value=''
-          setFirstAccountValue={setFirstAccountValue}
+          value={amount1}
+          onChange={setAmount1}
         />
       </div>
       {/* show second field if only nav tab is on transfer */}
@@ -113,15 +114,16 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
             dropDownList={selected.secondAccountTransaction.currencies}
             isReadOnly={true}
             value={
-              firstAccountValue
+              amount1
                 ? convertCurrency(
-                    +firstAccountValue,
+                    amount1,
                     transactionCurSelected?.firstAccountCode,
                     transactionCurSelected?.secondAccountCode,
                     rates
                   ).toFixed(4)
                 : null
             }
+            onChange={setAmount2}
           />
         </div>
       )}
@@ -149,6 +151,7 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
             placeholder='Note'
             autoComplete='off'
             name='transactionNote'
+            defaultValue={isEditMode ? transactionToEdit.note : null}
           />
         </div>
         <div className='flex mt-3.5 gap-3'>
@@ -157,7 +160,7 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
               className=' border text-sm w-full  border-gray-200 rounded-md px-3.5 py-2 outline-0 focus:border-blue-200 '
               required
               type='date'
-              defaultValue={today}
+              defaultValue={isEditMode ? transactionToEdit.date : today}
               name='transactionDate'
             />
           </div>

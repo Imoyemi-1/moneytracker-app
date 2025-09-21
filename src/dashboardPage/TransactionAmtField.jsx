@@ -11,7 +11,7 @@ const TransactionAmtField = ({
   name,
   isReadOnly,
   value,
-  setFirstAccountValue,
+  onChange,
 }) => {
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
   const { handleChangeSelected } = useContext(DashboardContext);
@@ -63,8 +63,8 @@ const TransactionAmtField = ({
         required
         name={name}
         readOnly={isReadOnly}
-        defaultValue={value}
-        onInput={(e) => setFirstAccountValue(e.target.value)}
+        onInput={(e) => onChange?.(e.target.value)}
+        value={value ?? ''}
       />
       {/* Container for selection and dropdown list  */}
       <div

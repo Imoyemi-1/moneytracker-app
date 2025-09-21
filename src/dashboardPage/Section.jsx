@@ -20,14 +20,14 @@ const Section = ({ title, isNetWorth, sectionBody }) => {
   return (
     <section
       className={clsx(
-        'cursor-pointer text-[rgb(0,0,0,0.87)]',
+        ' text-[rgb(0,0,0,0.87)]',
         !isOpen && 'border-b border-gray-300'
       )}
     >
       {/* Toggle section body if section header  is click*/}
       <div
         onClick={() => setIsOpen((prev) => !prev)}
-        className='flex items-center'
+        className='flex items-center cursor-pointer'
       >
         <div className='flex flex-1 items-center py-4 pl-2 text-xl font-roboto'>
           <IoMdArrowDropdown
