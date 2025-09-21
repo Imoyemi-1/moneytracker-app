@@ -1,5 +1,10 @@
+import MainPage from '../TransactionPage/MainPage';
 const TransactionsPage = () => {
-  return <div>TransactionsPage</div>;
+  return (
+    <div>
+      <MainPage />
+    </div>
+  );
 };
 
 export default TransactionsPage;
