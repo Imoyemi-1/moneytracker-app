@@ -1,123 +1,7 @@
 import db from '../db/data';
 import { convertCurrency } from './useExchangeRates';
 
-const useSaveAccount = async (account) => {
-  // save account to db itself
-  const accountId = await db.accounts.add({
-    name: account.name,
-    showOnDashboard: account.showOnDashboard,
-    type: account.type,
-    currencies: account.currencies,
-  });
-
-  return accountId;
-};
-
-const useSaveTransactions = async (transactionData, rates) => {
-  // for  account and amount that use for debit expense or add income
-
-  const firstAccountTransaction = {
-    id: transactionData.firstAccountInfo?.id,
-    amount: transactionData.firstAccountAmount,
-    code: transactionData.firstAccountCode,
-    name: transactionData.firstAccountInfo.name,
-  };
-
-  // for  account and amount that use receive amount from transfer
-  const secondAccountTransaction = {
-    id: transactionData?.secondAccountInfo.id,
-    amount: transactionData?.secondAccountAmount,
-    code: transactionData?.secondAccountCode,
-    name: transactionData?.secondAccountInfo.name,
-  };
-
-  const accountTransactionInfo =
-    transactionData.type !== 'transfer'
-      ? [firstAccountTransaction]
-      : [firstAccountTransaction, secondAccountTransaction];
-
-  // Update the account balance
-  if (transactionData.type !== 'transfer') {
-    // add and remove money from account if its expense or income
-    await db.accounts
-      .where('id')
-      .equals(transactionData.firstAccountInfo?.id)
-      .modify((account) => {
-        const currency = account.currencies.find(
-          (cur) => cur.code === transactionData.firstAccountCode
-        );
-
-        if (!currency) return;
-
-        transactionData.type === 'expense'
-          ? (currency.amount -= transactionData.firstAccountAmount)
-          : (currency.amount += transactionData.firstAccountAmount);
-      });
-  } else {
-    // transfer amount from one amount to another amount
-
-    // subtract from first account
-    await db.accounts
-      .where('id')
-      .equals(transactionData.firstAccountInfo?.id)
-      .modify((account) => {
-        const currency = account.currencies.find(
-          (cur) => cur.code === transactionData.firstAccountCode
-        );
-
-        if (currency) currency.amount -= transactionData.firstAccountAmount;
-      });
-
-    // add to second account
-    await db.accounts
-      .where('id')
-      .equals(transactionData.secondAccountInfo?.id)
-      .modify((account) => {
-        const currency = account.currencies.find(
-          (cur) => cur.code === transactionData.secondAccountCode
-        );
-
-        if (currency)
-          currency.amount += convertCurrency(
-            transactionData.firstAccountAmount,
-            transactionData?.firstAccountCode,
-            transactionData?.secondAccountCode,
-            rates
-          );
-      });
-  }
-
-  // save transaction to db itself
-  const transactionsId = await db.transactions.add({
-    type: transactionData.type,
-
-    // add accountTransactions info
-
-    accountTransactionInfo,
-
-    // add note and date for transactions
-    note: transactionData.note,
-    date: transactionData.date,
-
-    // add tags for transactions
-    tags: transactionData.tag,
-  });
-
-  return transactionsId;
-};
-
-const useSaveTags = async (tag) => {
-  // save tag to db itself
-  const tagsId = await db.tags.add({
-    name: tag,
-  });
-
-  return tagsId;
-};
-
-// delete  transaction from  database
-
-const useDeleteTransactions = async (transactionData, rates) => {
+const revertAmount = async (transactionData, rates) => {
   // Update the account balance
   if (transactionData.type !== 'transfer') {
     // add and remove money from account if its expense or income
@@ -171,8 +55,182 @@ const useDeleteTransactions = async (transactionData, rates) => {
           );
       });
   }
+};
 
+// remove or add amount to account as saved transaction
+
+const updateAccountAmount = async (transactionData, rates) => {
+  // remove or add amount to account as saved transaction
+
+  // Update the account balance
+  if (transactionData.type !== 'transfer') {
+    // add and remove money from account if its expense or income
+    await db.accounts
+      .where('id')
+      .equals(transactionData.firstAccountInfo?.id)
+      .modify((account) => {
+        const currency = account.currencies.find(
+          (cur) => cur.code === transactionData.firstAccountCode
+        );
+
+        if (!currency) return;
+
+        transactionData.type === 'expense'
+          ? (currency.amount -= transactionData.firstAccountAmount)
+          : (currency.amount += transactionData.firstAccountAmount);
+      });
+  } else {
+    // transfer amount from one amount to another amount
+
+    // subtract from first account
+    await db.accounts
+      .where('id')
+      .equals(transactionData.firstAccountInfo?.id)
+      .modify((account) => {
+        const currency = account.currencies.find(
+          (cur) => cur.code === transactionData.firstAccountCode
+        );
+
+        if (currency) currency.amount -= transactionData.firstAccountAmount;
+      });
+
+    // add to second account
+    await db.accounts
+      .where('id')
+      .equals(transactionData.secondAccountInfo?.id)
+      .modify((account) => {
+        const currency = account.currencies.find(
+          (cur) => cur.code === transactionData.secondAccountCode
+        );
+
+        if (currency)
+          currency.amount += convertCurrency(
+            transactionData.firstAccountAmount,
+            transactionData?.firstAccountCode,
+            transactionData?.secondAccountCode,
+            rates
+          );
+      });
+  }
+};
+
+const useSaveAccount = async (account) => {
+  // save account to db itself
+  const accountId = await db.accounts.add({
+    name: account.name,
+    showOnDashboard: account.showOnDashboard,
+    type: account.type,
+    currencies: account.currencies,
+  });
+
+  return accountId;
+};
+
+const useSaveTransactions = async (transactionData, rates) => {
+  // for  account and amount that use for debit expense or add income
+
+  const firstAccountTransaction = {
+    id: transactionData.firstAccountInfo?.id,
+    amount: transactionData.firstAccountAmount,
+    code: transactionData.firstAccountCode,
+    name: transactionData.firstAccountInfo.name,
+  };
+
+  // for  account and amount that use receive amount from transfer
+  const secondAccountTransaction = {
+    id: transactionData?.secondAccountInfo.id,
+    amount: transactionData?.secondAccountAmount,
+    code: transactionData?.secondAccountCode,
+    name: transactionData?.secondAccountInfo.name,
+  };
+
+  const accountTransactionInfo =
+    transactionData.type !== 'transfer'
+      ? [firstAccountTransaction]
+      : [firstAccountTransaction, secondAccountTransaction];
+
+  await updateAccountAmount(transactionData, rates);
+  // save transaction to db itself
+  const transactionsId = await db.transactions.add({
+    type: transactionData.type,
+
+    // add accountTransactions info
+
+    accountTransactionInfo,
+
+    // add note and date for transactions
+    note: transactionData.note,
+    date: transactionData.date,
+
+    // add tags for transactions
+    tags: transactionData.tag,
+  });
+
+  return transactionsId;
+};
+
+const useSaveTags = async (tag) => {
+  // save tag to db itself
+  const tagsId = await db.tags.add({
+    name: tag,
+  });
+
+  return tagsId;
+};
+
+// delete  transaction from  database
+
+const useDeleteTransactions = async (transactionData, rates) => {
+  // Update the account balance
+  await revertAmount(transactionData, rates);
+  // //delete transaction from  database
   await db.transactions.delete(transactionData.id);
+};
+
+// edit transaction and accounts
+const useUpdateTransactions = async (transactionData, newData, rates) => {
+  // Update the account balance
+  await revertAmount(transactionData, rates);
+  //
+  await updateAccountAmount(newData, rates);
+
+  // for  account and amount that use for debit expense or add income
+
+  const firstAccountTransaction = {
+    id: newData.firstAccountInfo?.id,
+    amount: newData.firstAccountAmount,
+    code: newData.firstAccountCode,
+    name: newData.firstAccountInfo.name,
+  };
+
+  // for  account and amount that use receive amount from transfer
+  const secondAccountTransaction = {
+    id: newData?.secondAccountInfo.id,
+    amount: newData?.secondAccountAmount,
+    code: newData?.secondAccountCode,
+    name: newData?.secondAccountInfo.name,
+  };
+
+  const accountTransactionInfo =
+    newData.type !== 'transfer'
+      ? [firstAccountTransaction]
+      : [firstAccountTransaction, secondAccountTransaction];
+
+  await db.transactions.update(transactionData.id, {
+    type: newData.type,
+
+    // add accountTransactions info
+
+    accountTransactionInfo,
+
+    // add note and date for transactions
+    note: newData.note,
+    date: newData.date,
+
+    // add tags for transactions
+    tags: newData.tag,
+    updateAt: new Date().toISOString(),
+  });
 };
 
 export {
@@ -180,4 +238,5 @@ export {
   useSaveTransactions,
   useSaveTags,
   useDeleteTransactions,
+  useUpdateTransactions,
 };

@@ -28,7 +28,7 @@ const ModalTransaction = () => {
         </h3>
       </div>
       {/* transaction save component*/}
-      <NewTransactions />
+      <NewTransactions ref={null} />
 
       {/* delete transaction button div container*/}
       <div className='flex justify-end p-3.5 pb-0 bg-gray-100 rounded'>

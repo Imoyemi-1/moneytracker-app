@@ -4,16 +4,25 @@ import { AppContext } from '../contexts/AppContext';
 import TransactionAmtField from './TransactionAmtField';
 import { useDropdown } from '../contexts/Setup';
 import { DashboardContext } from '../contexts/DashboardContext';
-import { useSaveTransactions } from '../hooks/useAccount';
+import {
+  useSaveTransactions,
+  useUpdateTransactions,
+} from '../hooks/useAccount';
 import { ImCross } from 'react-icons/im';
 import { convertCurrency } from '../hooks/useExchangeRates';
 
-const NewTransactionForm = ({ activeTab, setActiveTab }) => {
+const NewTransactionForm = ({ activeTab }) => {
   const { accounts, setBaseInputEmpty, rates, isEditMode, transactionToEdit } =
     useContext(AppContext);
-  const { selected, removeTag, resetAccountTransaction } = useDropdown();
-  const { transactionCurSelected, tags, amount1, setAmount1, setAmount2 } =
-    useContext(DashboardContext);
+  const { selected, removeTag } = useDropdown();
+  const {
+    transactionCurSelected,
+    tags,
+    amount1,
+    setAmount1,
+    setAmount2,
+    resetStateEdit,
+  } = useContext(DashboardContext);
 
   const [today, setToday] = useState(new Date().toISOString().split('T')[0]);
 
@@ -25,25 +34,41 @@ const NewTransactionForm = ({ activeTab, setActiveTab }) => {
     const transactionDate = formData.get('transactionDate');
 
     // save new transaction to indexdb
-    useSaveTransactions(
-      {
-        type: activeTab,
-        firstAccountInfo: selected.firstAccountTransaction,
-        firstAccountCode: transactionCurSelected?.firstAccountCode,
-        firstAccountAmount: +firstAccountAmount || 0,
-        secondAccountInfo: selected.secondAccountTransaction || null,
-        secondAccountAmount: +secondAccountAmount || 0,
-        secondAccountCode: transactionCurSelected?.secondAccountCode,
-        note: transactionNote || '',
-        date: transactionDate,
-        tag: selected.tags,
-      },
-      rates
-    );
+    !isEditMode
+      ? useSaveTransactions(
+          {
+            type: activeTab,
+            firstAccountInfo: selected.firstAccountTransaction,
+            firstAccountCode: transactionCurSelected?.firstAccountCode,
+            firstAccountAmount: +firstAccountAmount || 0,
+            secondAccountInfo: selected.secondAccountTransaction || null,
+            secondAccountAmount: +secondAccountAmount || 0,
+            secondAccountCode: transactionCurSelected?.secondAccountCode,
+            note: transactionNote || '',
+            date: transactionDate,
+            tag: selected.tags,
+          },
+          rates
+        )
+      : useUpdateTransactions(
+          transactionToEdit,
+          {
+            type: activeTab,
+            firstAccountInfo: selected.firstAccountTransaction,
+            firstAccountCode: transactionCurSelected?.firstAccountCode,
+            firstAccountAmount: +firstAccountAmount || 0,
+            secondAccountInfo: selected.secondAccountTransaction || null,
+            secondAccountAmount: +secondAccountAmount || 0,
+            secondAccountCode: transactionCurSelected?.secondAccountCode,
+            note: transactionNote || '',
+            date: transactionDate,
+            tag: selected.tags,
+          },
+          rates
+        );
 
     // auto reset account transaction  when added new transaction
-    resetAccountTransaction();
-    setActiveTab('expense');
+    resetStateEdit();
   };
 
   // remove tags from list already if its selected
