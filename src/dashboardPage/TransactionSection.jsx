@@ -1,10 +1,12 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import { MdOutlineEdit } from 'react-icons/md';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import clsx from 'clsx';
 import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
+import { useDropdown } from '../contexts/Setup';
+import { DashboardContext } from '../contexts/DashboardContext';
 
 const TransactionSection = () => {
   const {
@@ -15,12 +17,24 @@ const TransactionSection = () => {
     setActiveTab,
   } = useContext(AppContext);
 
+  const { setAccountTransactionEdit } = useDropdown();
+  const { setAmtCodeEdit } = useContext(DashboardContext);
+
   // set edit form modal
 
   const startEditing = (list) => {
     setTransactionToEdit(list);
     setIsEditMode(true);
     setActiveTab(list.type);
+    setAccountTransactionEdit(
+      list.accountTransactionInfo[0]?.id,
+      list.accountTransactionInfo[1]?.id,
+      list.tags
+    );
+    setAmtCodeEdit(
+      list.accountTransactionInfo[0]?.code,
+      list.accountTransactionInfo[1]?.code
+    );
   };
 
   // display transaction list to dom

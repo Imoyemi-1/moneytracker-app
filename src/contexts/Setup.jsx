@@ -18,14 +18,19 @@ function DropdownProvider({ children }) {
     tags: [],
   });
 
-  // auto reset group selection when added new accounts
+  // set transaction form info for edit
 
-  useEffect(() => {
+  const setAccountTransactionEdit = (firstId, secondId, tags) => {
     setSelected((prev) => ({
       ...prev,
-      groupSelection: 'Cash',
+      firstAccountTransaction: accounts.find((acc) => acc.id === firstId),
+      secondAccountTransaction:
+        accounts.find((acc) => acc.id === secondId) ||
+        accounts[1] ||
+        accounts[0],
+      tags,
     }));
-  }, [accounts.length]);
+  };
 
   // auto reset account transaction  when added new transaction
 
@@ -146,6 +151,7 @@ function DropdownProvider({ children }) {
         removeAdditionalCur,
         removeTag,
         resetAccountTransaction,
+        setAccountTransactionEdit,
       }}
     >
       {children}

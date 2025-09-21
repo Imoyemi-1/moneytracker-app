@@ -7,22 +7,34 @@ import { AppContext } from './AppContext';
 const DashboardContext = createContext(null);
 
 const DashboardContextProvider = ({ children }) => {
-  const { selected } = useDropdown();
-  const { setActiveTab, setIsEditMode, setTransactionToEdit } =
+  const { selected, resetAccountTransaction } = useDropdown();
+
+  const { setActiveTab, setIsEditMode, isEditMode, setTransactionToEdit } =
     useContext(AppContext);
+
   const [firstAccountCode, setFirstAccountCode] = useState(
     selected.firstAccountTransaction.currencies[0]?.code
   );
+
   const [secondAccountCode, setSecondAccountCode] = useState(
     selected.secondAccountTransaction.currencies[1]?.code ||
       selected.secondAccountTransaction.currencies[0]?.code
   );
+
   const [tags, setTags] = useState(
     useLiveQuery(() => db.tags.toArray(), []) || []
   );
 
+  // set transaction amount  code edit mode
+
+  const setAmtCodeEdit = (firstCode, secondCode) => {
+    setFirstAccountCode(firstCode);
+    setSecondAccountCode(secondCode);
+  };
+
   // Auto set code when change account
   useEffect(() => {
+    if (isEditMode) return;
     setFirstAccountCode(selected.firstAccountTransaction.currencies[0]?.code);
     setSecondAccountCode(
       selected.secondAccountTransaction.currencies[1]?.code ||
@@ -52,6 +64,7 @@ const DashboardContextProvider = ({ children }) => {
     setIsEditMode(false);
     setActiveTab('expense');
     setTransactionToEdit('');
+    resetAccountTransaction();
   };
 
   return (
@@ -62,6 +75,7 @@ const DashboardContextProvider = ({ children }) => {
         tags,
         setTags,
         resetStateEdit,
+        setAmtCodeEdit,
       }}
     >
       {children}
