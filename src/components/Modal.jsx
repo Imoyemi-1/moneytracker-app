@@ -7,9 +7,9 @@ import { DashboardContext } from '../contexts/DashboardContext';
 
 const Modal = ({ content }) => {
   const { isOpenSidebar, setOpenSidebar } = useAsideBar();
-  const { isEditMode } = useContext(AppContext);
+  const { isEditMode, isNewTransaction } = useContext(AppContext);
   const { resetStateEdit } = useContext(DashboardContext);
-  const isOpen = isOpenSidebar || isEditMode;
+  const isOpen = isOpenSidebar || isEditMode || isNewTransaction;
 
   useEffect(() => {
     const body = document.body;
@@ -31,8 +31,9 @@ const Modal = ({ content }) => {
           resetStateEdit();
         }}
         className={clsx(
-          'flex opacity-100 fixed top-0 left-0 w-full h-full p-3.5 bg-[rgba(0,0,0,.85)] z-40 overflow-auto',
-          isEditMode && 'z-50'
+          'flex items-center opacity-100 fixed top-0 left-0 w-full h-full p-3.5 bg-[rgba(0,0,0,.85)] z-40 overflow-auto',
+          isEditMode && 'z-50',
+          isNewTransaction && 'z-50'
         )}
       >
         {content}

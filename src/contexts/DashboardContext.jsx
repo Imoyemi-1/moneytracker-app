@@ -9,8 +9,13 @@ const DashboardContext = createContext(null);
 const DashboardContextProvider = ({ children }) => {
   const { selected, resetAccountTransaction } = useDropdown();
 
-  const { setActiveTab, setIsEditMode, isEditMode, setTransactionToEdit } =
-    useContext(AppContext);
+  const {
+    setActiveTab,
+    setIsEditMode,
+    isEditMode,
+    setTransactionToEdit,
+    setIsNewTransaction,
+  } = useContext(AppContext);
 
   // set first transaction amount code for transaction form
   const [firstAccountCode, setFirstAccountCode] = useState(
@@ -72,6 +77,7 @@ const DashboardContextProvider = ({ children }) => {
     resetAccountTransaction();
     setAmount1('');
     setIsEditMode(false);
+    setIsNewTransaction(false);
   };
 
   return (
