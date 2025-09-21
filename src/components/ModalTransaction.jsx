@@ -6,14 +6,14 @@ import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
 const ModalTransaction = () => {
-  const { setIsEditMode } = useContext(AppContext);
+  const { resetStateEdit } = useContext(AppContext);
   return (
     <div
       onClick={(e) => e.stopPropagation()}
       className='relative bg-white h-fit w-full m-auto rounded'
     >
       <ImCross
-        onClick={() => setIsEditMode(false)}
+        onClick={() => resetStateEdit()}
         className='absolute right-6 top-4.5 text-sm cursor-pointer text-gray-600 hover:text-gray-800 '
       />
       <div className='border-b border-gray-300 flex items-center py-2.5 pl-3.5 pr-8'>

@@ -10,7 +10,7 @@ const AppContextProvider = ({ children }) => {
   const transactions = useLiveQuery(() => db.transactions.toArray(), []);
   const [isEditMode, setIsEditMode] = useState(false);
   const [transactionToEdit, setTransactionToEdit] = useState(null);
-
+  const [activeTab, setActiveTab] = useState('expense');
   const [baseInputEmpty, setBaseInputEmpty] = useState(true);
 
   useEffect(() => {
@@ -41,6 +41,13 @@ const AppContextProvider = ({ children }) => {
     fetchRate();
   }, []);
 
+  // reset states after edit
+  const resetStateEdit = () => {
+    setIsEditMode(false);
+    setActiveTab('expense');
+    setTransactionToEdit('');
+  };
+
   if (!accounts || !transactions) return;
   return (
     <AppContext.Provider
@@ -55,6 +62,9 @@ const AppContextProvider = ({ children }) => {
         setIsEditMode,
         transactionToEdit,
         setTransactionToEdit,
+        activeTab,
+        setActiveTab,
+        resetStateEdit,
       }}
     >
       {children}

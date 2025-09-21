@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 const Modal = ({ content }) => {
   const { isOpenSidebar, setOpenSidebar } = useAsideBar();
-  const { isEditMode, setIsEditMode } = useContext(AppContext);
+  const { isEditMode, resetStateEdit } = useContext(AppContext);
   const isOpen = isOpenSidebar || isEditMode;
   useEffect(() => {
     const body = document.body;
@@ -25,7 +25,7 @@ const Modal = ({ content }) => {
       <div
         onClick={() => {
           setOpenSidebar(false);
-          setIsEditMode(false);
+          resetStateEdit();
         }}
         className={clsx(
           'flex opacity-100 fixed top-0 left-0 w-full h-full p-3.5 bg-[rgba(0,0,0,.85)] z-40 overflow-auto',

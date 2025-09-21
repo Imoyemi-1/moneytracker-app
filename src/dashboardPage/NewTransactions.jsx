@@ -4,8 +4,8 @@ import NewTransactionForm from './NewTransactionForm';
 import { AppContext } from '../contexts/AppContext';
 
 const NewTransactions = () => {
-  const [activeTab, setActiveTab] = useState('expense');
-  const { accounts } = useContext(AppContext);
+  const { accounts, isEditMode, transactionToEdit, activeTab, setActiveTab } =
+    useContext(AppContext);
 
   return (
     <>
@@ -19,7 +19,8 @@ const NewTransactions = () => {
         >
           Expense
         </a>
-        {accounts.length > 1 && (
+        {accounts.length <= 1 ? null : isEditMode &&
+          transactionToEdit?.type !== 'transfer' ? null : (
           <a
             onClick={() => setActiveTab('transfer')}
             className={clsx(

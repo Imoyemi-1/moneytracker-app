@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import { MdOutlineEdit } from 'react-icons/md';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
@@ -7,8 +7,21 @@ import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
 
 const TransactionSection = () => {
-  const { transactions, isEditMode, setIsEditMode, setTransactionToEdit } =
-    useContext(AppContext);
+  const {
+    transactions,
+    isEditMode,
+    setIsEditMode,
+    setTransactionToEdit,
+    setActiveTab,
+  } = useContext(AppContext);
+
+  // set edit form modal
+
+  const startEditing = (list) => {
+    setTransactionToEdit(list);
+    setIsEditMode(true);
+    setActiveTab(list.type);
+  };
 
   // display transaction list to dom
   const transactionList = transactions
@@ -94,8 +107,7 @@ const TransactionSection = () => {
             {/*  add edit button to edit  transactions */}
             <button
               onClick={() => {
-                setTransactionToEdit(list);
-                setIsEditMode(true);
+                startEditing(list);
               }}
               className='group ml-3 p-[0.5645rem] rounded-full border border-gray-200 hover:border-gray-400 duration-300 transition-colors active:scale-95'
             >
