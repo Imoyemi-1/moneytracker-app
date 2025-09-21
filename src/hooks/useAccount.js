@@ -54,7 +54,6 @@ const useSaveTransactions = async (transactionData, rates) => {
           : (currency.amount += transactionData.firstAccountAmount);
       });
   } else {
-    console.log;
     // transfer amount from one amount to another amount
 
     // subtract from first account
@@ -116,4 +115,69 @@ const useSaveTags = async (tag) => {
   return tagsId;
 };
 
-export { useSaveAccount, useSaveTransactions, useSaveTags };
+// delete  transaction from  database
+
+const useDeleteTransactions = async (transactionData, rates) => {
+  // Update the account balance
+  if (transactionData.type !== 'transfer') {
+    // add and remove money from account if its expense or income
+    await db.accounts
+      .where('id')
+      .equals(transactionData.accountTransactionInfo[0]?.id)
+      .modify((account) => {
+        const currency = account.currencies.find(
+          (cur) => cur.code === transactionData.accountTransactionInfo[0]?.code
+        );
+
+        if (!currency) return;
+
+        transactionData.type === 'expense'
+          ? (currency.amount +=
+              transactionData.accountTransactionInfo[0]?.amount)
+          : (currency.amount -=
+              transactionData.accountTransactionInfo[0]?.amount);
+      });
+  } else {
+    // transfer amount from one amount to another amount
+
+    // add to second account
+    await db.accounts
+      .where('id')
+      .equals(transactionData.accountTransactionInfo[0]?.id)
+      .modify((account) => {
+        const currency = account.currencies.find(
+          (cur) => cur.code === transactionData.accountTransactionInfo[0]?.code
+        );
+
+        if (currency)
+          currency.amount += transactionData.accountTransactionInfo[0]?.amount;
+      });
+
+    // subtract from first account
+    await db.accounts
+      .where('id')
+      .equals(transactionData.accountTransactionInfo[1]?.id)
+      .modify((account) => {
+        const currency = account.currencies.find(
+          (cur) => cur.code === transactionData.accountTransactionInfo[1]?.code
+        );
+
+        if (currency)
+          currency.amount -= convertCurrency(
+            transactionData.accountTransactionInfo[0]?.amount,
+            transactionData?.accountTransactionInfo[0]?.code,
+            transactionData?.accountTransactionInfo[1]?.code,
+            rates
+          );
+      });
+  }
+
+  await db.transactions.delete(transactionData.id);
+};
+
+export {
+  useSaveAccount,
+  useSaveTransactions,
+  useSaveTags,
+  useDeleteTransactions,
+};

@@ -67,11 +67,11 @@ const DashboardContextProvider = ({ children }) => {
 
   // reset states after edit
   const resetStateEdit = () => {
-    setIsEditMode(false);
     setActiveTab('expense');
     setTransactionToEdit('');
     resetAccountTransaction();
     setAmount1('');
+    setIsEditMode(false);
   };
 
   return (
