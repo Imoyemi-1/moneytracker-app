@@ -9,6 +9,7 @@ import { useDropdown } from '../contexts/Setup';
 import { DashboardContext } from '../contexts/DashboardContext';
 
 const TransactionSection = () => {
+  // get app states details with context
   const {
     transactions,
     isEditMode,
@@ -20,17 +21,26 @@ const TransactionSection = () => {
   const { setAccountTransactionEdit } = useDropdown();
   const { setAmtCodeEdit } = useContext(DashboardContext);
 
-  // set edit form modal
+  // set edit form modal with transaction details
 
   const startEditing = (list) => {
+    // Added transaction details to TransactionToEdit states
     setTransactionToEdit(list);
+
+    // Put app in edit
     setIsEditMode(true);
+
+    // Set nav tag to  transaction type
     setActiveTab(list.type);
+
+    // set transaction account details to form account selection
     setAccountTransactionEdit(
       list.accountTransactionInfo[0]?.id,
       list.accountTransactionInfo[1]?.id,
       list.tags
     );
+
+    // set amount code details to form amount code selection
     setAmtCodeEdit(
       list.accountTransactionInfo[0]?.code,
       list.accountTransactionInfo[1]?.code

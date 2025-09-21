@@ -12,15 +12,18 @@ const DashboardContextProvider = ({ children }) => {
   const { setActiveTab, setIsEditMode, isEditMode, setTransactionToEdit } =
     useContext(AppContext);
 
+  // set first transaction amount code for transaction form
   const [firstAccountCode, setFirstAccountCode] = useState(
     selected.firstAccountTransaction.currencies[0]?.code
   );
 
+  // set second transaction amount code for transaction form
   const [secondAccountCode, setSecondAccountCode] = useState(
     selected.secondAccountTransaction.currencies[1]?.code ||
       selected.secondAccountTransaction.currencies[0]?.code
   );
 
+  // get tags saved and add unto it or start with new array
   const [tags, setTags] = useState(
     useLiveQuery(() => db.tags.toArray(), []) || []
   );
