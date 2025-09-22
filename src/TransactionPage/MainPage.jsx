@@ -1,7 +1,7 @@
 import { ImPlus } from 'react-icons/im';
 import { FaCalendar, FaFilter } from 'react-icons/fa';
 import clsx from 'clsx';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
@@ -12,6 +12,18 @@ const MainPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [transactionDisplayedTime, setTransactionDisplayedTime] =
     useState('Last 7 days');
+
+  //
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) =>
+      dropdownRef.current && !dropdownRef.current.contains(e.target)
+        ? setIsOpen(false)
+        : null;
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
   //
   const filterList = [
     'Today',
@@ -69,6 +81,7 @@ const MainPage = () => {
             </i>
             {/*  */}
             <ul
+              ref={dropdownRef}
               className={clsx(
                 'absolute bg-white min-w-full left-0 top-full cursor-pointer rounded shadow shadow-gray-100 border border-gray-100',
                 !isOpen && 'hidden '
