@@ -125,10 +125,10 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
       {/* display list base on the dropdown */}
       {dropDownList.length > 0 ? (
         // display list in selected type
-        id === 'groupField' ? (
+        id === 'groupField' || id === 'tagsFieldFilter' ? (
           accountGroupList
         ) : // dropdown list for tags filters
-        id === 'tagsField' || id === 'tagsFieldFilter' ? (
+        id === 'tagsField' ? (
           dropDownList
             .filter((tag) => tag.toLowerCase().includes(query.toLowerCase()))
             .map((list) => (

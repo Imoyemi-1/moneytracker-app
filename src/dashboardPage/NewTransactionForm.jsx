@@ -182,7 +182,7 @@ const NewTransactionForm = ({ activeTab }) => {
         <div className='flex mt-3.5 gap-3'>
           <div className='flex-1'>
             <input
-              className=' border text-sm w-full  border-gray-200 rounded-md px-3.5 py-2 outline-0 focus:border-blue-200 '
+              className='font-lato border text-sm w-full  border-gray-200 rounded-md px-3.5 py-2 outline-0 focus:border-blue-200 '
               required
               type='date'
               defaultValue={isEditMode ? transactionToEdit.date : today}

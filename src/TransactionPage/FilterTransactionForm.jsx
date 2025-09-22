@@ -5,7 +5,14 @@ import { useDropdown } from '../contexts/Setup';
 
 const FilterTransactionForm = () => {
   const { setBaseInputEmpty, accounts } = useContext(AppContext);
-  const filteredForTags = ['tag', 'amala', 'eba'];
+  const { query } = useDropdown();
+  const filteredForTags = ['tag', 'amala', 'eba'].filter((list) =>
+    list.toLowerCase().includes(query.toLowerCase())
+  );
+  const filteredAccount = accounts.filter((acc) =>
+    acc.name.toLowerCase().includes(query.toLowerCase())
+  );
+
   return (
     <div>
       <form className='p-3.5'>
@@ -14,7 +21,7 @@ const FilterTransactionForm = () => {
           id='accountFieldFilter'
           isInput={true}
           setBaseInputEmpty={setBaseInputEmpty}
-          dropDownList={accounts}
+          dropDownList={filteredAccount}
           label='Account'
           placeholder=''
           selection=''
