@@ -64,26 +64,18 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
         id === 'firstTransaction'
           ? list.name === selected.firstAccountTransaction.name &&
               'bg-gray-100 font-medium'
-          : list.name === selected.secondAccountTransaction.name &&
-              'bg-gray-100 font-medium'
+          : id === 'secondTransaction'
+          ? list.name === selected.secondAccountTransaction.name &&
+            'bg-gray-100 font-medium'
+          : null
       )}
       key={list.id}
       onMouseDown={(e) => {
+        if (id === 'accountFieldFilter') return;
         e.stopPropagation();
         handleSelected(id, list.id);
         setOpenId(null);
       }}
-    >
-      <span>{list.name}</span>
-      <span className='text-gray-400'>{list.type}</span>
-    </li>
-  ));
-
-  // for dropdown to pick account to filter from
-  const accountTransactionListFilter = dropDownList.map((list) => (
-    <li
-      className='text-sm  flex items-center justify-between px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto'
-      key={list.id}
     >
       <span>{list.name}</span>
       <span className='text-gray-400'>{list.type}</span>
@@ -132,10 +124,11 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
         : null}
       {/* display list base on the dropdown */}
       {dropDownList.length > 0 ? (
+        // display list in selected type
         id === 'groupField' ? (
           accountGroupList
-        ) : id === 'tagsField' || id === 'tagsFieldFilter' ? (
-          // list item for Tags dropdown
+        ) : // dropdown list for tags filters
+        id === 'tagsField' || id === 'tagsFieldFilter' ? (
           dropDownList
             .filter((tag) => tag.toLowerCase().includes(query.toLowerCase()))
             .map((list) => (
@@ -155,11 +148,13 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
                 {list}
               </li>
             ))
-        ) : id === 'firstTransaction' || id === 'secondTransaction' ? (
+        ) : // for account to make transaction or filter transaction
+        id === 'firstTransaction' ||
+          id === 'secondTransaction' ||
+          id === 'accountFieldFilter' ? (
           accountTransactionList
-        ) : id === 'accountFieldFilter' ? (
-          accountTransactionListFilter
         ) : (
+          // list for dropdown for selection base currencies
           currenciesList
         )
       ) : id === 'tagsField' && query.length > 0 ? null : (

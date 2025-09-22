@@ -22,14 +22,18 @@ const MainPage = () => {
     isFilterTransaction,
     setIsFilterTransaction,
   } = useContext(AppContext);
-  const [isOpen, setIsOpen] = useState(false);
-  const [transactionDisplayedTime, setTransactionDisplayedTime] =
-    useState('Last 7 days');
   const { selected } = useDropdown();
-  //
+
+  // use and close dropdown is it clicked out
+  const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
+  // time range to filter transaction display by date
+  const [transactionDisplayedTime, setTransactionDisplayedTime] =
+    useState('Last 7 days');
+
   useEffect(() => {
+    // close dropdown if click out of dropdown
     const handleClickOutside = (e) =>
       dropdownRef.current && !dropdownRef.current.contains(e.target)
         ? setIsOpen(false)
@@ -37,7 +41,8 @@ const MainPage = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-  //
+
+  //  time range list to display and filter displayed transaction
   const filterList = [
     'Today',
     'Yesterday',
@@ -47,7 +52,7 @@ const MainPage = () => {
     'Custom date',
   ];
 
-  //
+  // dropdown list for selecting time range
   const dropDownList = filterList.map((list) => (
     <li
       key={list}
@@ -61,12 +66,13 @@ const MainPage = () => {
     </li>
   ));
 
-  //
+  // get and filtering transactions with date range
   const transactions = useLiveQuery(async () => {
     const [start, end] = getDateRange(transactionDisplayedTime);
 
     if (!start || !end) return db.transactions.toArray();
 
+    //  filtering transactions with date range
     return db.transactions
       .filter((list) => list.date >= start && list.date <= end)
       .toArray();
@@ -74,6 +80,7 @@ const MainPage = () => {
 
   if (!transactions || !rates) return;
 
+  // total amount of the expense display
   const totalExpenseAmountArr = transactions
     .filter((tnx) => tnx.type === 'expense')
     .map(
@@ -86,6 +93,7 @@ const MainPage = () => {
         ) || 0
     );
 
+  // total amount of the income  display
   const totalIncomeAmountArr = transactions
     .filter((tnx) => tnx.type === 'income')
     .map(
@@ -98,13 +106,15 @@ const MainPage = () => {
         ) || 0
     );
 
+  // remove total expense from total income to display
   const totalReminder =
     addTotalNum(totalIncomeAmountArr) - addTotalNum(totalExpenseAmountArr);
+
   return (
     <>
       <main className='text-sm'>
         <div className='border-b border-gray-300 flex text-gray-500 *:whitespace-nowrap'>
-          {/*  */}
+          {/* button to display  add new transaction modal from transaction page  */}
           <button
             onClick={() => setIsNewTransaction(true)}
             className=' flex items-center justify-center  relative pl-14 pr-5 py-2 flex-[1_0_auto] hover:text-gray-800 duration-200 transition-colors cursor-pointer'
@@ -114,7 +124,7 @@ const MainPage = () => {
             </i>
             New
           </button>
-          {/*  */}
+          {/* display container for selection and selected time range*/}
           <div
             onClick={() => setIsOpen((prev) => !prev)}
             className={clsx(
@@ -131,7 +141,7 @@ const MainPage = () => {
             >
               <FaCalendar />
             </i>
-            {/*  */}
+            {/* dropdown list to display time range list */}
             <ul
               ref={dropdownRef}
               className={clsx(
@@ -142,7 +152,7 @@ const MainPage = () => {
               {dropDownList}
             </ul>
           </div>
-          {/*  */}
+          {/*  filtering transaction with tags and accounts */}
           <button
             onClick={() => setIsFilterTransaction(true)}
             className='flex-[1_0_auto] p-2.5 flex items-center justify-center border-l border-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'
@@ -151,13 +161,14 @@ const MainPage = () => {
           </button>
         </div>
 
-        {/*  */}
+        {/*  rendering filtered account to page */}
         <TransactionSection transactions={transactions} />
 
-        {/*  */}
+        {/*  table to display today income and expense display */}
         <div>
           <table className='table table-fixed text-base w-full bg-white '>
             <tbody className='table-row-group align-middle '>
+              {/* display total income display filter transactions displayed*/}
               <tr className='border-b border-gray-200  table-row align-middle  '>
                 <td className='td-ui'>Total income</td>
                 <td className='td-ui text-right font-mono'>
@@ -167,6 +178,7 @@ const MainPage = () => {
                   </span>
                 </td>
               </tr>
+              {/* display total expense filter transactions displayed*/}
               <tr className='border-b border-gray-200  table-row align-middle  '>
                 <td className='td-ui'>Total expense</td>
                 <td className='td-ui text-right font-mono'>
@@ -182,6 +194,7 @@ const MainPage = () => {
                   </span>
                 </td>
               </tr>
+              {/* display total  reminder from expense and income transactions*/}
               <tr className='border-b border-gray-200  table-row align-middle  '>
                 <td className='td-ui'></td>
                 <td className='td-ui text-right font-mono'>
@@ -199,6 +212,8 @@ const MainPage = () => {
           </table>
         </div>
       </main>
+
+      {/* display add new transaction modal when click add new  to add transaction*/}
       {isNewTransaction && (
         <Modal
           content={
@@ -206,6 +221,8 @@ const MainPage = () => {
           }
         />
       )}
+
+      {/* dispay filter transaction modal to filter by account and tags */}
       {isFilterTransaction && (
         <Modal
           content={<ModalTransaction content={<FilterTransactionForm />} />}

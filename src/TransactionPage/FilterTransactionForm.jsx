@@ -5,11 +5,11 @@ import { useDropdown } from '../contexts/Setup';
 
 const FilterTransactionForm = () => {
   const { setBaseInputEmpty, accounts } = useContext(AppContext);
-  const { selected } = useDropdown();
   const filteredForTags = ['tag', 'amala', 'eba'];
   return (
     <div>
       <form className='p-3.5'>
+        {/* selected account to filter transaction with and dropdown  to select the account to filter with*/}
         <Field
           id='accountFieldFilter'
           isInput={true}
@@ -19,6 +19,7 @@ const FilterTransactionForm = () => {
           placeholder=''
           selection=''
         />
+        {/* selected tags to filter transaction with and dropdown  to select the tags to filter with*/}
         <Field
           id='tagsFieldFilter'
           isInput={true}

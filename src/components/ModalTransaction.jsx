@@ -40,7 +40,7 @@ const ModalTransaction = ({ content }) => {
       {/* content inside  component*/}
       {content}
 
-      {/* delete transaction button div container*/}
+      {/* delete transaction button div container in edit transaction mode */}
       {isEditMode || isFilterTransaction ? (
         <div className='flex text-sm justify-end p-3.5 pb-0 bg-gray-100 rounded'>
           {isEditMode && (
@@ -57,6 +57,7 @@ const ModalTransaction = ({ content }) => {
               Delete
             </button>
           )}
+          {/* reset and apply button container if its filter by account  */}
           {isFilterTransaction && (
             <>
               <button className='mb-3.5 mr-2 ml-2.5 py-2 px-5 bg-gray-300 rounded text-gray-500'>
