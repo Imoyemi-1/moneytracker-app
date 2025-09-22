@@ -11,10 +11,17 @@ import db from '../db/data';
 import TransactionSection from '../dashboardPage/TransactionSection';
 import { convertCurrency, addTotalNum } from '../hooks/useExchangeRates';
 import { useDropdown } from '../contexts/Setup';
+import NewTransactions from '../dashboardPage/NewTransactions';
+import FilterTransactionForm from './FilterTransactionForm';
 
 const MainPage = () => {
-  const { setIsNewTransaction, isNewTransaction, rates } =
-    useContext(AppContext);
+  const {
+    setIsNewTransaction,
+    isNewTransaction,
+    rates,
+    isFilterTransaction,
+    setIsFilterTransaction,
+  } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
   const [transactionDisplayedTime, setTransactionDisplayedTime] =
     useState('Last 7 days');
@@ -136,7 +143,10 @@ const MainPage = () => {
             </ul>
           </div>
           {/*  */}
-          <button className='flex-[1_0_auto] p-2.5 flex items-center justify-center border-l border-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'>
+          <button
+            onClick={() => setIsFilterTransaction(true)}
+            className='flex-[1_0_auto] p-2.5 flex items-center justify-center border-l border-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'
+          >
             <FaFilter />
           </button>
         </div>
@@ -189,7 +199,18 @@ const MainPage = () => {
           </table>
         </div>
       </main>
-      {isNewTransaction && <Modal content={<ModalTransaction />} />}
+      {isNewTransaction && (
+        <Modal
+          content={
+            <ModalTransaction content={<NewTransactions ref={null} />} />
+          }
+        />
+      )}
+      {isFilterTransaction && (
+        <Modal
+          content={<ModalTransaction content={<FilterTransactionForm />} />}
+        />
+      )}
     </>
   );
 };

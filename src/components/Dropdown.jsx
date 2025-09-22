@@ -79,6 +79,17 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
     </li>
   ));
 
+  // for dropdown to pick account to filter from
+  const accountTransactionListFilter = dropDownList.map((list) => (
+    <li
+      className='text-sm  flex items-center justify-between px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto'
+      key={list.id}
+    >
+      <span>{list.name}</span>
+      <span className='text-gray-400'>{list.type}</span>
+    </li>
+  ));
+
   return (
     // Todo: add accessibility to jsx later
     <ul
@@ -123,7 +134,7 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
       {dropDownList.length > 0 ? (
         id === 'groupField' ? (
           accountGroupList
-        ) : id === 'tagsField' ? (
+        ) : id === 'tagsField' || id === 'tagsFieldFilter' ? (
           // list item for Tags dropdown
           dropDownList
             .filter((tag) => tag.toLowerCase().includes(query.toLowerCase()))
@@ -134,6 +145,7 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
                 }
                 key={list}
                 onMouseDown={(e) => {
+                  if (id === 'tagsFieldFilter') return;
                   e.stopPropagation();
                   handleSelected(id, list);
                   setOpenId(null);
@@ -145,6 +157,8 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
             ))
         ) : id === 'firstTransaction' || id === 'secondTransaction' ? (
           accountTransactionList
+        ) : id === 'accountFieldFilter' ? (
+          accountTransactionListFilter
         ) : (
           currenciesList
         )
