@@ -5,7 +5,7 @@ import { AppContext } from './AppContext';
 const DropdownContext = createContext(null);
 
 function DropdownProvider({ children }) {
-  const { accounts } = useContext(AppContext);
+  const { accounts, appliedTransactionFilter } = useContext(AppContext);
   // add selection currencies to dropdown states
 
   const [selected, setSelected] = useState({
@@ -42,6 +42,22 @@ function DropdownProvider({ children }) {
       firstAccountTransaction: accounts[0],
       secondAccountTransaction: accounts[1] || accounts[0],
       tags: [],
+    }));
+  };
+
+  const resetFilterTransaction = () => {
+    setSelected((prev) => ({
+      ...prev,
+      accountFilterTransaction: [],
+      tagsFilterTransaction: [],
+    }));
+  };
+
+  const defaultTransactionFilter = () => {
+    setSelected((prev) => ({
+      ...prev,
+      accountFilterTransaction: appliedTransactionFilter[0],
+      tagsFilterTransaction: appliedTransactionFilter[1],
     }));
   };
 
@@ -203,6 +219,8 @@ function DropdownProvider({ children }) {
         setAccountTransactionEdit,
         removeTagFilter,
         removeAccountFilter,
+        resetFilterTransaction,
+        defaultTransactionFilter,
       }}
     >
       {children}

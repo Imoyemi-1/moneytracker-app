@@ -21,8 +21,9 @@ const MainPage = () => {
     rates,
     isFilterTransaction,
     setIsFilterTransaction,
+    appliedTransactionFilter,
   } = useContext(AppContext);
-  const { selected } = useDropdown();
+  const { selected, defaultTransactionFilter } = useDropdown();
 
   // use and close dropdown is it clicked out
   const [isOpen, setIsOpen] = useState(false);
@@ -154,7 +155,10 @@ const MainPage = () => {
           </div>
           {/*  filtering transaction with tags and accounts */}
           <button
-            onClick={() => setIsFilterTransaction(true)}
+            onClick={() => {
+              defaultTransactionFilter();
+              setIsFilterTransaction(true);
+            }}
             className='flex-[1_0_auto] p-2.5 flex items-center justify-center border-l border-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'
           >
             <FaFilter />

@@ -6,12 +6,20 @@ import { DashboardContext } from '../contexts/DashboardContext';
 import { useDeleteTransactions } from '../hooks/useAccount';
 import { AppContext } from '../contexts/AppContext';
 import clsx from 'clsx';
+import { useDropdown } from '../contexts/Setup';
 
 const ModalTransaction = ({ content }) => {
   // display edit or add new transaction component to modal
   const { resetStateEdit } = useContext(DashboardContext);
-  const { transactionToEdit, rates, isEditMode, isFilterTransaction } =
-    useContext(AppContext);
+  const {
+    transactionToEdit,
+    rates,
+    isEditMode,
+    isFilterTransaction,
+    setAppliedTransactionFilter,
+  } = useContext(AppContext);
+  const { resetFilterTransaction, selected } = useDropdown();
+
   return (
     <div
       onClick={(e) => e.stopPropagation()}
@@ -60,10 +68,22 @@ const ModalTransaction = ({ content }) => {
           {/* reset and apply button container if its filter by account  */}
           {isFilterTransaction && (
             <>
-              <button className='mb-3.5 mr-2 ml-2.5 py-2 px-5 bg-gray-300 rounded text-gray-500'>
+              <button
+                onClick={resetFilterTransaction}
+                className='mb-3.5 mr-2 ml-2.5 py-2 px-5 bg-gray-300 rounded text-gray-500 hover:text-gray-700 hover:bg-gray-400  cursor-pointer duration-200 transition-colors'
+              >
                 Reset
               </button>
-              <button className='mb-3.5 mr-1 ml-2.5 py-2 px-5 bg-green-500 rounded text-white'>
+              <button
+                onClick={() => {
+                  setAppliedTransactionFilter([
+                    selected.accountFilterTransaction,
+                    selected.tagsFilterTransaction,
+                  ]);
+                  resetStateEdit();
+                }}
+                className='mb-3.5 mr-1 ml-2.5 py-2 px-5 bg-green-500 rounded text-white  hover:bg-green-600  cursor-pointer duration-200 transition-colors'
+              >
                 Apply
               </button>
             </>

@@ -7,6 +7,7 @@ import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
 import { useDropdown } from '../contexts/Setup';
 import { DashboardContext } from '../contexts/DashboardContext';
+import NewTransactions from './NewTransactions';
 
 const TransactionSection = ({ transactions }) => {
   // get app states details with context
@@ -148,7 +149,9 @@ const TransactionSection = ({ transactions }) => {
           No transactions found.
         </div>
       )}
-      {isEditMode && <Modal content={<ModalTransaction />} />}
+      {isEditMode && (
+        <Modal content={<ModalTransaction content={<NewTransactions />} />} />
+      )}
     </>
   );
 };
