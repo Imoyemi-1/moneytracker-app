@@ -2,8 +2,12 @@ import Section from './Section';
 import AccountWidget from '../components/AccountWidget';
 import NewTransactions from './NewTransactions';
 import TransactionSection from './TransactionSection';
+import { useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 export const MainPage = () => {
+  const { transactions } = useContext(AppContext);
+
   return (
     <main>
       {/* Section for dashboard net worth  and account widget section*/}
@@ -28,7 +32,7 @@ export const MainPage = () => {
         title='Recent Transactions'
         sectionBody={
           <div className='border-t border-gray-300 '>
-            {<TransactionSection />}
+            {<TransactionSection transactions={transactions} />}
           </div>
         }
       />

@@ -1,6 +1,15 @@
-import { format, startOfMonth, subDays } from 'date-fns';
+import {
+  format,
+  subDays,
+  startOfToday,
+  endOfToday,
+  startOfDay,
+  endOfDay,
+  startOfMonth,
+} from 'date-fns';
 
 let previousDate;
+let previousRange;
 export const getDateRangeLabel = (transactionDisplayedTime) => {
   const today = new Date();
   let start;
@@ -34,5 +43,69 @@ export const getDateRangeLabel = (transactionDisplayedTime) => {
 
     default:
       return '';
+  }
+};
+
+export const getDateRange = (transactionDisplayedTime) => {
+  const today = new Date();
+
+  switch (transactionDisplayedTime) {
+    case 'Today':
+      previousRange = [
+        format(startOfToday(), 'yyyy-MM-dd'),
+        format(endOfToday(), 'yyyy-MM-dd'),
+      ];
+      return [
+        format(startOfToday(), 'yyyy-MM-dd'),
+        format(endOfToday(), 'yyyy-MM-dd'),
+      ];
+
+    case 'Yesterday': {
+      const y = subDays(today, 1);
+      previousRange = [
+        format(startOfDay(y), 'yyyy-MM-dd'),
+        format(endOfDay(y), 'yyyy-MM-dd'),
+      ];
+      return [
+        format(startOfDay(y), 'yyyy-MM-dd'),
+        format(endOfDay(y), 'yyyy-MM-dd'),
+      ];
+    }
+
+    case 'Last 7 days':
+      previousRange = [
+        format(subDays(today, 7), 'yyyy-MM-dd'),
+        format(today, 'yyyy-MM-dd'),
+      ];
+      return [
+        format(subDays(today, 7), 'yyyy-MM-dd'),
+        format(today, 'yyyy-MM-dd'),
+      ];
+
+    case 'Last 30 days':
+      previousRange = [
+        format(subDays(today, 30), 'yyyy-MM-dd'),
+        format(today, 'yyyy-MM-dd'),
+      ];
+      return [
+        format(subDays(today, 30), 'yyyy-MM-dd'),
+        format(today, 'yyyy-MM-dd'),
+      ];
+
+    case 'This month':
+      previousRange = [
+        format(startOfMonth(today), 'yyyy-MM-dd'),
+        format(today, 'yyyy-MM-dd'),
+      ];
+      return [
+        format(startOfMonth(today), 'yyyy-MM-dd'),
+        format(today, 'yyyy-MM-dd'),
+      ];
+
+    case 'Custom date':
+      return previousRange;
+
+    default:
+      return [null, null];
   }
 };

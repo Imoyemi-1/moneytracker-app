@@ -5,7 +5,10 @@ import { useContext, useState, useEffect, useRef } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
-import { getDateRangeLabel } from '../utils/dateUtils';
+import { getDateRange, getDateRangeLabel } from '../utils/dateUtils';
+import { useLiveQuery } from 'dexie-react-hooks';
+import db from '../db/data';
+import TransactionSection from '../dashboardPage/TransactionSection';
 
 const MainPage = () => {
   const { setIsNewTransaction, isNewTransaction } = useContext(AppContext);
@@ -47,6 +50,19 @@ const MainPage = () => {
       {list}
     </li>
   ));
+
+  //
+  const transactions = useLiveQuery(async () => {
+    const [start, end] = getDateRange(transactionDisplayedTime);
+
+    if (!start || !end) return db.transactions.toArray();
+
+    return db.transactions
+      .filter((list) => list.date >= start && list.date <= end)
+      .toArray();
+  }, [transactionDisplayedTime]);
+
+  if (!transactions) return;
 
   return (
     <>
@@ -94,6 +110,35 @@ const MainPage = () => {
           <button className='flex-[1_0_auto] p-2.5 flex items-center justify-center border-l border-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'>
             <FaFilter />
           </button>
+        </div>
+
+        {/*  */}
+        <TransactionSection transactions={transactions} />
+
+        {/*  */}
+        <div>
+          <table className='table table-fixed text-base w-full bg-white '>
+            <tbody className='table-row-group align-middle '>
+              <tr className='border-b border-gray-200  table-row align-middle  '>
+                <td className='td-ui'>Total income</td>
+                <td className='td-ui text-right font-mono'>
+                  <span>9.97 USD</span>
+                </td>
+              </tr>
+              <tr className='border-b border-gray-200  table-row align-middle  '>
+                <td className='td-ui'>Total expense</td>
+                <td className='td-ui text-right font-mono'>
+                  <span>9.97 USD</span>
+                </td>
+              </tr>
+              <tr className='border-b border-gray-200  table-row align-middle  '>
+                <td className='td-ui'></td>
+                <td className='td-ui text-right font-mono'>
+                  <span>9.97 USD</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </main>
       {isNewTransaction && <Modal content={<ModalTransaction />} />}

@@ -8,15 +8,10 @@ import ModalTransaction from '../components/ModalTransaction';
 import { useDropdown } from '../contexts/Setup';
 import { DashboardContext } from '../contexts/DashboardContext';
 
-const TransactionSection = () => {
+const TransactionSection = ({ transactions }) => {
   // get app states details with context
-  const {
-    transactions,
-    isEditMode,
-    setIsEditMode,
-    setTransactionToEdit,
-    setActiveTab,
-  } = useContext(AppContext);
+  const { isEditMode, setIsEditMode, setTransactionToEdit, setActiveTab } =
+    useContext(AppContext);
 
   const { setAccountTransactionEdit } = useDropdown();
   const { setAmtCodeEdit, setAmount1 } = useContext(DashboardContext);
@@ -143,12 +138,13 @@ const TransactionSection = () => {
         </div>
       );
     });
+  if (!transactions) return null;
   return (
     <>
       {transactions.length > 0 ? (
         transactionList
       ) : (
-        <div className='px-3.5 text-sm min-h-12.5 flex items-center'>
+        <div className='px-3.5 text-sm min-h-12.5 flex items-center border-b border-gray-300'>
           No transactions found.
         </div>
       )}
