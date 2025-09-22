@@ -16,6 +16,8 @@ function DropdownProvider({ children }) {
     firstAccountTransaction: accounts[0],
     secondAccountTransaction: accounts[1] || accounts[0],
     tags: [],
+    accountFilterTransaction: [],
+    tagsFilterTransaction: [],
   });
 
   // set transaction form info for edit
@@ -93,6 +95,27 @@ function DropdownProvider({ children }) {
       }));
     }
 
+    // set tags  transaction filter selections for filter transaction
+    else if (id === 'tagsFieldFilter') {
+      setSelected((prev) => ({
+        ...prev,
+        tagsFilterTransaction: prev.tagsFilterTransaction.includes(code)
+          ? prev.tagsFilterTransaction
+          : [...prev.tagsFilterTransaction, code],
+      }));
+    }
+
+    // set tags  transaction filter selections for filter transaction
+    else if (id === 'accountFieldFilter') {
+      setSelected((prev) => ({
+        ...prev,
+        accountFilterTransaction: [
+          ...prev.accountFilterTransaction,
+          accounts.find((acc) => acc.id === code),
+        ],
+      }));
+    }
+
     // set additional currency selections for additional currency dropdown
     else {
       setSelected((prev) => {
@@ -137,6 +160,32 @@ function DropdownProvider({ children }) {
     });
   };
 
+  // remove tags filter from tags filter transaction list
+
+  const removeTagFilter = (tag) => {
+    setSelected((prev) => {
+      return {
+        ...prev,
+        tagsFilterTransaction: prev.tagsFilterTransaction.filter(
+          (word) => word !== tag
+        ),
+      };
+    });
+  };
+
+  // remove account filter from tags filter transaction list
+
+  const removeAccountFilter = (id) => {
+    setSelected((prev) => {
+      return {
+        ...prev,
+        accountFilterTransaction: prev.accountFilterTransaction.filter(
+          (acc) => acc.id !== id
+        ),
+      };
+    });
+  };
+
   return (
     <DropdownContext.Provider
       value={{
@@ -152,6 +201,8 @@ function DropdownProvider({ children }) {
         removeTag,
         resetAccountTransaction,
         setAccountTransactionEdit,
+        removeTagFilter,
+        removeAccountFilter,
       }}
     >
       {children}

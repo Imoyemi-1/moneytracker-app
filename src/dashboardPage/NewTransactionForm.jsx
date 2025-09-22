@@ -79,7 +79,7 @@ const NewTransactionForm = ({ activeTab }) => {
 
   // tags selection  display
 
-  const addCurrencyList = selected.tags.map((tag) => (
+  const addTagsList = selected.tags.map((tag) => (
     <div
       className='tag flex gap-x-2 my-auto items-center text-sm whitespace-normal align-top  px-2.5 h-fit  bg-gray-300  hover:bg-gray-400 transition-colors duration-500 rounded-[2px] cursor-pointer'
       key={tag}
@@ -166,7 +166,7 @@ const NewTransactionForm = ({ activeTab }) => {
                   ? ''
                   : 'Choose existing tags or add new'
               }
-              selection={addCurrencyList}
+              selection={addTagsList}
             />
           )}
 

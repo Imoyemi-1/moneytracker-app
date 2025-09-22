@@ -72,7 +72,6 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
       )}
       key={list.id}
       onMouseDown={(e) => {
-        if (id === 'accountFieldFilter') return;
         e.stopPropagation();
         handleSelected(id, list.id);
         setQuery('');
@@ -140,7 +139,6 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
                 }
                 key={list}
                 onMouseDown={(e) => {
-                  if (id === 'tagsFieldFilter') return;
                   e.stopPropagation();
                   handleSelected(id, list);
                   setOpenId(null);
