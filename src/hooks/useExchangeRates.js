@@ -26,4 +26,8 @@ const getTotalAmt = (account, toCode, rates, isNetWorth = false) => {
   return amounts.reduce((cur, acc) => cur + acc, 0);
 };
 
-export { getTotalAmt, convertCurrency };
+const addTotalNum = (arr) => {
+  return arr.reduce((cur, acc) => cur + acc, 0);
+};
+
+export { getTotalAmt, convertCurrency, addTotalNum };

@@ -9,13 +9,16 @@ import { getDateRange, getDateRangeLabel } from '../utils/dateUtils';
 import { useLiveQuery } from 'dexie-react-hooks';
 import db from '../db/data';
 import TransactionSection from '../dashboardPage/TransactionSection';
+import { convertCurrency, addTotalNum } from '../hooks/useExchangeRates';
+import { useDropdown } from '../contexts/Setup';
 
 const MainPage = () => {
-  const { setIsNewTransaction, isNewTransaction } = useContext(AppContext);
+  const { setIsNewTransaction, isNewTransaction, rates } =
+    useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
   const [transactionDisplayedTime, setTransactionDisplayedTime] =
     useState('Last 7 days');
-
+  const { selected } = useDropdown();
   //
   const dropdownRef = useRef(null);
 
@@ -62,8 +65,34 @@ const MainPage = () => {
       .toArray();
   }, [transactionDisplayedTime]);
 
-  if (!transactions) return;
+  if (!transactions || !rates) return;
 
+  const totalExpenseAmountArr = transactions
+    .filter((tnx) => tnx.type === 'expense')
+    .map(
+      (list) =>
+        convertCurrency(
+          list?.accountTransactionInfo[0]?.amount,
+          list?.accountTransactionInfo[0]?.code,
+          selected.baseSelection.code,
+          rates
+        ) || 0
+    );
+
+  const totalIncomeAmountArr = transactions
+    .filter((tnx) => tnx.type === 'income')
+    .map(
+      (list) =>
+        convertCurrency(
+          list?.accountTransactionInfo[0]?.amount,
+          list?.accountTransactionInfo[0]?.code,
+          selected.baseSelection.code,
+          rates
+        ) || 0
+    );
+
+  const totalReminder =
+    addTotalNum(totalIncomeAmountArr) - addTotalNum(totalExpenseAmountArr);
   return (
     <>
       <main className='text-sm'>
@@ -122,19 +151,38 @@ const MainPage = () => {
               <tr className='border-b border-gray-200  table-row align-middle  '>
                 <td className='td-ui'>Total income</td>
                 <td className='td-ui text-right font-mono'>
-                  <span>9.97 USD</span>
+                  <span className='text-green-600'>
+                    {addTotalNum(totalIncomeAmountArr).toFixed(2)}{' '}
+                    {selected.baseSelection.code}
+                  </span>
                 </td>
               </tr>
               <tr className='border-b border-gray-200  table-row align-middle  '>
                 <td className='td-ui'>Total expense</td>
                 <td className='td-ui text-right font-mono'>
-                  <span>9.97 USD</span>
+                  <span
+                    className={clsx({
+                      'text-green-600': addTotalNum(totalExpenseAmountArr) <= 0,
+                      'text-red-600': addTotalNum(totalExpenseAmountArr) > 0,
+                    })}
+                  >
+                    {addTotalNum(totalExpenseAmountArr) <= 0 ? null : '-'}
+                    {addTotalNum(totalExpenseAmountArr).toFixed(2)}{' '}
+                    {selected.baseSelection.code}
+                  </span>
                 </td>
               </tr>
               <tr className='border-b border-gray-200  table-row align-middle  '>
                 <td className='td-ui'></td>
                 <td className='td-ui text-right font-mono'>
-                  <span>9.97 USD</span>
+                  <span
+                    className={clsx({
+                      'text-green-600': totalReminder >= 0,
+                      'text-red-600': totalReminder < 0,
+                    })}
+                  >
+                    {totalReminder.toFixed(2)} {selected.baseSelection.code}
+                  </span>
                 </td>
               </tr>
             </tbody>
