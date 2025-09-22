@@ -30,8 +30,8 @@ const Field = ({
   useEffect(() => {
     // close dropdown if click on the body
     const handleClickOutside = () => {
-      setOpenId(null);
       setQuery('');
+      setOpenId(null);
     };
 
     // handle dropdown with input to  focus if open
@@ -58,6 +58,7 @@ const Field = ({
 
   const onToggle = () => {
     const nextOpen = !isOpen;
+    setQuery('');
     setOpenId(nextOpen ? id : null);
   };
 
@@ -103,6 +104,7 @@ const Field = ({
                 type='text'
                 onMouseDown={(e) => {
                   e.stopPropagation();
+                  setQuery('');
                   setOpenId(id);
                 }}
                 onChange={(e) => {
