@@ -24,22 +24,15 @@ const DashboardContextProvider = ({ children }) => {
     setIsNewAccount,
   } = useContext(AppContext);
 
-  //
-  const firstCurCodeArr = selected.firstAccountTransaction?.currencies.filter(
-    (cur) => cur.enabled
-  );
-
-  const secondCurCodeArr = selected.secondAccountTransaction?.currencies.filter(
-    (cur) => cur.enabled
-  );
-
   // set first transaction amount code for transaction form
   const [firstAccountCode, setFirstAccountCode] = useState(
     !accounts ||
       accounts.length < 1 ||
       !selected.firstAccountTransaction?.currencies
       ? null
-      : firstCurCodeArr[0].code
+      : selected.firstAccountTransaction?.currencies.filter(
+          (cur) => cur.enabled
+        )[0].code
   );
 
   // set second transaction amount code for transaction form
@@ -48,7 +41,12 @@ const DashboardContextProvider = ({ children }) => {
       accounts.length < 1 ||
       !selected.firstAccountTransaction?.currencies
       ? null
-      : secondCurCodeArr[1]?.code || secondCurCodeArr[0]?.code
+      : selected.secondAccountTransaction?.currencies.filter(
+          (cur) => cur.enabled
+        )[1]?.code ||
+          selected.secondAccountTransaction?.currencies.filter(
+            (cur) => cur.enabled
+          )[0]?.code
   );
 
   // get tags saved and add unto it or start with new array
@@ -77,14 +75,21 @@ const DashboardContextProvider = ({ children }) => {
         accounts.length < 1 ||
         !selected.firstAccountTransaction?.currencies
         ? null
-        : firstCurCodeArr[0]?.code
+        : selected.firstAccountTransaction?.currencies.filter(
+            (cur) => cur.enabled
+          )[0]?.code
     );
     setSecondAccountCode(
       !accounts ||
         accounts.length < 1 ||
         !selected.firstAccountTransaction?.currencies
         ? null
-        : secondCurCodeArr[1]?.code || secondCurCodeArr[0]?.code
+        : selected.secondAccountTransaction?.currencies.filter(
+            (cur) => cur.enabled
+          )[1]?.code ||
+            selected.secondAccountTransaction?.currencies.filter(
+              (cur) => cur.enabled
+            )[0]?.code
     );
   }, [
     selected.firstAccountTransaction?.id,
