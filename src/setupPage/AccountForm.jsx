@@ -77,7 +77,7 @@ const AccountForm = () => {
           </label>
           <input
             name='accountName'
-            className='border border-gray-200 outline-0 rounded-md pl-4 py-1.5'
+            className='border border-gray-200 outline-0 rounded-md pl-4 py-2 placeholder:text-sm text-sm'
             type='text'
             id='accountName'
             placeholder='Account name'

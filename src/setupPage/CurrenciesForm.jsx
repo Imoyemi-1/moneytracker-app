@@ -24,7 +24,8 @@ const CurrenciesForm = () => {
 
   const addCurrencyList = selected.additionalSelection.map((cur) => (
     <div
-      className='flex items-center gap-x-2 text-sm whitespace-normal align-top py-0.5 px-2.5 bg-gray-100 shadow hover:bg-gray-200 transition-colors duration-300 rounded-[2px] cursor-pointer'
+      // className='tag flex items-center gap-x-2 text-sm whitespace-normal align-top  px-2.5 bg-gray-100 shadow hover:bg-gray-200 transition-colors duration-300 rounded-[2px] cursor-pointer'
+      className='tag flex gap-x-2 w-fit my-auto items-center text-[0.75rem] whitespace-normal align-top  py-[0.19rem] px-2.5 h-fit text-black/60 bg-[#e8e8e8]  rounded'
       key={cur.code}
       onMouseDown={(e) => {
         e.stopPropagation();
@@ -49,7 +50,7 @@ const CurrenciesForm = () => {
           selection={
             <div
               className={clsx(
-                'flex items-center absolute',
+                'flex items-center absolute -translate-y-1/2 top-1/2',
                 openId === 'baseField' && 'opacity-50',
                 !baseInputEmpty && 'invisible'
               )}
