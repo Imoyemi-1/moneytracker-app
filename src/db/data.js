@@ -10,7 +10,4 @@ db.version(1).stores({
   tags: 'tag',
 });
 
-// db.delete();
-// db.open();
-
 export default db;

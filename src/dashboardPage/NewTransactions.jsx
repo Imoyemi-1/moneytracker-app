@@ -9,41 +9,52 @@ const NewTransactions = () => {
 
   return (
     <>
-      <div className='transaction text-sm flex border-b border-gray-300 cursor-pointer'>
-        <a
-          onClick={() => setActiveTab('expense')}
-          className={clsx(
-            'item red border-r border-gray-300',
-            activeTab === 'expense' && 'active'
-          )}
-        >
-          Expense
-        </a>
-        {accounts.length <= 1 &&
-        accounts[0]?.currencies.length <= 1 ? null : isEditMode &&
-          transactionToEdit?.type !== 'transfer' ? null : (
-          <a
-            onClick={() => setActiveTab('transfer')}
-            className={clsx(
-              'item black border-r border-gray-300',
-              activeTab === 'transfer' && 'active'
+      {accounts.length <= 0 ? (
+        <div className='px-3.5 text-sm min-h-12.5 flex items-center border-b border-gray-300'>
+          You don't have any accounts.
+        </div>
+      ) : (
+        <>
+          <div className='transaction text-sm flex border-b border-gray-300 cursor-pointer'>
+            <a
+              onClick={() => setActiveTab('expense')}
+              className={clsx(
+                'item red border-r border-gray-300',
+                activeTab === 'expense' && 'active'
+              )}
+            >
+              Expense
+            </a>
+            {accounts.length <= 1 &&
+            accounts[0]?.currencies.length <= 1 ? null : isEditMode &&
+              transactionToEdit?.type !== 'transfer' ? null : (
+              <a
+                onClick={() => setActiveTab('transfer')}
+                className={clsx(
+                  'item black border-r border-gray-300',
+                  activeTab === 'transfer' && 'active'
+                )}
+              >
+                Transfer
+              </a>
             )}
-          >
-            Transfer
-          </a>
-        )}
 
-        <a
-          onClick={() => setActiveTab('income')}
-          className={clsx('item green', activeTab === 'income' && 'active')}
-        >
-          Income
-        </a>
-      </div>
-      {/* add new transaction form to add new transactions  */}
-      <div className='p-3.5 border-b border-gray-300'>
-        <NewTransactionForm activeTab={activeTab} setActiveTab={setActiveTab} />
-      </div>
+            <a
+              onClick={() => setActiveTab('income')}
+              className={clsx('item green', activeTab === 'income' && 'active')}
+            >
+              Income
+            </a>
+          </div>
+          {/* add new transaction form to add new transactions  */}
+          <div className='p-3.5 border-b border-gray-300'>
+            <NewTransactionForm
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 };

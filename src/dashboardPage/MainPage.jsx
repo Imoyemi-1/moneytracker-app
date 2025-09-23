@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
 export const MainPage = () => {
-  const { transactions } = useContext(AppContext);
+  const { transactions, accounts } = useContext(AppContext);
 
   return (
     <main>
@@ -16,7 +16,7 @@ export const MainPage = () => {
         isNetWorth={true}
         sectionBody={
           <div className='border-t border-gray-300 '>
-            <AccountWidget isDashboard={true} />
+            {accounts.length > 0 && <AccountWidget isDashboard={true} />}
           </div>
         }
       />
