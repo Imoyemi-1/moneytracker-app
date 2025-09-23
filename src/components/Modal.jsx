@@ -7,15 +7,21 @@ import { DashboardContext } from '../contexts/DashboardContext';
 
 const Modal = ({ content }) => {
   const { isOpenSidebar, setOpenSidebar } = useAsideBar();
-  const { isEditMode, isNewTransaction, isFilterTransaction, isNewAccount } =
-    useContext(AppContext);
+  const {
+    isEditMode,
+    isNewTransaction,
+    isFilterTransaction,
+    isNewAccount,
+    isEditAccountMode,
+  } = useContext(AppContext);
   const { resetStateEdit } = useContext(DashboardContext);
   const isOpen =
     isOpenSidebar ||
     isEditMode ||
     isNewTransaction ||
     isFilterTransaction ||
-    isNewAccount;
+    isNewAccount ||
+    isEditAccountMode;
 
   useEffect(() => {
     const body = document.body;
@@ -41,7 +47,8 @@ const Modal = ({ content }) => {
           isEditMode && 'z-50',
           isNewTransaction && 'z-50',
           isFilterTransaction && 'z-50',
-          isNewAccount && 'z-50'
+          isNewAccount && 'z-50',
+          isEditAccountMode && 'z-50'
         )}
       >
         {content}

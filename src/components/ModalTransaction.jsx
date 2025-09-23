@@ -18,6 +18,7 @@ const ModalTransaction = ({ content }) => {
     isFilterTransaction,
     setAppliedTransactionFilter,
     isNewAccount,
+    isEditAccountMode,
   } = useContext(AppContext);
   const { resetFilterTransaction, selected } = useDropdown();
 
@@ -45,6 +46,8 @@ const ModalTransaction = ({ content }) => {
             ? 'Filter transactions'
             : isNewAccount
             ? 'New Account'
+            : isEditAccountMode
+            ? 'Edit Account'
             : 'New Transaction'}
         </h3>
       </div>
@@ -52,18 +55,26 @@ const ModalTransaction = ({ content }) => {
       {content}
 
       {/* delete transaction button div container in edit transaction mode */}
-      {isEditMode || isFilterTransaction || isNewAccount ? (
+      {isEditMode ||
+      isFilterTransaction ||
+      isNewAccount ||
+      isEditAccountMode ? (
         <div
           className={clsx(
             'flex text-sm justify-end p-3.5 pb-0 bg-gray-100 rounded rounded-tl-none rounded-tr-none ',
             isNewAccount && 'border-t border-gray-300'
           )}
         >
-          {isEditMode && (
+          {isEditMode || isEditAccountMode ? (
             <button
               onClick={() => {
-                useDeleteTransactions(transactionToEdit, rates);
-                resetStateEdit();
+                if (isEditMode) {
+                  useDeleteTransactions(transactionToEdit, rates);
+                  resetStateEdit();
+                } else {
+                  // todo: set delete account later
+                  console.log('account');
+                }
               }}
               className='relative mb-3.5 ml-2.5 mr-1 text-sm bg-red-600 opacity-85 hover:opacity-100 duration-300 transition-opacity text-white py-2.5 pr-15 pl-5.5 rounded cursor-pointer'
             >
@@ -72,7 +83,7 @@ const ModalTransaction = ({ content }) => {
               </span>
               Delete
             </button>
-          )}
+          ) : null}
           {/* reset and apply button container if its filter by account  */}
           {isFilterTransaction && (
             <>

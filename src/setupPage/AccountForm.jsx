@@ -27,8 +27,8 @@ const AccountForm = () => {
         amount: +formData.get(`additional[${cur.code}][amount]`) || 0,
       };
     });
-    console.log(accountToEdit);
-    // add account to the list
+
+    // save and update account to the list
     isEditAccountMode
       ? useUpdateAccount({
           type: selected.groupSelection,

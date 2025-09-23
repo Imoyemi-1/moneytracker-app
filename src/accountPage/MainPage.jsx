@@ -5,9 +5,12 @@ import { AppContext } from '../contexts/AppContext';
 import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
 import AccountForm from '../setupPage/AccountForm';
+import { useAsideBar } from '../contexts/aside';
 
 const MainPage = () => {
-  const { setIsNewAccount, isNewAccount } = useContext(AppContext);
+  const { setIsNewAccount, isNewAccount, isEditAccountMode } =
+    useContext(AppContext);
+  const { setupComplete } = useAsideBar();
   return (
     <>
       <main>
@@ -25,7 +28,7 @@ const MainPage = () => {
         </div>
         <AccountWidget isDashboard={false} />
       </main>
-      {isNewAccount && (
+      {isNewAccount || (isEditAccountMode && setupComplete) ? (
         <Modal
           content={
             <ModalTransaction
@@ -37,7 +40,7 @@ const MainPage = () => {
             />
           }
         />
-      )}
+      ) : null}
     </>
   );
 };
