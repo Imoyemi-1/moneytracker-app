@@ -23,6 +23,7 @@ const DashboardContextProvider = ({ children }) => {
     accounts,
     setIsNewAccount,
     setAccountToEdit,
+    setIsEditAccountMode,
   } = useContext(AppContext);
 
   // set first transaction amount code for transaction form
@@ -127,6 +128,7 @@ const DashboardContextProvider = ({ children }) => {
     setIsFilterTransaction(false);
     resetFilterTransaction();
     setAccountToEdit(null);
+    setIsEditAccountMode(false);
   };
 
   return (

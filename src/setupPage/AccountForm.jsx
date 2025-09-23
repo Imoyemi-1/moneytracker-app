@@ -27,24 +27,29 @@ const AccountForm = () => {
         amount: +formData.get(`additional[${cur.code}][amount]`) || 0,
       };
     });
-
-    const accountData = {
-      type: selected.groupSelection,
-      name: accountName,
-      showOnDashboard,
-      currencies: [
-        {
-          code: selected.baseSelection.code,
-          amount: +baseCurAmount || 0,
-          enabled: baseCurLabel,
-        },
-        ...additionalCurrencies,
-      ],
-    };
+    console.log(accountToEdit);
     // add account to the list
     isEditAccountMode
-      ? useUpdateAccount({ ...accountData, id: accountToEdit.id })
-      : useSaveAccount(accountData);
+      ? useUpdateAccount({
+          type: selected.groupSelection,
+          name: accountName,
+          showOnDashboard,
+          currencies: accountToEdit.currencies,
+          id: accountToEdit.id,
+        })
+      : useSaveAccount({
+          type: selected.groupSelection,
+          name: accountName,
+          showOnDashboard,
+          currencies: [
+            {
+              code: selected.baseSelection.code,
+              amount: +baseCurAmount || 0,
+              enabled: baseCurLabel,
+            },
+            ...additionalCurrencies,
+          ],
+        });
 
     resetStateEdit();
   };
@@ -114,14 +119,14 @@ const AccountForm = () => {
           </label>
           <input
             name='accountName'
-            className='border border-gray-200 outline-0 rounded-md pl-4 py-2 placeholder:text-sm text-sm'
+            className='border border-gray-200 outline-0 rounded-md pl-4 py-2 placeholder:text-sm text-sm focus:border-blue-300 '
             type='text'
             id='accountName'
             placeholder='Account name'
             autoComplete='off'
             required
             value={accountName}
-            onChange={(e)=>setAccountName(e.target.value)}
+            onChange={(e) => setAccountName(e.target.value)}
           />
         </div>
         <Field
@@ -194,8 +199,8 @@ const AccountForm = () => {
             Show on Dashboard
           </label>
         </div>
-        <button className='bg-blue-700 text-white py-2.5 px-5 w-[41%] rounded'>
-          Save Account
+        <button className=' text-white py-2.5 px-5 w-[41%] rounded bg-blue-700'>
+          {isEditAccountMode ? 'Update Account' : 'Save Account'}
         </button>
       </div>
     </form>
