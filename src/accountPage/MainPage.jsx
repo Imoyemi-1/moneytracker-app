@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
+import AccountForm from '../setupPage/AccountForm';
 
 const MainPage = () => {
   const { setIsNewAccount, isNewAccount } = useContext(AppContext);
@@ -24,7 +25,19 @@ const MainPage = () => {
         </div>
         <AccountWidget isDashboard={false} />
       </main>
-      {isNewAccount && <Modal content={<ModalTransaction content={''} />} />}
+      {isNewAccount && (
+        <Modal
+          content={
+            <ModalTransaction
+              content={
+                <div className='p-3.5'>
+                  <AccountForm />
+                </div>
+              }
+            />
+          }
+        />
+      )}
     </>
   );
 };

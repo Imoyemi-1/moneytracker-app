@@ -1,11 +1,14 @@
+import { useContext } from 'react';
 import Field from '../components/Field';
 import { useDropdown } from '../contexts/Setup';
 import { useSaveAccount } from '../hooks/useAccount';
+import { DashboardContext } from '../contexts/DashboardContext';
 
 const groupList = ['Cash', 'Bank Account', 'Deposit', 'Credit', 'Asset'];
 
 const AccountForm = () => {
   const { selected } = useDropdown();
+  const { resetStateEdit } = useContext(DashboardContext);
 
   const handleSubmit = (formData) => {
     const accountName = formData.get('accountName');
@@ -35,6 +38,7 @@ const AccountForm = () => {
         ...additionalCurrencies,
       ],
     });
+    resetStateEdit();
   };
 
   // for additional currencies amount
@@ -54,13 +58,13 @@ const AccountForm = () => {
       <div className='w-[41%] box-border'>
         <div className='flex '>
           <input
-            className='border w-full text-end border-gray-200 rounded px-3.5 py-2 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-200'
+            className='border w-full text-end font-mono border-gray-200 rounded px-3.5 py-2 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-300 placeholder:text-base placeholder:text-gray-300 focus:placeholder:text-gray-400 placeholder:font-medium'
             type='number'
             placeholder='Balance'
             step='0.01'
             name={`additional[${cur.code}][amount]`}
           />
-          <div className='bg-gray-200 px-2.5 py-2 rounded rounded-tl-none rounded-bl-none'>
+          <div className='bg-gray-200 px-3 py-2 rounded rounded-tl-none rounded-bl-none text-gray-500 text-sm font-bdy'>
             {cur.code}
           </div>
         </div>
@@ -112,13 +116,13 @@ const AccountForm = () => {
         <div className='w-[41%] box-border'>
           <div className='flex '>
             <input
-              className='border w-full text-end border-gray-200 rounded px-3.5 py-2 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-200'
+              className='border w-full text-end font-mono border-gray-200 rounded px-3.5 py-2 rounded-tr-none rounded-br-none outline-0 focus:border focus:border-blue-300 placeholder:text-base placeholder:text-gray-300 focus:placeholder:text-gray-400 placeholder:font-medium'
               type='number'
               placeholder='Balance'
               step='0.01'
               name='baseCurAmount'
             />
-            <div className='bg-gray-200 px-2.5 py-2 rounded rounded-tl-none rounded-bl-none'>
+            <div className='bg-gray-200 px-3 py-2 rounded rounded-tl-none rounded-bl-none text-gray-500 text-sm font-bdy'>
               {selected.baseSelection.code}
             </div>
           </div>

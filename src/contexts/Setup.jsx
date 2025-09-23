@@ -67,6 +67,13 @@ function DropdownProvider({ children }) {
     }));
   };
 
+  const resetAccountGroup = () => {
+    setSelected((prev) => ({
+      ...prev,
+      groupSelection: 'Cash',
+    }));
+  };
+
   const defaultTransactionFilter = () => {
     setSelected((prev) => ({
       ...prev,
@@ -235,6 +242,7 @@ function DropdownProvider({ children }) {
         removeAccountFilter,
         resetFilterTransaction,
         defaultTransactionFilter,
+        resetAccountGroup,
       }}
     >
       {children}

@@ -6,8 +6,12 @@ import { AppContext } from './AppContext';
 const DashboardContext = createContext(null);
 
 const DashboardContextProvider = ({ children }) => {
-  const { selected, resetAccountTransaction, resetFilterTransaction } =
-    useDropdown();
+  const {
+    selected,
+    resetAccountTransaction,
+    resetFilterTransaction,
+    resetAccountGroup,
+  } = useDropdown();
 
   const {
     setActiveTab,
@@ -17,6 +21,7 @@ const DashboardContextProvider = ({ children }) => {
     setIsNewTransaction,
     setIsFilterTransaction,
     accounts,
+    setIsNewAccount,
   } = useContext(AppContext);
 
   //
@@ -106,8 +111,10 @@ const DashboardContextProvider = ({ children }) => {
     setTransactionToEdit('');
     resetAccountTransaction();
     setAmount1('');
+    resetAccountGroup();
     setIsEditMode(false);
     setIsNewTransaction(false);
+    setIsNewAccount(false);
     setIsFilterTransaction(false);
     resetFilterTransaction();
   };

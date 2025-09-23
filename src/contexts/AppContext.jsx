@@ -10,6 +10,7 @@ const AppContextProvider = ({ children }) => {
   const transactions = useLiveQuery(() => db.transactions.toArray(), []);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isNewTransaction, setIsNewTransaction] = useState(false);
+  const [isNewAccount, setIsNewAccount] = useState(false);
   const [isFilterTransaction, setIsFilterTransaction] = useState(false);
   const [transactionToEdit, setTransactionToEdit] = useState(null);
   const [activeTab, setActiveTab] = useState('expense');
@@ -69,6 +70,8 @@ const AppContextProvider = ({ children }) => {
         setIsFilterTransaction,
         appliedTransactionFilter,
         setAppliedTransactionFilter,
+        isNewAccount,
+        setIsNewAccount,
       }}
     >
       {children}

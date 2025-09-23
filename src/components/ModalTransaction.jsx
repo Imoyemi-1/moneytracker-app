@@ -17,6 +17,7 @@ const ModalTransaction = ({ content }) => {
     isEditMode,
     isFilterTransaction,
     setAppliedTransactionFilter,
+    isNewAccount,
   } = useContext(AppContext);
   const { resetFilterTransaction, selected } = useDropdown();
 
@@ -42,6 +43,8 @@ const ModalTransaction = ({ content }) => {
             ? 'Edit Transaction'
             : isFilterTransaction
             ? 'Filter transactions'
+            : isNewAccount
+            ? 'New Account'
             : 'New Transaction'}
         </h3>
       </div>
@@ -49,8 +52,13 @@ const ModalTransaction = ({ content }) => {
       {content}
 
       {/* delete transaction button div container in edit transaction mode */}
-      {isEditMode || isFilterTransaction ? (
-        <div className='flex text-sm justify-end p-3.5 pb-0 bg-gray-100 rounded'>
+      {isEditMode || isFilterTransaction || isNewAccount ? (
+        <div
+          className={clsx(
+            'flex text-sm justify-end p-3.5 pb-0 bg-gray-100 rounded rounded-tl-none rounded-tr-none ',
+            isNewAccount && 'border-t border-gray-300'
+          )}
+        >
           {isEditMode && (
             <button
               onClick={() => {
