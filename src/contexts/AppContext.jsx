@@ -9,10 +9,12 @@ const AppContextProvider = ({ children }) => {
   const accounts = useLiveQuery(() => db.accounts.toArray(), []);
   const transactions = useLiveQuery(() => db.transactions.toArray(), []);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditAccountMode, setIsEditAccountMode] = useState(false);
   const [isNewTransaction, setIsNewTransaction] = useState(false);
   const [isNewAccount, setIsNewAccount] = useState(false);
   const [isFilterTransaction, setIsFilterTransaction] = useState(false);
   const [transactionToEdit, setTransactionToEdit] = useState(null);
+  const [accountToEdit, setAccountToEdit] = useState(null);
   const [activeTab, setActiveTab] = useState('expense');
   const [baseInputEmpty, setBaseInputEmpty] = useState(true);
   const [appliedTransactionFilter, setAppliedTransactionFilter] = useState({
@@ -72,6 +74,10 @@ const AppContextProvider = ({ children }) => {
         setAppliedTransactionFilter,
         isNewAccount,
         setIsNewAccount,
+        isEditAccountMode,
+        setIsEditAccountMode,
+        accountToEdit,
+        setAccountToEdit,
       }}
     >
       {children}

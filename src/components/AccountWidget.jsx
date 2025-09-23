@@ -15,9 +15,10 @@ function groupByType(accounts) {
 }
 
 const AccountWidget = ({ isDashboard }) => {
-  const { rates, accounts } = useContext(AppContext);
+  const { rates, accounts, setAccountToEdit, setIsEditAccountMode } =
+    useContext(AppContext);
 
-  const { selected } = useDropdown();
+  const { selected, setSelected } = useDropdown();
 
   if (!accounts) return;
 
@@ -26,6 +27,15 @@ const AccountWidget = ({ isDashboard }) => {
   const grouped = isDashboard
     ? groupByType(accounts.filter((acc) => acc.showOnDashboard))
     : groupByType(accounts);
+
+  const startEditing = (list) => {
+    setAccountToEdit(list);
+    setSelected((prev) => ({
+      ...prev,
+      groupSelection: list.type,
+    }));
+    setIsEditAccountMode(true);
+  };
 
   return (
     <>
@@ -78,7 +88,10 @@ const AccountWidget = ({ isDashboard }) => {
                   {/* display edit button is its not on dashboard */}
                   {!isDashboard && (
                     <div className='p-3 pl-0 '>
-                      <button className='group hover:border-gray-400 duration-300 transition-colors p-2 rounded-full border border-gray-200 cursor-pointer '>
+                      <button
+                        onClick={() => startEditing(acc)}
+                        className='group hover:border-gray-400 duration-300 transition-colors p-2 rounded-full border border-gray-200 cursor-pointer '
+                      >
                         <MdOutlineEdit className='group-hover:text-gray-600 text-xl text-gray-500 font-black' />
                       </button>
                     </div>

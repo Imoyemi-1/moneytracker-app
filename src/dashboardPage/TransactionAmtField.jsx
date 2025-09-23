@@ -60,6 +60,7 @@ const TransactionAmtField = ({
         )}
         type='number'
         step='0.01'
+        min={0.01}
         required
         name={name}
         readOnly={isReadOnly}

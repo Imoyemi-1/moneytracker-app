@@ -22,6 +22,7 @@ const DashboardContextProvider = ({ children }) => {
     setIsFilterTransaction,
     accounts,
     setIsNewAccount,
+    setAccountToEdit,
   } = useContext(AppContext);
 
   // set first transaction amount code for transaction form
@@ -113,7 +114,7 @@ const DashboardContextProvider = ({ children }) => {
   // reset states after edit
   const resetStateEdit = () => {
     setActiveTab('expense');
-    setTransactionToEdit('');
+    setTransactionToEdit(null);
     resetAccountTransaction();
     setAmount1('');
     resetAccountGroup();
@@ -122,6 +123,7 @@ const DashboardContextProvider = ({ children }) => {
     setIsNewAccount(false);
     setIsFilterTransaction(false);
     resetFilterTransaction();
+    setAccountToEdit(null);
   };
 
   return (
