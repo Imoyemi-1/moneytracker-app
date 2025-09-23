@@ -19,7 +19,8 @@ const NewTransactions = () => {
         >
           Expense
         </a>
-        {accounts.length <= 1 ? null : isEditMode &&
+        {accounts.length <= 1 &&
+        accounts[0]?.currencies.length <= 1 ? null : isEditMode &&
           transactionToEdit?.type !== 'transfer' ? null : (
           <a
             onClick={() => setActiveTab('transfer')}

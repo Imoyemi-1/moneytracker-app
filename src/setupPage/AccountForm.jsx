@@ -81,6 +81,7 @@ const AccountForm = () => {
             type='text'
             id='accountName'
             placeholder='Account name'
+            autoComplete='off'
             required
           />
         </div>

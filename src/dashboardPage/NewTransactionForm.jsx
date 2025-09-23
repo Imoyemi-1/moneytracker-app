@@ -38,7 +38,7 @@ const NewTransactionForm = ({ activeTab }) => {
       ? useSaveTransactions(
           {
             type: activeTab,
-            firstAccountInfo: selected.firstAccountTransaction,
+            firstAccountInfo: selected?.firstAccountTransaction,
             firstAccountCode: transactionCurSelected?.firstAccountCode,
             firstAccountAmount: +firstAccountAmount || 0,
             secondAccountInfo: selected.secondAccountTransaction || null,
@@ -104,15 +104,15 @@ const NewTransactionForm = ({ activeTab }) => {
           dropDownList={accounts}
           selection={
             <div className='text-sm py-0.5'>
-              {selected.firstAccountTransaction.name}
+              {selected.firstAccountTransaction?.name}
             </div>
           }
         />
         <TransactionAmtField
           id='firstTransactionAmt'
           name='firstAccountAmount'
-          selection={transactionCurSelected.firstAccountCode}
-          dropDownList={selected.firstAccountTransaction.currencies}
+          selection={transactionCurSelected?.firstAccountCode}
+          dropDownList={selected.firstAccountTransaction?.currencies}
           isReadOnly={false}
           value={amount1}
           onChange={setAmount1}
@@ -128,15 +128,15 @@ const NewTransactionForm = ({ activeTab }) => {
             dropDownList={accounts}
             selection={
               <div className='text-sm py-0.5'>
-                {selected.secondAccountTransaction.name}
+                {selected.secondAccountTransaction?.name}
               </div>
             }
           />
           <TransactionAmtField
             id='secondTransactionAmt'
             name='secondAccountAmount'
-            selection={transactionCurSelected.secondAccountCode}
-            dropDownList={selected.secondAccountTransaction.currencies}
+            selection={transactionCurSelected?.secondAccountCode}
+            dropDownList={selected.secondAccountTransaction?.currencies}
             isReadOnly={true}
             value={
               amount1
@@ -162,7 +162,7 @@ const NewTransactionForm = ({ activeTab }) => {
               dropDownList={filteredForTags}
               label='Tags'
               placeholder={
-                selected.tags.length > 0
+                selected.tags?.length > 0
                   ? ''
                   : 'Choose existing tags or add new'
               }

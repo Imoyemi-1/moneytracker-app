@@ -14,8 +14,8 @@ const Section = ({ title, isNetWorth, sectionBody }) => {
 
   //  calculate total net worth amount
   const totalNetWorth = rates
-    ? getTotalAmt(accounts, selected.baseSelection.code, rates)
-    : null;
+    ? getTotalAmt(accounts, selected.baseSelection?.code, rates)
+    : 0;
 
   return (
     <section
@@ -51,7 +51,7 @@ const Section = ({ title, isNetWorth, sectionBody }) => {
             )}
           >
             <span>
-              {totalNetWorth.toFixed(2)} {selected.baseSelection.code}
+              {totalNetWorth?.toFixed(2)} {selected.baseSelection.code}
             </span>
           </div>
         )}

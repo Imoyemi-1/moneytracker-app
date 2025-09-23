@@ -104,7 +104,7 @@ const MainPage = () => {
     appliedTransactionFilter.accountFilter.length,
   ]);
 
-  if (!transactions || !rates) return;
+  if (!transactions) return null;
 
   // total amount of the expense display
   const totalExpenseAmountArr = transactions
@@ -134,7 +134,7 @@ const MainPage = () => {
 
   // remove total expense from total income to display
   const totalReminder =
-    addTotalNum(totalIncomeAmountArr) - addTotalNum(totalExpenseAmountArr);
+    addTotalNum(totalIncomeAmountArr) - addTotalNum(totalExpenseAmountArr) ?? 0;
 
   return (
     <>

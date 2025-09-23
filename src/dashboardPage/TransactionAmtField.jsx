@@ -18,12 +18,12 @@ const TransactionAmtField = ({
 
   // handle toggle onclick of dropdown selection container
   const onToggle = () => {
-    if (dropDownList.length <= 1) return;
+    if (dropDownList?.length <= 1) return;
     setIsOpenDropDown((prev) => !prev);
   };
 
   // transaction amount field dropdown list
-  const currencyList = dropDownList.map((cur) => (
+  const currencyList = dropDownList?.map((cur) => (
     <li
       onClick={() => {
         handleChangeSelected(id, cur.code);
@@ -74,12 +74,12 @@ const TransactionAmtField = ({
         }}
         className={clsx(
           'relative flex items-center text-sm font-mono min-w-16 justify-center gap-2 bg-gray-200 rounded px-3 py-1.5 rounded-tl-none rounded-bl-none',
-          dropDownList.length <= 1 && 'cursor-auto',
+          dropDownList?.length <= 1 && 'cursor-auto',
           isOpenDropDown && 'bg-gray-300'
         )}
       >
         <span>{selection}</span>
-        {dropDownList.length > 1 && (
+        {dropDownList?.length > 1 && (
           <>
             <IoMdArrowDropdown className='text-lg' />
             <ul

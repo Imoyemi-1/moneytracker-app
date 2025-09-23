@@ -63,10 +63,10 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
       className={clsx(
         'text-sm  flex items-center justify-between px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto',
         id === 'firstTransaction'
-          ? list.name === selected.firstAccountTransaction.name &&
+          ? list.name === selected.firstAccountTransaction?.name &&
               'bg-gray-100 font-medium'
           : id === 'secondTransaction'
-          ? list.name === selected.secondAccountTransaction.name &&
+          ? list.name === selected.secondAccountTransaction?.name &&
             'bg-gray-100 font-medium'
           : null
       )}

@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useDropdown } from './Setup';
 import db from '../db/data';
-import { useLiveQuery } from 'dexie-react-hooks';
 import { AppContext } from './AppContext';
 
 const DashboardContext = createContext(null);
@@ -17,23 +16,35 @@ const DashboardContextProvider = ({ children }) => {
     setTransactionToEdit,
     setIsNewTransaction,
     setIsFilterTransaction,
+    accounts,
   } = useContext(AppContext);
 
   // set first transaction amount code for transaction form
   const [firstAccountCode, setFirstAccountCode] = useState(
-    selected.firstAccountTransaction?.currencies[0]?.code
+    !accounts ||
+      accounts.length < 1 ||
+      !selected.firstAccountTransaction?.currencies
+      ? null
+      : selected.firstAccountTransaction?.currencies[0].code
   );
 
   // set second transaction amount code for transaction form
   const [secondAccountCode, setSecondAccountCode] = useState(
-    selected.secondAccountTransaction?.currencies[1]?.code ||
-      selected.secondAccountTransaction?.currencies[0]?.code
+    !accounts ||
+      accounts.length < 1 ||
+      !selected.firstAccountTransaction?.currencies
+      ? null
+      : selected.secondAccountTransaction?.currencies[1]?.code ||
+          selected.secondAccountTransaction?.currencies[0]?.code
   );
 
   // get tags saved and add unto it or start with new array
-  const [tags, setTags] = useState(
-    useLiveQuery(() => db.tags.toArray(), []) || []
-  );
+  const [tags, setTags] = useState([]);
+  useEffect(() => {
+    db.tags.toArray().then((storedTags) => {
+      setTags(storedTags.map((t) => t.tag));
+    });
+  }, []);
 
   const [amount1, setAmount1] = useState('');
   const [amount2, setAmount2] = useState('');
@@ -48,10 +59,20 @@ const DashboardContextProvider = ({ children }) => {
   // Auto set code when change account
   useEffect(() => {
     if (isEditMode) return;
-    setFirstAccountCode(selected.firstAccountTransaction?.currencies[0]?.code);
+    setFirstAccountCode(
+      !accounts ||
+        accounts.length < 1 ||
+        !selected.firstAccountTransaction?.currencies
+        ? null
+        : selected.firstAccountTransaction?.currencies[0]?.code
+    );
     setSecondAccountCode(
-      selected.secondAccountTransaction?.currencies[1]?.code ||
-        selected.secondAccountTransaction?.currencies[0]?.code
+      !accounts ||
+        accounts.length < 1 ||
+        !selected.firstAccountTransaction?.currencies
+        ? null
+        : selected.secondAccountTransaction?.currencies[1]?.code ||
+            selected.secondAccountTransaction?.currencies[0]?.code
     );
   }, [
     selected.firstAccountTransaction?.id,
