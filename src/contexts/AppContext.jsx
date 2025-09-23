@@ -36,7 +36,7 @@ const AppContextProvider = ({ children }) => {
           base: 'USD',
           data: data.conversion_rates,
           lastFetchedAt: Date.now(),
-          nextUpdate: data.time_update_utc,
+          nextUpdate: time_next_update_unix,
         });
 
         setRates(data.conversion_rates);

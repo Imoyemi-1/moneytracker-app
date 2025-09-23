@@ -25,7 +25,7 @@ function DropdownProvider({ children }) {
   const setAccountTransactionEdit = (firstId, secondId, tags) => {
     setSelected((prev) => ({
       ...prev,
-      firstAccountTransaction: accounts.find((acc) => acc.id === firstId),
+      firstAccountTransaction: accounts?.find((acc) => acc.id === firstId),
       secondAccountTransaction:
         accounts.find((acc) => acc.id === secondId) ||
         accounts[1] ||
@@ -91,7 +91,7 @@ function DropdownProvider({ children }) {
     else if (id === 'firstTransaction') {
       setSelected((prev) => ({
         ...prev,
-        firstAccountTransaction: accounts.find((acc) => acc.id === code),
+        firstAccountTransaction: accounts?.find((acc) => acc.id === code),
       }));
     }
 
@@ -99,7 +99,7 @@ function DropdownProvider({ children }) {
     else if (id === 'secondTransaction') {
       setSelected((prev) => ({
         ...prev,
-        secondAccountTransaction: accounts.find((acc) => acc.id === code),
+        secondAccountTransaction: accounts?.find((acc) => acc.id === code),
       }));
     }
 

@@ -3,14 +3,16 @@ import Field from '../components/Field';
 import { AppContext } from '../contexts/AppContext';
 import { useDropdown } from '../contexts/Setup';
 import { ImCross } from 'react-icons/im';
+import { DashboardContext } from '../contexts/DashboardContext';
 
 const FilterTransactionForm = () => {
   const { setBaseInputEmpty, accounts } = useContext(AppContext);
+  const { tags } = useContext(DashboardContext);
   const { query, selected, removeTagFilter, removeAccountFilter } =
     useDropdown();
 
   //
-  const filteredForTags = ['from', 'here', 'eba', 'ele', 'sd', 'amala']
+  const filteredForTags = tags
     .filter(
       (tag) =>
         selected.tagsFilterTransaction.length === 0 ||

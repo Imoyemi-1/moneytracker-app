@@ -166,16 +166,16 @@ const useSaveTransactions = async (transactionData, rates) => {
     tags: transactionData.tag,
   });
 
+  for (const tag of transactionData.tag) {
+    try {
+      await db.tags.add({ tag });
+    } catch (error) {
+      error.name === 'ConstraintError'
+        ? null
+        : console.error('Error saving tag', error);
+    }
+  }
   return transactionsId;
-};
-
-const useSaveTags = async (tag) => {
-  // save tag to db itself
-  const tagsId = await db.tags.add({
-    name: tag,
-  });
-
-  return tagsId;
 };
 
 // delete  transaction from  database
@@ -216,6 +216,16 @@ const useUpdateTransactions = async (transactionData, newData, rates) => {
       ? [firstAccountTransaction]
       : [firstAccountTransaction, secondAccountTransaction];
 
+  for (const tag of newData.tag) {
+    try {
+      await db.tags.add({ tag });
+    } catch (error) {
+      error.name === 'ConstraintError'
+        ? null
+        : console.error('Error saving tag', error);
+    }
+  }
+
   await db.transactions.update(transactionData.id, {
     type: newData.type,
 
@@ -236,7 +246,6 @@ const useUpdateTransactions = async (transactionData, newData, rates) => {
 export {
   useSaveAccount,
   useSaveTransactions,
-  useSaveTags,
   useDeleteTransactions,
   useUpdateTransactions,
 };

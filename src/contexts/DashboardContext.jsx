@@ -21,13 +21,13 @@ const DashboardContextProvider = ({ children }) => {
 
   // set first transaction amount code for transaction form
   const [firstAccountCode, setFirstAccountCode] = useState(
-    selected.firstAccountTransaction.currencies[0]?.code
+    selected.firstAccountTransaction?.currencies[0]?.code
   );
 
   // set second transaction amount code for transaction form
   const [secondAccountCode, setSecondAccountCode] = useState(
-    selected.secondAccountTransaction.currencies[1]?.code ||
-      selected.secondAccountTransaction.currencies[0]?.code
+    selected.secondAccountTransaction?.currencies[1]?.code ||
+      selected.secondAccountTransaction?.currencies[0]?.code
   );
 
   // get tags saved and add unto it or start with new array
@@ -48,14 +48,14 @@ const DashboardContextProvider = ({ children }) => {
   // Auto set code when change account
   useEffect(() => {
     if (isEditMode) return;
-    setFirstAccountCode(selected.firstAccountTransaction.currencies[0]?.code);
+    setFirstAccountCode(selected.firstAccountTransaction?.currencies[0]?.code);
     setSecondAccountCode(
-      selected.secondAccountTransaction.currencies[1]?.code ||
-        selected.secondAccountTransaction.currencies[0]?.code
+      selected.secondAccountTransaction?.currencies[1]?.code ||
+        selected.secondAccountTransaction?.currencies[0]?.code
     );
   }, [
-    selected.firstAccountTransaction.id,
-    selected.secondAccountTransaction.id,
+    selected.firstAccountTransaction?.id,
+    selected.secondAccountTransaction?.id,
   ]);
 
   //   derived account selected transaction amount code
