@@ -1,5 +1,11 @@
+import MainPage from '../accountPage/MainPage';
+
 const AccountsPage = () => {
-  return <div>AccountsPage</div>;
+  return (
+    <div>
+      <MainPage />
+    </div>
+  );
 };
 
 export default AccountsPage;

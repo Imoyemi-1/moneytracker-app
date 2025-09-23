@@ -58,7 +58,7 @@ const AccountWidget = ({ isDashboard }) => {
             <div>
               {accList.map((acc) => (
                 <div key={acc.id} className='flex border-b border-gray-300 '>
-                  <p className='flex-1 text-blue-400 p-2 pl-4'>{acc.name}</p>
+                  <p className='flex-1 text-blue-500 p-2 pl-4'>{acc.name}</p>
                   <div className='py-2 px-4'>
                     {acc.currencies
                       .filter((cur) => cur.enabled)
