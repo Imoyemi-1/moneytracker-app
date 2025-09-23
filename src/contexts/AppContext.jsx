@@ -14,10 +14,10 @@ const AppContextProvider = ({ children }) => {
   const [transactionToEdit, setTransactionToEdit] = useState(null);
   const [activeTab, setActiveTab] = useState('expense');
   const [baseInputEmpty, setBaseInputEmpty] = useState(true);
-  const [appliedTransactionFilter, setAppliedTransactionFilter] = useState([
-    [],
-    [],
-  ]);
+  const [appliedTransactionFilter, setAppliedTransactionFilter] = useState({
+    accountFilter: [],
+    tagsFilter: [],
+  });
 
   useEffect(() => {
     // get rate from storage and fetch from api if no rate in storage or time up

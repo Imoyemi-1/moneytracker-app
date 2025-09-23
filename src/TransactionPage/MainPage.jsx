@@ -1,5 +1,5 @@
-import { ImPlus } from 'react-icons/im';
-import { FaCalendar, FaFilter } from 'react-icons/fa';
+import { ImPlus, ImCross } from 'react-icons/im';
+import { FaCalendar, FaFilter, FaCreditCard, FaTag } from 'react-icons/fa';
 import clsx from 'clsx';
 import { useContext, useState, useEffect, useRef } from 'react';
 import { AppContext } from '../contexts/AppContext';
@@ -22,6 +22,7 @@ const MainPage = () => {
     isFilterTransaction,
     setIsFilterTransaction,
     appliedTransactionFilter,
+    setAppliedTransactionFilter,
   } = useContext(AppContext);
   const { selected, defaultTransactionFilter } = useDropdown();
 
@@ -164,7 +165,54 @@ const MainPage = () => {
             <FaFilter />
           </button>
         </div>
-
+        {/* transactions filters applied tags */}
+        {appliedTransactionFilter.accountFilter.length <= 0 &&
+        appliedTransactionFilter.tagsFilter <= 0 ? null : (
+          <div className='px-3 py-3 border-b border-gray-300 bg-gray-100 shadow-[inset_0_1px_1px_0_rgba(34,36,38,0.15)] flex flex-wrap'>
+            {appliedTransactionFilter.accountFilter.map((acc) => (
+              <div
+                className='tag flex  w-fit  m-[0.185rem] items-center text-[0.75rem] whitespace-normal align-top  py-[0.187rem] px-2 h-fit text-black/60 bg-[#e8e8e8]  rounded'
+                key={acc.id}
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  const removeBtn = e.target.closest('.removeBtn');
+                  removeBtn
+                    ? setAppliedTransactionFilter((prev) => ({
+                        ...prev,
+                        accountFilter: prev.accountFilter.filter(
+                          (list) => list.id !== acc.id
+                        ),
+                      }))
+                    : null;
+                }}
+              >
+                <FaCreditCard className='text-[0.813rem] mr-2.5' />
+                <span className='mb-1 mr-1.5'>{acc.name}</span>
+                <ImCross className='removeBtn text-gray-400 text-[0.55rem]  hover:text-gray-600 active:scale-95 cursor-pointer' />
+              </div>
+            ))}
+            {appliedTransactionFilter.tagsFilter.map((tag) => (
+              <div
+                className='tag flex  w-fit  m-[0.185rem] items-center text-[0.75rem] whitespace-normal align-top  py-[0.187rem] px-2 h-fit text-black/60 bg-[#e8e8e8]  rounded'
+                key={tag}
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  const removeBtn = e.target.closest('.removeBtn');
+                  removeBtn
+                    ? setAppliedTransactionFilter((prev) => ({
+                        ...prev,
+                        tagsFilter: prev.tagsFilter.filter((t) => t !== tag),
+                      }))
+                    : null;
+                }}
+              >
+                <FaTag className='text-[0.813rem] mr-2.5' />
+                <span className='mb-1 mr-1.5'>{tag}</span>
+                <ImCross className='removeBtn text-gray-400 text-[0.55rem]  hover:text-gray-600 active:scale-95 cursor-pointer' />
+              </div>
+            ))}
+          </div>
+        )}
         {/*  rendering filtered account to page */}
         <TransactionSection transactions={transactions} />
 

@@ -56,8 +56,8 @@ function DropdownProvider({ children }) {
   const defaultTransactionFilter = () => {
     setSelected((prev) => ({
       ...prev,
-      accountFilterTransaction: appliedTransactionFilter[0],
-      tagsFilterTransaction: appliedTransactionFilter[1],
+      accountFilterTransaction: appliedTransactionFilter.accountFilter,
+      tagsFilterTransaction: appliedTransactionFilter.tagsFilter,
     }));
   };
 

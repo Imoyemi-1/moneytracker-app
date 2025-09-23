@@ -76,10 +76,10 @@ const ModalTransaction = ({ content }) => {
               </button>
               <button
                 onClick={() => {
-                  setAppliedTransactionFilter([
-                    selected.accountFilterTransaction,
-                    selected.tagsFilterTransaction,
-                  ]);
+                  setAppliedTransactionFilter({
+                    accountFilter: selected.accountFilterTransaction,
+                    tagsFilter: selected.tagsFilterTransaction,
+                  });
                   resetStateEdit();
                 }}
                 className='mb-3.5 mr-1 ml-2.5 py-2 px-5 bg-green-500 rounded text-white  hover:bg-green-600  cursor-pointer duration-200 transition-colors'
