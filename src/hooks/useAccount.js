@@ -126,6 +126,18 @@ const useSaveAccount = async (account) => {
   return accountId;
 };
 
+const useUpdateAccount = async (account) => {
+  // save account to db itself
+  const updated = await db.accounts.update(account.id, {
+    name: account.name,
+    showOnDashboard: account.showOnDashboard,
+    type: account.type,
+    currencies: account.currencies,
+  });
+
+  if (updated === 0) console.error('No account found with that id');
+};
+
 const useSaveTransactions = async (transactionData, rates) => {
   // for  account and amount that use for debit expense or add income
 
@@ -248,4 +260,5 @@ export {
   useSaveTransactions,
   useDeleteTransactions,
   useUpdateTransactions,
+  useUpdateAccount,
 };

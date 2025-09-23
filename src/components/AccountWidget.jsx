@@ -4,6 +4,7 @@ import { clsx } from 'clsx/lite';
 import { getTotalAmt } from '../hooks/useExchangeRates';
 import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
+import { DashboardContext } from '../contexts/DashboardContext';
 
 // group account by there type
 function groupByType(accounts) {
@@ -18,9 +19,10 @@ const AccountWidget = ({ isDashboard }) => {
   const { rates, accounts, setAccountToEdit, setIsEditAccountMode } =
     useContext(AppContext);
 
+  const { setAccountName } = useContext(DashboardContext);
   const { selected, setSelected } = useDropdown();
 
-  if (!accounts) return;
+  if (!accounts) return null;
 
   //   group each base of their type and check if its for dashboard to remove account that the show on dashboard is not enable
 
@@ -34,6 +36,7 @@ const AccountWidget = ({ isDashboard }) => {
       ...prev,
       groupSelection: list.type,
     }));
+    setAccountName(list.name);
     setIsEditAccountMode(true);
   };
 

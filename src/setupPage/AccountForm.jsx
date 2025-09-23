@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import Field from '../components/Field';
 import { useDropdown } from '../contexts/Setup';
-import { useSaveAccount } from '../hooks/useAccount';
+import { useSaveAccount, useUpdateAccount } from '../hooks/useAccount';
 import { DashboardContext } from '../contexts/DashboardContext';
 import { AppContext } from '../contexts/AppContext';
 import clsx from 'clsx';
@@ -11,7 +11,8 @@ const groupList = ['Cash', 'Bank Account', 'Deposit', 'Credit', 'Asset'];
 const AccountForm = () => {
   const { selected } = useDropdown();
   const { isEditAccountMode, accountToEdit } = useContext(AppContext);
-  const { resetStateEdit } = useContext(DashboardContext);
+  const { resetStateEdit, accountName, setAccountName } =
+    useContext(DashboardContext);
 
   const handleSubmit = (formData) => {
     const accountName = formData.get('accountName');
@@ -27,8 +28,7 @@ const AccountForm = () => {
       };
     });
 
-    // add account to the list
-    useSaveAccount({
+    const accountData = {
       type: selected.groupSelection,
       name: accountName,
       showOnDashboard,
@@ -40,7 +40,12 @@ const AccountForm = () => {
         },
         ...additionalCurrencies,
       ],
-    });
+    };
+    // add account to the list
+    isEditAccountMode
+      ? useUpdateAccount({ ...accountData, id: accountToEdit.id })
+      : useSaveAccount(accountData);
+
     resetStateEdit();
   };
 
@@ -115,7 +120,8 @@ const AccountForm = () => {
             placeholder='Account name'
             autoComplete='off'
             required
-            defaultValue={isEditAccountMode ? accountToEdit.name : ''}
+            value={accountName}
+            onChange={(e)=>setAccountName(e.target.value)}
           />
         </div>
         <Field

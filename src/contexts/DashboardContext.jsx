@@ -61,6 +61,8 @@ const DashboardContextProvider = ({ children }) => {
   const [amount1, setAmount1] = useState('');
   const [amount2, setAmount2] = useState('');
 
+  const [accountName, setAccountName] = useState('');
+
   // set transaction amount  code edit mode
 
   const setAmtCodeEdit = (firstCode, secondCode) => {
@@ -117,6 +119,7 @@ const DashboardContextProvider = ({ children }) => {
     setTransactionToEdit(null);
     resetAccountTransaction();
     setAmount1('');
+    setAccountName('');
     resetAccountGroup();
     setIsEditMode(false);
     setIsNewTransaction(false);
@@ -139,6 +142,8 @@ const DashboardContextProvider = ({ children }) => {
         setAmount1,
         amount2,
         setAmount2,
+        accountName,
+        setAccountName,
       }}
     >
       {children}
