@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import currenciesData from '../../currencies.json';
 import { AppContext } from './AppContext';
+import db from '../db/data';
 
 const DropdownContext = createContext(null);
 
@@ -20,6 +21,19 @@ function DropdownProvider({ children }) {
     tagsFilterTransaction: [],
   });
 
+  useEffect(() => {
+    const fetchCurrency = async () => {
+      const savedCurrency = await db.settings.get('defaultCurrency');
+      if (savedCurrency?.value)
+        setSelected((prev) => ({
+          ...prev,
+          baseSelection: currenciesData.find(
+            (currency) => currency.code === savedCurrency?.value
+          ),
+        }));
+    };
+    fetchCurrency();
+  }, []);
   // set transaction form info for edit
 
   const setAccountTransactionEdit = (firstId, secondId, tags) => {

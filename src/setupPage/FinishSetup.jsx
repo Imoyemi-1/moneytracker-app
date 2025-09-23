@@ -2,14 +2,21 @@ import db from '../db/data';
 import AccountWidget from '../components/AccountWidget';
 import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
+import { useDropdown } from '../contexts/Setup';
 
 const FinishSetup = () => {
   const { accounts } = useContext(AppContext);
+  const { selected } = useDropdown();
 
   // handle route index so dashboard become index when setup is completed
 
   const handleSetupComplete = async () => {
+    await db.settings.put({
+      key: 'defaultCurrency',
+      value: selected.baseSelection.code,
+    });
     await db.settings.put({ key: 'setupComplete', value: true });
+
     window.location.reload();
   };
 

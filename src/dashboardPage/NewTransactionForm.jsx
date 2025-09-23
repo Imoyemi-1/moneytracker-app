@@ -112,7 +112,9 @@ const NewTransactionForm = ({ activeTab }) => {
           id='firstTransactionAmt'
           name='firstAccountAmount'
           selection={transactionCurSelected?.firstAccountCode}
-          dropDownList={selected.firstAccountTransaction?.currencies}
+          dropDownList={selected.firstAccountTransaction?.currencies.filter(
+            (cur) => cur.enabled
+          )}
           isReadOnly={false}
           value={amount1}
           onChange={setAmount1}
@@ -136,7 +138,9 @@ const NewTransactionForm = ({ activeTab }) => {
             id='secondTransactionAmt'
             name='secondAccountAmount'
             selection={transactionCurSelected?.secondAccountCode}
-            dropDownList={selected.secondAccountTransaction?.currencies}
+            dropDownList={selected.secondAccountTransaction?.currencies.filter(
+              (cur) => cur.enabled
+            )}
             isReadOnly={true}
             value={
               amount1
