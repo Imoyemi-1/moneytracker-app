@@ -10,7 +10,7 @@ const FilterTransactionForm = () => {
     useDropdown();
 
   //
-  const filteredForTags = ['tag', 'amala', 'eba']
+  const filteredForTags = ['from', 'here', 'eba', 'ele', 'sd', 'amala']
     .filter(
       (tag) =>
         selected.tagsFilterTransaction.length === 0 ||

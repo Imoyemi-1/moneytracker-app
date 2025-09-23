@@ -74,11 +74,35 @@ const MainPage = () => {
 
     if (!start || !end) return db.transactions.toArray();
 
-    //  filtering transactions with date range
-    return db.transactions
-      .filter((list) => list.date >= start && list.date <= end)
-      .toArray();
-  }, [transactionDisplayedTime]);
+    return (
+      db.transactions
+        //  filtering transactions with date range
+        .filter((list) => list.date >= start && list.date <= end)
+        //  filter by account
+        .filter(
+          (list) =>
+            appliedTransactionFilter.accountFilter.length === 0 ||
+            appliedTransactionFilter.accountFilter.some(
+              (acc) =>
+                list.accountTransactionInfo[0]?.id === acc.id ||
+                list.accountTransactionInfo[1]?.id === acc.id
+            )
+        )
+        //  filter by  tags
+        .filter(
+          (list) =>
+            appliedTransactionFilter.tagsFilter.length === 0 ||
+            appliedTransactionFilter.tagsFilter.some((tag) =>
+              list.tags.includes(tag)
+            )
+        )
+        .toArray()
+    );
+  }, [
+    transactionDisplayedTime,
+    appliedTransactionFilter.tagsFilter.length,
+    appliedTransactionFilter.accountFilter.length,
+  ]);
 
   if (!transactions || !rates) return;
 
