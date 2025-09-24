@@ -11,8 +11,13 @@ import NewTransactions from './NewTransactions';
 
 const TransactionSection = ({ transactions }) => {
   // get app states details with context
-  const { isEditMode, setIsEditMode, setTransactionToEdit, setActiveTab } =
-    useContext(AppContext);
+  const {
+    isEditMode,
+    setIsEditMode,
+    setTransactionToEdit,
+    setActiveTab,
+    accounts,
+  } = useContext(AppContext);
 
   const { setAccountTransactionEdit } = useDropdown();
   const { setAmtCodeEdit, setAmount1, setNote } = useContext(DashboardContext);
@@ -70,17 +75,27 @@ const TransactionSection = ({ transactions }) => {
 
           {/* display account name ,tags and note */}
           <div className='flex row-start-2 col-span-3 items-center mt-1.5'>
-            {list.accountTransactionInfo[0]?.name}
+            {
+              accounts.find(
+                (acc) => acc.id === list.accountTransactionInfo[0]?.id
+              ).name
+            }
             {list.tags.length > 0 ||
             list.note ||
-            list.accountTransactionInfo[1]?.name ? (
+            accounts.find(
+              (acc) => acc.id === list.accountTransactionInfo[1]?.id
+            ).name ? (
               list.type === 'income' ? (
                 <FaArrowLeft className='text-gray-500 mx-1.5' />
               ) : (
                 <FaArrowRight className='text-gray-500 mx-1.5' />
               )
             ) : null}
-            {list.accountTransactionInfo[1]?.name}
+            {list.accountTransactionInfo[1]
+              ? accounts.find(
+                  (acc) => acc.id === list.accountTransactionInfo[1]?.id
+                ).name
+              : null}
             {list.tags.map((tag, index) => (
               <div
                 className='tag text-[0.75rem] mx-0.5  bg-gray-300 py-1 px-2.5 rounded text-gray-600'

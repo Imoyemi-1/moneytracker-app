@@ -145,7 +145,6 @@ const useSaveTransactions = async (transactionData, rates) => {
     id: transactionData.firstAccountInfo?.id,
     amount: transactionData.firstAccountAmount,
     code: transactionData.firstAccountCode,
-    name: transactionData.firstAccountInfo.name,
   };
 
   // for  account and amount that use receive amount from transfer
@@ -153,7 +152,6 @@ const useSaveTransactions = async (transactionData, rates) => {
     id: transactionData?.secondAccountInfo.id,
     amount: transactionData?.secondAccountAmount,
     code: transactionData?.secondAccountCode,
-    name: transactionData?.secondAccountInfo.name,
   };
 
   const accountTransactionInfo =
@@ -212,7 +210,6 @@ const useUpdateTransactions = async (transactionData, newData, rates) => {
     id: newData.firstAccountInfo?.id,
     amount: newData.firstAccountAmount,
     code: newData.firstAccountCode,
-    name: newData.firstAccountInfo.name,
   };
 
   // for  account and amount that use receive amount from transfer
@@ -220,7 +217,6 @@ const useUpdateTransactions = async (transactionData, newData, rates) => {
     id: newData?.secondAccountInfo.id,
     amount: newData?.secondAccountAmount,
     code: newData?.secondAccountCode,
-    name: newData?.secondAccountInfo.name,
   };
 
   const accountTransactionInfo =
