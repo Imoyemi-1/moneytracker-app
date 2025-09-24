@@ -18,13 +18,6 @@ const Field = ({
   const isOpen = openId === id;
   const inputRef = useRef(null);
 
-  // for search in input field
-  const filtered = dropDownList.filter(
-    (currency) =>
-      currency.code?.toLowerCase().includes(query.toLowerCase()) ||
-      currency.name?.toLowerCase().includes(query.toLowerCase())
-  );
-
   // focus on the input when state change
 
   useEffect(() => {
@@ -122,15 +115,7 @@ const Field = ({
         </div>
 
         {/* checked if the dropdown have search input to see to filter by search */}
-        <Dropdown
-          id={id}
-          dropDownList={
-            id !== 'baseField' || id !== 'additionalField'
-              ? dropDownList
-              : filtered
-          }
-          isOpen={isOpen}
-        />
+        <Dropdown id={id} dropDownList={dropDownList} isOpen={isOpen} />
       </div>
     </div>
   );

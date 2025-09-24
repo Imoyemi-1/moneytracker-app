@@ -7,7 +7,7 @@ import { AppContext } from '../contexts/AppContext';
 // get countries data from currencies data
 
 const CurrenciesForm = () => {
-  const { currenciesData, selected, openId, removeAdditionalCur } =
+  const { currenciesData, query, selected, openId, removeAdditionalCur } =
     useDropdown();
   const { baseInputEmpty, setBaseInputEmpty } = useContext(AppContext);
 
@@ -18,7 +18,18 @@ const CurrenciesForm = () => {
       (cur) =>
         selected.additionalSelection.length === 0 ||
         selected.additionalSelection.every((addCur) => cur.code !== addCur.code)
+    )
+    .filter(
+      (currency) =>
+        currency.code?.toLowerCase().includes(query.toLowerCase()) ||
+        currency.name?.toLowerCase().includes(query.toLowerCase())
     );
+
+  const filteredForBase = currenciesData.filter(
+    (currency) =>
+      currency.code?.toLowerCase().includes(query.toLowerCase()) ||
+      currency.name?.toLowerCase().includes(query.toLowerCase())
+  );
 
   // additional currencies display
 
@@ -45,7 +56,7 @@ const CurrenciesForm = () => {
           id='baseField'
           isInput={true}
           setBaseInputEmpty={setBaseInputEmpty}
-          dropDownList={currenciesData}
+          dropDownList={filteredForBase}
           label='Base Currency'
           selection={
             <div
