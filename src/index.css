@@ -92,3 +92,62 @@ body {
   vertical-align: inherit;
   unicode-bidi: isolate;
 }
+
+/* Hide default radio button */
+input[type='radio'] {
+  appearance: none;
+  -webkit-appearance: none;
+  /* Other styling as needed for positioning if using pseudo-elements on input */
+}
+
+/* Style the custom radio button (using label) */
+.radioLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative; /* For positioning pseudo-elements */
+  padding-left: 30px; /* Space for the custom radio */
+}
+
+/* Create the custom radio circle */
+.radioLabel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Create the inner dot when checked */
+input[type='radio']:checked + .radioLabel::before {
+  border-color: #007bff;
+  background-color: #007bff;
+}
+
+.radioLabel::after {
+  content: '';
+  position: absolute;
+  left: 5px; /* Adjust position relative to ::before */
+  top: 50%;
+  transform: translateY(-50%) scale(0); /* Initially hidden */
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: transform 0.2s ease-in-out;
+}
+
+input[type='radio']:checked + .radioLabel::after {
+  transform: translateY(-50%) scale(1); /* Show the dot */
+}
+
+/* Optional: Hover effect */
+.radioLabel:hover::before {
+  border-color: #0056b3;
+}

@@ -151,7 +151,8 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
         ) : // for account to make transaction or filter transaction
         id === 'firstTransaction' ||
           id === 'secondTransaction' ||
-          id === 'accountFieldFilter' ? (
+          id === 'accountFieldFilter' ||
+          id === 'moveAccountDeleteOption' ? (
           accountTransactionList
         ) : (
           // list for dropdown for selection base currencies

@@ -21,8 +21,10 @@ const ModalTransaction = ({ content }) => {
     isEditAccountMode,
     isConfirmAccountDelete,
     setIsConfirmAccountDelete,
+    accounts,
+    accountToEdit,
   } = useContext(AppContext);
-  const { resetFilterTransaction, selected } = useDropdown();
+  const { resetFilterTransaction, selected, handleSelected } = useDropdown();
 
   return (
     <div
@@ -74,6 +76,10 @@ const ModalTransaction = ({ content }) => {
                   useDeleteTransactions(transactionToEdit, rates);
                   resetStateEdit();
                 } else {
+                  handleSelected(
+                    'moveAccountDeleteOption',
+                    accounts?.filter((acc) => acc.id !== accountToEdit.id)[0].id
+                  );
                   setIsConfirmAccountDelete(true);
                 }
               }}

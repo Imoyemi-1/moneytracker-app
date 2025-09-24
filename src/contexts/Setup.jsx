@@ -19,6 +19,7 @@ function DropdownProvider({ children }) {
     tags: [],
     accountFilterTransaction: [],
     tagsFilterTransaction: [],
+    moveToDeleteAccount: {},
   });
 
   useEffect(() => {
@@ -56,6 +57,7 @@ function DropdownProvider({ children }) {
       firstAccountTransaction: accounts[0],
       secondAccountTransaction: accounts[1] || accounts[0],
       tags: [],
+      moveToDeleteAccount: {},
     }));
   };
 
@@ -150,6 +152,14 @@ function DropdownProvider({ children }) {
           ...prev.accountFilterTransaction,
           accounts.find((acc) => acc.id === code),
         ],
+      }));
+    }
+
+    // set tags  transaction filter selections for filter transaction
+    else if (id === 'moveAccountDeleteOption') {
+      setSelected((prev) => ({
+        ...prev,
+        moveToDeleteAccount: accounts?.find((acc) => acc.id === code),
       }));
     }
 

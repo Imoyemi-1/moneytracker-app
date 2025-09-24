@@ -6,6 +6,7 @@ import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
 import AccountForm from '../setupPage/AccountForm';
 import { useAsideBar } from '../contexts/aside';
+import ConfirmAccountDeletion from './ConfirmAccountDeletion';
 
 const MainPage = () => {
   const {
@@ -38,7 +39,11 @@ const MainPage = () => {
             <ModalTransaction
               content={
                 <div className='p-3.5'>
-                  {isConfirmAccountDelete ? null : <AccountForm />}
+                  {isConfirmAccountDelete ? (
+                    <ConfirmAccountDeletion />
+                  ) : (
+                    <AccountForm />
+                  )}
                 </div>
               }
             />
