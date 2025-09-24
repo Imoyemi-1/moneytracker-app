@@ -19,6 +19,8 @@ const ModalTransaction = ({ content }) => {
     setAppliedTransactionFilter,
     isNewAccount,
     isEditAccountMode,
+    isConfirmAccountDelete,
+    setIsConfirmAccountDelete,
   } = useContext(AppContext);
   const { resetFilterTransaction, selected } = useDropdown();
 
@@ -65,23 +67,34 @@ const ModalTransaction = ({ content }) => {
             isNewAccount && 'border-t border-gray-300'
           )}
         >
-          {isEditMode || isEditAccountMode ? (
+          {isEditMode || (isEditAccountMode && !isConfirmAccountDelete) ? (
             <button
               onClick={() => {
                 if (isEditMode) {
                   useDeleteTransactions(transactionToEdit, rates);
                   resetStateEdit();
                 } else {
-                  // todo: set delete account later
-                  console.log('account');
+                  setIsConfirmAccountDelete(true);
                 }
               }}
-              className='relative mb-3.5 ml-2.5 mr-1 text-sm bg-red-600 opacity-85 hover:opacity-100 duration-300 transition-opacity text-white py-2.5 pr-15 pl-5.5 rounded cursor-pointer'
+              className='relative mb-3.5 ml-2.5 mr-1 text-sm bg-red-700 opacity-90 hover:opacity-100 duration-300 transition-opacity text-white py-2 pr-15 pl-5.5 rounded cursor-pointer'
             >
-              <span className='absolute flex items-center  top-0 right-0 h-full rounded rounded-tl-none rounded-bl-none text-sm bg-red-700 w-8.5'>
+              <span className='absolute flex items-center  top-0 right-0 h-full rounded rounded-tl-none rounded-bl-none text-sm bg-red-800 w-9'>
                 <MdDelete className='text-xl m-auto' />
               </span>
               Delete
+            </button>
+          ) : isEditAccountMode && isConfirmAccountDelete ? (
+            <button
+              onClick={() => {
+                setIsConfirmAccountDelete(false);
+              }}
+              className='relative mb-3.5 ml-2.5 mr-1 text-sm bg-gray-200   text-gray-500 py-2 pl-14 pr-5 rounded hover:bg-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer '
+            >
+              <span className='absolute flex items-center  top-0 left-0 h-full bg-[rgba(0,0,0,0.05)] rounded rounded-tl-none rounded-bl-none text-sm  w-9 shadow-[inset_1px_0_0_0_transparent] '>
+                <ImCross className='text-[0.655rem] m-auto text-gray-600' />
+              </span>
+              Cancel
             </button>
           ) : null}
           {/* reset and apply button container if its filter by account  */}

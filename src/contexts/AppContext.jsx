@@ -12,6 +12,7 @@ const AppContextProvider = ({ children }) => {
   const [isEditAccountMode, setIsEditAccountMode] = useState(false);
   const [isNewTransaction, setIsNewTransaction] = useState(false);
   const [isNewAccount, setIsNewAccount] = useState(false);
+  const [isConfirmAccountDelete, setIsConfirmAccountDelete] = useState(false);
   const [isFilterTransaction, setIsFilterTransaction] = useState(false);
   const [transactionToEdit, setTransactionToEdit] = useState(null);
   const [accountToEdit, setAccountToEdit] = useState(null);
@@ -78,6 +79,8 @@ const AppContextProvider = ({ children }) => {
         setIsEditAccountMode,
         accountToEdit,
         setAccountToEdit,
+        isConfirmAccountDelete,
+        setIsConfirmAccountDelete,
       }}
     >
       {children}

@@ -192,14 +192,14 @@ const AccountForm = () => {
           <label className='flex items-center  cursor-pointer w-fit'>
             <input
               name='showOnDashboard'
-              className='w-4 h-4 accent-blue-500 mr-2 '
+              className='w-4 h-4 accent-blue-600 mr-2 '
               type='checkbox'
               defaultChecked
             />
             Show on Dashboard
           </label>
         </div>
-        <button className=' text-white py-2.5 px-5 w-[41%] rounded bg-blue-700'>
+        <button className=' text-white py-2 px-5 w-[41%] rounded bg-blue-800 hover:opacity-90 duration-200 transition-opacity cursor-pointer'>
           {isEditAccountMode ? 'Update Account' : 'Save Account'}
         </button>
       </div>

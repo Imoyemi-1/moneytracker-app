@@ -8,8 +8,12 @@ import AccountForm from '../setupPage/AccountForm';
 import { useAsideBar } from '../contexts/aside';
 
 const MainPage = () => {
-  const { setIsNewAccount, isNewAccount, isEditAccountMode } =
-    useContext(AppContext);
+  const {
+    setIsNewAccount,
+    isNewAccount,
+    isEditAccountMode,
+    isConfirmAccountDelete,
+  } = useContext(AppContext);
   const { setupComplete } = useAsideBar();
   return (
     <>
@@ -34,7 +38,7 @@ const MainPage = () => {
             <ModalTransaction
               content={
                 <div className='p-3.5'>
-                  <AccountForm />
+                  {isConfirmAccountDelete ? null : <AccountForm />}
                 </div>
               }
             />
