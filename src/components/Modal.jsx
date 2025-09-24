@@ -39,7 +39,10 @@ const Modal = ({ content }) => {
     createPortal(
       <div
         onClick={() => {
-          setOpenSidebar(false);
+          if (isOpenSidebar) {
+            setOpenSidebar(false);
+            return;
+          }
           resetStateEdit();
         }}
         className={clsx(

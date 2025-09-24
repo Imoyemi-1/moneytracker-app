@@ -22,6 +22,8 @@ const NewTransactionForm = ({ activeTab }) => {
     setAmount1,
     setAmount2,
     resetStateEdit,
+    note,
+    setNote,
   } = useContext(DashboardContext);
 
   const [today, setToday] = useState(new Date().toISOString().split('T')[0]);
@@ -180,7 +182,10 @@ const NewTransactionForm = ({ activeTab }) => {
             placeholder='Note'
             autoComplete='off'
             name='transactionNote'
-            defaultValue={isEditMode ? transactionToEdit.note : null}
+            value={note}
+            onChange={(e) => {
+              setNote(e.target.value);
+            }}
           />
         </div>
         <div className='flex mt-3.5 gap-3'>

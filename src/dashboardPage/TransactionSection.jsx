@@ -15,7 +15,7 @@ const TransactionSection = ({ transactions }) => {
     useContext(AppContext);
 
   const { setAccountTransactionEdit } = useDropdown();
-  const { setAmtCodeEdit, setAmount1 } = useContext(DashboardContext);
+  const { setAmtCodeEdit, setAmount1, setNote } = useContext(DashboardContext);
 
   // set edit form modal with transaction details
 
@@ -25,7 +25,7 @@ const TransactionSection = ({ transactions }) => {
 
     // Put app in edit
     setIsEditMode(true);
-
+    setNote(list.note);
     // Set nav tag to  transaction type
     setActiveTab(list.type);
 
