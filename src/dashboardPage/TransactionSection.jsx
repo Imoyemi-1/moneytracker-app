@@ -78,13 +78,13 @@ const TransactionSection = ({ transactions }) => {
             {
               accounts.find(
                 (acc) => acc.id === list.accountTransactionInfo[0]?.id
-              ).name
+              )?.name
             }
             {list.tags.length > 0 ||
             list.note ||
             accounts.find(
               (acc) => acc.id === list.accountTransactionInfo[1]?.id
-            ).name ? (
+            )?.name ? (
               list.type === 'income' ? (
                 <FaArrowLeft className='text-gray-500 mx-1.5' />
               ) : (
@@ -94,7 +94,7 @@ const TransactionSection = ({ transactions }) => {
             {list.accountTransactionInfo[1]
               ? accounts.find(
                   (acc) => acc.id === list.accountTransactionInfo[1]?.id
-                ).name
+                )?.name
               : null}
             {list.tags.map((tag, index) => (
               <div

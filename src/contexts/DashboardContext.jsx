@@ -50,7 +50,7 @@ const DashboardContextProvider = ({ children }) => {
         !selected.firstAccountTransaction?.currencies
         ? null
         : selected.firstAccountTransaction?.currencies.filter(
-            (cur) => cur.enabled
+            (cur) => cur?.enabled
           )[0]?.code
     );
     setSecondAccountCode(
@@ -59,10 +59,10 @@ const DashboardContextProvider = ({ children }) => {
         !selected.firstAccountTransaction?.currencies
         ? null
         : selected.secondAccountTransaction?.currencies.filter(
-            (cur) => cur.enabled
+            (cur) => cur?.enabled
           )[1]?.code ||
             selected.secondAccountTransaction?.currencies.filter(
-              (cur) => cur.enabled
+              (cur) => cur?.enabled
             )[0]?.code
     );
   }, [
