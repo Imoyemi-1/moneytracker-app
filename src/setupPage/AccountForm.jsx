@@ -20,36 +20,71 @@ const AccountForm = () => {
     const baseCurAmount = formData.get('baseCurAmount');
     const showOnDashboard = formData.get('showOnDashboard') !== null;
 
-    const additionalCurrencies = selected.additionalSelection.map((cur) => {
-      return {
+    //
+    const formCurrencies = {
+      base: {
+        code: selected.baseSelection.code,
+        enabled: baseCurLabel,
+      },
+      additional: selected.additionalSelection.map((cur) => ({
+        code: cur.code,
+        enabled: formData.get(`additional[${cur.code}][enabled]`) !== null,
+      })),
+    };
+
+    const mergedCurrencies = accountToEdit?.currencies?.map((prevCur) => {
+      // check if this currency is in base
+      if (prevCur.code === formCurrencies.base.code) {
+        return {
+          ...prevCur,
+          enabled: formCurrencies.base.enabled,
+        };
+      }
+
+      // check if this currency is in additional
+      const additionalMatch = formCurrencies.additional.find(
+        (cur) => cur.code === prevCur.code
+      );
+      if (additionalMatch) {
+        return {
+          ...prevCur,
+          enabled: additionalMatch.enabled,
+        };
+      }
+
+      // if not in form at all → keep as is
+      return prevCur;
+    });
+
+    if (isEditAccountMode) {
+      useUpdateAccount({
+        type: selected.groupSelection,
+        name: accountName,
+        showOnDashboard,
+        currencies: mergedCurrencies,
+        id: accountToEdit.id,
+      });
+    } else {
+      const additionalCurrencies = selected.additionalSelection.map((cur) => ({
         code: cur.code,
         enabled: formData.get(`additional[${cur.code}][enabled]`) !== null,
         amount: +formData.get(`additional[${cur.code}][amount]`) || 0,
-      };
-    });
+      }));
 
-    // save and update account to the list
-    isEditAccountMode
-      ? useUpdateAccount({
-          type: selected.groupSelection,
-          name: accountName,
-          showOnDashboard,
-          currencies: accountToEdit.currencies,
-          id: accountToEdit.id,
-        })
-      : useSaveAccount({
-          type: selected.groupSelection,
-          name: accountName,
-          showOnDashboard,
-          currencies: [
-            {
-              code: selected.baseSelection.code,
-              amount: +baseCurAmount || 0,
-              enabled: baseCurLabel,
-            },
-            ...additionalCurrencies,
-          ],
-        });
+      useSaveAccount({
+        type: selected.groupSelection,
+        name: accountName,
+        showOnDashboard,
+        currencies: [
+          {
+            code: selected.baseSelection.code,
+            amount: +baseCurAmount || 0,
+            enabled: baseCurLabel,
+          },
+          ...additionalCurrencies,
+        ],
+      });
+    }
 
     resetStateEdit();
   };
@@ -67,8 +102,14 @@ const AccountForm = () => {
           <label className='flex items-center  cursor-pointer w-fit'>
             <input
               name={`additional[${cur.code}][enabled]`}
-              className='w-4 h-4 accent-blue-500 mr-2 '
+              className='w-4 h-4 accent-blue-500 mr-2'
               type='checkbox'
+              defaultChecked={
+                isEditAccountMode
+                  ? accToEditCur.find((c) => c.code === cur.code)?.enabled ??
+                    false
+                  : false
+              }
             />
             {cur.name}
           </label>
@@ -146,10 +187,17 @@ const AccountForm = () => {
           <label className='flex items-center  cursor-pointer w-fit'>
             <input
               name='baseCurLabel'
-              className='w-4 h-4 accent-blue-500 mr-2 '
+              className='w-4 h-4 accent-blue-500 mr-2'
               type='checkbox'
-              defaultChecked
+              defaultChecked={
+                isEditAccountMode
+                  ? accToEditCur.find(
+                      (cur) => cur.code === selected.baseSelection.code
+                    )?.enabled ?? false
+                  : true
+              }
             />
+
             {selected.baseSelection.name}
           </label>
         </div>
