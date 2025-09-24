@@ -27,29 +27,10 @@ const DashboardContextProvider = ({ children }) => {
   } = useContext(AppContext);
 
   // set first transaction amount code for transaction form
-  const [firstAccountCode, setFirstAccountCode] = useState(
-    !accounts ||
-      accounts.length < 1 ||
-      !selected.firstAccountTransaction?.currencies
-      ? null
-      : selected.firstAccountTransaction?.currencies.filter(
-          (cur) => cur.enabled
-        )[0].code
-  );
+  const [firstAccountCode, setFirstAccountCode] = useState(null);
 
   // set second transaction amount code for transaction form
-  const [secondAccountCode, setSecondAccountCode] = useState(
-    !accounts ||
-      accounts.length < 1 ||
-      !selected.firstAccountTransaction?.currencies
-      ? null
-      : selected.secondAccountTransaction?.currencies.filter(
-          (cur) => cur.enabled
-        )[1]?.code ||
-          selected.secondAccountTransaction?.currencies.filter(
-            (cur) => cur.enabled
-          )[0]?.code
-  );
+  const [secondAccountCode, setSecondAccountCode] = useState(null);
 
   // get tags saved and add unto it or start with new array
   const [tags, setTags] = useState([]);
@@ -59,22 +40,9 @@ const DashboardContextProvider = ({ children }) => {
     });
   }, []);
 
-  const [amount1, setAmount1] = useState('');
-  const [amount2, setAmount2] = useState('');
-
-  const [accountName, setAccountName] = useState('');
-  const [note, setNote] = useState('');
-
-  // set transaction amount  code edit mode
-
-  const setAmtCodeEdit = (firstCode, secondCode) => {
-    setFirstAccountCode(firstCode);
-    setSecondAccountCode(secondCode);
-  };
-
   // Auto set code when change account
   useEffect(() => {
-    if (isEditMode) return;
+    if (isEditMode || !selected.firstAccountTransaction) return;
     setFirstAccountCode(
       !accounts ||
         accounts.length < 1 ||
@@ -100,6 +68,19 @@ const DashboardContextProvider = ({ children }) => {
     selected.firstAccountTransaction?.id,
     selected.secondAccountTransaction?.id,
   ]);
+
+  const [amount1, setAmount1] = useState('');
+  const [amount2, setAmount2] = useState('');
+
+  const [accountName, setAccountName] = useState('');
+  const [note, setNote] = useState('');
+
+  // set transaction amount  code edit mode
+
+  const setAmtCodeEdit = (firstCode, secondCode) => {
+    setFirstAccountCode(firstCode);
+    setSecondAccountCode(secondCode);
+  };
 
   //   derived account selected transaction amount code
   const transactionCurSelected = {
