@@ -29,7 +29,7 @@ const Section = ({ title, isNetWorth, sectionBody }) => {
         onClick={() => setIsOpen((prev) => !prev)}
         className='flex items-center cursor-pointer'
       >
-        <div className='flex flex-1 items-center py-4 pl-2 text-xl font-roboto'>
+        <div className='flex flex-1 items-center py-4 pl-2  font-roboto'>
           <IoMdArrowDropdown
             className={clsx(
               'transition-transform duration-300 ease-linear',
@@ -37,7 +37,7 @@ const Section = ({ title, isNetWorth, sectionBody }) => {
             )}
           />
 
-          <h3 className='uppercase  left-[0.175rem] whitespace-nowrap '>
+          <h3 className='uppercase  pl-[0.175rem] whitespace-nowrap text-[1.200rem]'>
             {title}
           </h3>
         </div>
