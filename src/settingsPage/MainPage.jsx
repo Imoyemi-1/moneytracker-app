@@ -10,6 +10,7 @@ import db from '../db/data';
 const MainPage = () => {
   const [open, setOpen] = useState(false);
   const tooltipRef = useRef(null);
+  const fileRef = useRef(null);
 
   useEffect(() => {
     // close tooltip if click out of tooltip
@@ -34,6 +35,43 @@ const MainPage = () => {
     link.click();
   };
 
+  // import transaction csv data
+  const handleOpenFile = () => {
+    fileRef.current?.click();
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.file[0];
+    if (!file) return;
+
+    //
+    if (file.size > 2 * 1024 * 1024) {
+      alert('File is too large. Please upload a file under 2MB');
+      return;
+    }
+
+    //
+    if (!file.name.endsWith('.csv') || !file.name.endsWith('.json')) {
+      alert('Unsupported file type');
+      return;
+    }
+
+    //
+    if (file.name.endsWith('.csv')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        console.log(text);
+      };
+      reader.readAsText(file);
+    }
+
+    //
+    if (file.name.endsWith('.json')) {
+      console.log(json);
+    }
+  };
+
   return (
     <main>
       {/*  */}
@@ -54,10 +92,20 @@ const MainPage = () => {
               <p className='mb-4 text-base'>
                 Import transactions from a CSV file.
               </p>
-              <button className='flex items-center text-gray-500 bg-gray-200 text-sm rounded py-2 px-5 hover:bg-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'>
+              <button
+                onClick={handleOpenFile}
+                className='flex items-center text-gray-500 bg-gray-200 text-sm rounded py-2 px-5 hover:bg-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'
+              >
                 <FaFileAlt className=' mr-1.5 ' />
                 Open File
               </button>
+              <input
+                type='file'
+                accept='.csv,.json'
+                className='hidden'
+                ref={fileRef}
+                onChange={handleFileChange}
+              />
             </div>
           </div>
         }
