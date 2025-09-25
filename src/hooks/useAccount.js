@@ -127,13 +127,6 @@ const useSaveAccount = async (account) => {
   return accountId;
 };
 
-const useDeleteAccount = async (deleteOption, accountId) => {
-  // delete or archive an account in db
-  if (deleteOption === 'archive') {
-    await db.accounts.update(accountId, { isArchived: true });
-  }
-};
-
 const useUpdateAccount = async (account) => {
   // save account to db itself
   const updated = await db.accounts.update(account.id, {
@@ -198,7 +191,7 @@ const useSaveTransactions = async (transactionData, rates) => {
 
 // delete  transaction from  database
 
-const useDeleteTransactions = async (transactionData, rates) => {
+const deleteTransactions = async (transactionData, rates) => {
   // Update the account balance
   await revertAmount(transactionData, rates);
   // //delete transaction from  database
@@ -259,6 +252,24 @@ const useUpdateTransactions = async (transactionData, newData, rates) => {
   });
 };
 
+//
+const useDeleteAccount = async (deleteOption, accountId, rates) => {
+  // delete or archive an account in db
+  if (deleteOption === 'archive') {
+    await db.accounts.update(accountId, { isArchived: true });
+  } else {
+    const transaction = await db.transactions.toArray();
+    const filterTransaction = transaction.filter(
+      (list) =>
+        list.accountTransactionInfo[0].id === accountId ||
+        list.accountTransactionInfo[1]?.id === accountId
+    );
+    filterTransaction.forEach((li) => deleteTransactions(li, rates));
+    await db.accounts.delete(accountId);
+  }
+};
+
+//
 const deleteUserData = async () => {
   // delete entire database
   await db.delete();
@@ -273,7 +284,7 @@ const deleteUserData = async () => {
 export {
   useSaveAccount,
   useSaveTransactions,
-  useDeleteTransactions,
+  deleteTransactions,
   useUpdateTransactions,
   useUpdateAccount,
   useDeleteAccount,

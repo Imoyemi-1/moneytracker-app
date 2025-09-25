@@ -3,7 +3,7 @@ import { FaRegFile } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { useContext } from 'react';
 import { DashboardContext } from '../contexts/DashboardContext';
-import { useDeleteTransactions } from '../hooks/useAccount';
+import { deleteTransactions } from '../hooks/useAccount';
 import { AppContext } from '../contexts/AppContext';
 import clsx from 'clsx';
 import { useDropdown } from '../contexts/Setup';
@@ -73,7 +73,7 @@ const ModalTransaction = ({ content }) => {
             <button
               onClick={() => {
                 if (isEditMode) {
-                  useDeleteTransactions(transactionToEdit, rates);
+                  deleteTransactions(transactionToEdit, rates);
                   resetStateEdit();
                 } else {
                   handleSelected(

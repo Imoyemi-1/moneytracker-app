@@ -8,13 +8,13 @@ import { useDeleteAccount } from '../hooks/useAccount';
 import { DashboardContext } from '../contexts/DashboardContext';
 
 const ConfirmAccountDeletion = () => {
-  const { accountToEdit, accounts } = useContext(AppContext);
+  const { accountToEdit, accounts, rates } = useContext(AppContext);
   const { selected } = useDropdown();
   const { resetStateEdit } = useContext(DashboardContext);
   const [deleteOption, setDeleteOption] = useState('archive');
 
   const handleAccountDeletion = () => {
-    useDeleteAccount(deleteOption, accountToEdit.id);
+    useDeleteAccount(deleteOption, accountToEdit.id, rates);
     resetStateEdit();
   };
 
