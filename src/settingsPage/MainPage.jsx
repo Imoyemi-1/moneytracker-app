@@ -5,6 +5,7 @@ import { MdDelete } from 'react-icons/md';
 import { deleteUserData } from '../hooks/useAccount';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import { useState, useEffect, useRef } from 'react';
+import db from '../db/data';
 
 const MainPage = () => {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,20 @@ const MainPage = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // download transaction as a json object
+  const exportTransaction = async () => {
+    const transactions = await db.transactions.toArray();
+    const dataStr =
+      'data:text/json;charset=utf-8,' +
+      encodeURIComponent(JSON.stringify(transactions, null, 2));
+
+    const link = document.createElement('a');
+    link.setAttribute('href', dataStr);
+    link.setAttribute('download', 'transactions.json');
+    link.click();
+  };
+
   return (
     <main>
       {/*  */}
@@ -56,7 +71,10 @@ const MainPage = () => {
               <p className='mb-4 text-base'>
                 Export transactions to a JSON file.
               </p>
-              <button className='flex items-center text-gray-500 bg-gray-200 text-sm rounded py-2 px-5 hover:bg-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'>
+              <button
+                onClick={exportTransaction}
+                className='flex items-center text-gray-500 bg-gray-200 text-sm rounded py-2 px-5 hover:bg-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'
+              >
                 <FaFileAlt className=' mr-1.5 ' />
                 Export JSON File
               </button>
