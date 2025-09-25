@@ -14,7 +14,12 @@ const ConfirmAccountDeletion = () => {
   const [deleteOption, setDeleteOption] = useState('archive');
 
   const handleAccountDeletion = () => {
-    useDeleteAccount(deleteOption, accountToEdit.id, rates);
+    useDeleteAccount(
+      deleteOption,
+      accountToEdit.id,
+      selected.moveToDeleteAccount,
+      rates
+    );
     resetStateEdit();
   };
 

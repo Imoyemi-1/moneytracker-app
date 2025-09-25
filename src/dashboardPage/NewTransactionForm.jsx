@@ -4,10 +4,7 @@ import { AppContext } from '../contexts/AppContext';
 import TransactionAmtField from './TransactionAmtField';
 import { useDropdown } from '../contexts/Setup';
 import { DashboardContext } from '../contexts/DashboardContext';
-import {
-  useSaveTransactions,
-  useUpdateTransactions,
-} from '../hooks/useAccount';
+import { useSaveTransactions, updateTransactions } from '../hooks/useAccount';
 import { ImCross } from 'react-icons/im';
 import { convertCurrency } from '../hooks/useExchangeRates';
 
@@ -52,7 +49,7 @@ const NewTransactionForm = ({ activeTab }) => {
           },
           rates
         )
-      : useUpdateTransactions(
+      : updateTransactions(
           transactionToEdit,
           {
             type: activeTab,

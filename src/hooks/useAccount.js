@@ -199,10 +199,11 @@ const deleteTransactions = async (transactionData, rates) => {
 };
 
 // edit transaction and accounts
-const useUpdateTransactions = async (transactionData, newData, rates) => {
+const updateTransactions = async (transactionData, newData, rates) => {
   // Update the account balance
   await revertAmount(transactionData, rates);
   //
+
   await updateAccountAmount(newData, rates);
 
   // for  account and amount that use for debit expense or add income
@@ -253,17 +254,74 @@ const useUpdateTransactions = async (transactionData, newData, rates) => {
 };
 
 //
-const useDeleteAccount = async (deleteOption, accountId, rates) => {
+const useDeleteAccount = async (
+  deleteOption,
+  accountId,
+  moveToAccount,
+  rates
+) => {
   // delete or archive an account in db
+  const transaction = await db.transactions.toArray();
+  const filterTransaction = transaction.filter(
+    (list) =>
+      list.accountTransactionInfo[0].id === accountId ||
+      list.accountTransactionInfo[1]?.id === accountId
+  );
+
   if (deleteOption === 'archive') {
     await db.accounts.update(accountId, { isArchived: true });
+  } else if (deleteOption === 'move') {
+    const targetAccount = await db.accounts.get(moveToAccount.id);
+    const updateAccountCurrencies = targetAccount.currencies;
+    //
+
+    for (const tx of filterTransaction) {
+      const txCurrencyCode = tx.accountTransactionInfo.find(
+        (acc) => acc.id === accountId
+      );
+      const exist = updateAccountCurrencies.find(
+        (c) => c.code === txCurrencyCode.code
+      );
+
+      if (!exist) {
+        updateAccountCurrencies.push({
+          code: txCurrencyCode.code,
+          enabled: true,
+          amount: 0,
+        });
+      }
+    }
+
+    //
+    await db.accounts.update(moveToAccount.id, {
+      currencies: updateAccountCurrencies,
+    });
+
+    //
+    if (filterTransaction.length > 0) {
+      filterTransaction.forEach((li) => {
+        updateTransactions(
+          li,
+          {
+            type: li.type,
+            firstAccountInfo: moveToAccount,
+            firstAccountCode: li.accountTransactionInfo[0]?.code,
+            firstAccountAmount: li.accountTransactionInfo[0]?.amount,
+            secondAccountInfo: moveToAccount,
+            secondAccountAmount: li.accountTransactionInfo[0]?.amount,
+            secondAccountCode: li.accountTransactionInfo[0]?.code,
+            note: li.note,
+            date: li.date,
+            tag: li.tags,
+          },
+          rates
+        );
+      });
+    }
+
+    //
+    await db.accounts.delete(accountId);
   } else {
-    const transaction = await db.transactions.toArray();
-    const filterTransaction = transaction.filter(
-      (list) =>
-        list.accountTransactionInfo[0].id === accountId ||
-        list.accountTransactionInfo[1]?.id === accountId
-    );
     filterTransaction.forEach((li) => deleteTransactions(li, rates));
     await db.accounts.delete(accountId);
   }
@@ -285,7 +343,7 @@ export {
   useSaveAccount,
   useSaveTransactions,
   deleteTransactions,
-  useUpdateTransactions,
+  updateTransactions,
   useUpdateAccount,
   useDeleteAccount,
   deleteUserData,
