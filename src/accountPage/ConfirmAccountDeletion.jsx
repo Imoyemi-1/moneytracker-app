@@ -4,13 +4,20 @@ import { AppContext } from '../contexts/AppContext';
 import { FaArrowRight } from 'react-icons/fa';
 import Field from '../components/Field';
 import { useDropdown } from '../contexts/Setup';
+import { useDeleteAccount } from '../hooks/useAccount';
+import { DashboardContext } from '../contexts/DashboardContext';
 
 const ConfirmAccountDeletion = () => {
   const { accountToEdit, accounts } = useContext(AppContext);
-  const [deleteOption, setDeleteOption] = useState('archive');
   const { selected } = useDropdown();
+  const { resetStateEdit } = useContext(DashboardContext);
+  const [deleteOption, setDeleteOption] = useState('archive');
 
-  console.log(selected.moveToDeleteAccount);
+  const handleAccountDeletion = () => {
+    useDeleteAccount(deleteOption, accountToEdit.id);
+    resetStateEdit();
+  };
+
   return (
     <>
       {/*  */}
@@ -21,7 +28,7 @@ const ConfirmAccountDeletion = () => {
         What should we do with transactions linked to this account?
       </p>
       {/*  */}
-      <form>
+      <form action={handleAccountDeletion}>
         <OptionField
           id={'archiveRadio'}
           text={'Archive account, keep transactions as is'}
@@ -36,13 +43,15 @@ const ConfirmAccountDeletion = () => {
           checked={deleteOption === 'delete'}
           onChange={() => setDeleteOption('delete')}
         />
-        <OptionField
-          id={'moveRadio'}
-          text={'Move transactions to another account'}
-          value={'move'}
-          checked={deleteOption === 'move'}
-          onChange={() => setDeleteOption('move')}
-        />
+        {accounts.length > 1 && (
+          <OptionField
+            id={'moveRadio'}
+            text={'Move transactions to another account'}
+            value={'move'}
+            checked={deleteOption === 'move'}
+            onChange={() => setDeleteOption('move')}
+          />
+        )}
         {/*  */}
         {deleteOption === 'move' && (
           <Field

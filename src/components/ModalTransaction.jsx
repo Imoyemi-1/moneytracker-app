@@ -78,7 +78,11 @@ const ModalTransaction = ({ content }) => {
                 } else {
                   handleSelected(
                     'moveAccountDeleteOption',
-                    accounts?.filter((acc) => acc.id !== accountToEdit.id)[0].id
+                    accounts.length <= 1
+                      ? null
+                      : accounts?.filter(
+                          (acc) => acc.id !== accountToEdit.id
+                        )[0].id
                   );
                   setIsConfirmAccountDelete(true);
                 }

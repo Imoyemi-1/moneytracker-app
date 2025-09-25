@@ -6,7 +6,7 @@ const AppContext = createContext(null);
 
 const AppContextProvider = ({ children }) => {
   const [rates, setRates] = useState(null);
-  const accounts = useLiveQuery(() => db.accounts.toArray(), []);
+  const allAccounts = useLiveQuery(() => db.accounts.toArray(), []);
   const transactions = useLiveQuery(() => db.transactions.toArray(), []);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isEditAccountMode, setIsEditAccountMode] = useState(false);
@@ -51,7 +51,8 @@ const AppContextProvider = ({ children }) => {
     fetchRate();
   }, []);
 
-  if (!accounts || !transactions) return;
+  if (!allAccounts || !transactions) return <div>Loading data...</div>;
+  const accounts = allAccounts.filter((item) => item.isArchived === false);
   return (
     <AppContext.Provider
       value={{
@@ -81,6 +82,7 @@ const AppContextProvider = ({ children }) => {
         setAccountToEdit,
         isConfirmAccountDelete,
         setIsConfirmAccountDelete,
+        allAccounts,
       }}
     >
       {children}

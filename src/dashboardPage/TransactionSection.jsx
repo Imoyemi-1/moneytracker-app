@@ -16,7 +16,7 @@ const TransactionSection = ({ transactions }) => {
     setIsEditMode,
     setTransactionToEdit,
     setActiveTab,
-    accounts,
+    allAccounts,
   } = useContext(AppContext);
 
   const { setAccountTransactionEdit } = useDropdown();
@@ -76,13 +76,13 @@ const TransactionSection = ({ transactions }) => {
           {/* display account name ,tags and note */}
           <div className='flex row-start-2 col-span-3 items-center mt-1.5'>
             {
-              accounts.find(
+              allAccounts.find(
                 (acc) => acc.id === list.accountTransactionInfo[0]?.id
               )?.name
             }
             {list.tags.length > 0 ||
             list.note ||
-            accounts.find(
+            allAccounts.find(
               (acc) => acc.id === list.accountTransactionInfo[1]?.id
             )?.name ? (
               list.type === 'income' ? (
@@ -92,7 +92,7 @@ const TransactionSection = ({ transactions }) => {
               )
             ) : null}
             {list.accountTransactionInfo[1]
-              ? accounts.find(
+              ? allAccounts.find(
                   (acc) => acc.id === list.accountTransactionInfo[1]?.id
                 )?.name
               : null}
@@ -146,9 +146,16 @@ const TransactionSection = ({ transactions }) => {
               onClick={() => {
                 startEditing(list);
               }}
-              className='group ml-3 p-[0.5645rem] rounded-full border border-gray-200 hover:border-gray-400 duration-300 transition-colors active:scale-95 cursor-pointer'
+              disabled={
+                allAccounts.find(
+                  (acc) =>
+                    acc.id === list.accountTransactionInfo[1]?.id ||
+                    acc.id === list.accountTransactionInfo[0]?.id
+                )?.isArchived
+              }
+              className='group ml-3 p-[0.5645rem] rounded-full border border-gray-200 hover:border-gray-400 duration-300 transition-colors active:scale-95 cursor-pointer disabled:border-0 disabled:opacity-50 disabled:cursor-not-allowed'
             >
-              <MdOutlineEdit className='font-bold text-lg text-gray-400 group-hover:text-gray-500 ' />
+              <MdOutlineEdit className='font-bold text-lg text-gray-500 group-hover:text-gray-700 ' />
             </button>
           </div>
         </div>

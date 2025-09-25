@@ -121,9 +121,17 @@ const useSaveAccount = async (account) => {
     showOnDashboard: account.showOnDashboard,
     type: account.type,
     currencies: account.currencies,
+    isArchived: false,
   });
 
   return accountId;
+};
+
+const useDeleteAccount = async (deleteOption, accountId) => {
+  // delete or archive an account in db
+  if (deleteOption === 'archive') {
+    await db.accounts.update(accountId, { isArchived: true });
+  }
 };
 
 const useUpdateAccount = async (account) => {
@@ -257,4 +265,5 @@ export {
   useDeleteTransactions,
   useUpdateTransactions,
   useUpdateAccount,
+  useDeleteAccount,
 };
