@@ -2,8 +2,23 @@ import Section from '../dashboardPage/Section';
 import CurrenciesForm from '../setupPage/CurrenciesForm';
 import { FaFileAlt } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
+import { deleteUserData } from '../hooks/useAccount';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
+import { useState, useEffect, useRef } from 'react';
 
 const MainPage = () => {
+  const [open, setOpen] = useState(false);
+  const tooltipRef = useRef(null);
+
+  useEffect(() => {
+    // close tooltip if click out of tooltip
+    const handleClickOutside = (e) =>
+      tooltipRef.current && !tooltipRef.current.contains(e.target)
+        ? setOpen(false)
+        : null;
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
   return (
     <main>
       {/*  */}
@@ -50,20 +65,34 @@ const MainPage = () => {
         }
       />
       {/*  */}
-      <Section
-        title='USER'
-        sectionBody={
-          <div className='border-t  border-gray-300 p-4'>
-            {' '}
-            <button className='relative  mr-1 text-sm bg-gray-200   text-gray-500 py-2 pr-14 pl-5 rounded hover:bg-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer '>
-              <span className='absolute flex items-center  top-0 right-0 h-full bg-[rgba(0,0,0,0.05)] rounded rounded-tl-none rounded-bl-none text-sm  w-8.5 shadow-[inset_1px_0_0_0_transparent] '>
-                <MdDelete className='text-lg m-auto ' />
-              </span>
-              Delete data
-            </button>
-          </div>
-        }
-      />
+      <div className='relative'>
+        <Section
+          title='USER'
+          sectionBody={
+            <div className='border-t  border-gray-300 p-4'>
+              {' '}
+              <button
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  setOpen((prev) => !prev);
+                }}
+                className='relative  mr-1 text-sm bg-gray-200   text-gray-500 py-2 pr-14 pl-5 rounded hover:bg-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer '
+              >
+                <span className='absolute flex items-center  top-0 right-0 h-full bg-[rgba(0,0,0,0.05)] rounded rounded-tl-none rounded-bl-none text-sm  w-8.5 shadow-[inset_1px_0_0_0_transparent] '>
+                  <MdDelete className='text-lg m-auto ' />
+                </span>
+                Delete data
+              </button>
+            </div>
+          }
+        />
+        <ConfirmDeleteModal
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          onConfirm={deleteUserData}
+          tooltipRef={tooltipRef}
+        />
+      </div>
     </main>
   );
 };

@@ -259,6 +259,17 @@ const useUpdateTransactions = async (transactionData, newData, rates) => {
   });
 };
 
+const deleteUserData = async () => {
+  // delete entire database
+  await db.delete();
+
+  //  reopen database
+
+  await db.open();
+
+  window.location.reload();
+};
+
 export {
   useSaveAccount,
   useSaveTransactions,
@@ -266,4 +277,5 @@ export {
   useUpdateTransactions,
   useUpdateAccount,
   useDeleteAccount,
+  deleteUserData,
 };
