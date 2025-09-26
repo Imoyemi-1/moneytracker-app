@@ -13,6 +13,7 @@ import { convertCurrency, addTotalNum } from '../hooks/useExchangeRates';
 import { useDropdown } from '../contexts/Setup';
 import NewTransactions from '../dashboardPage/NewTransactions';
 import FilterTransactionForm from './FilterTransactionForm';
+import FilterDropDown from './FilterDropDown';
 
 const MainPage = () => {
   const {
@@ -34,16 +35,6 @@ const MainPage = () => {
   const [transactionDisplayedTime, setTransactionDisplayedTime] =
     useState('Last 7 days');
 
-  useEffect(() => {
-    // close dropdown if click out of dropdown
-    const handleClickOutside = (e) =>
-      dropdownRef.current && !dropdownRef.current.contains(e.target)
-        ? setIsOpen(false)
-        : null;
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   //  time range list to display and filter displayed transaction
   const filterList = [
     'Today',
@@ -58,7 +49,11 @@ const MainPage = () => {
   const dropDownList = filterList.map((list) => (
     <li
       key={list}
-      onClick={() => setTransactionDisplayedTime(list)}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+        setTransactionDisplayedTime(list);
+        setIsOpen(false);
+      }}
       className={clsx(
         'cursor-pointer text-black/85 px-4 py-2 hover:bg-gray-100 duration-300 transition-all ease-linear',
         list === transactionDisplayedTime && 'bg-gray-100 font-medium'
@@ -152,7 +147,10 @@ const MainPage = () => {
           </button>
           {/* display container for selection and selected time range*/}
           <div
-            onClick={() => setIsOpen((prev) => !prev)}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              setIsOpen((prev) => !prev);
+            }}
             className={clsx(
               ' relative flex items-center flex-[1_0_auto] border-l  border-gray-300 pl-14 pr-5 py-2 hover:text-gray-800 duration-200 transition-colors cursor-pointer',
               isOpen && 'text-gray-800 bg-gray-100'
@@ -168,15 +166,12 @@ const MainPage = () => {
               <FaCalendar />
             </i>
             {/* dropdown list to display time range list */}
-            <ul
+            <FilterDropDown
               ref={dropdownRef}
-              className={clsx(
-                'absolute bg-white min-w-full left-0 top-full cursor-pointer rounded shadow shadow-gray-100 border border-gray-100',
-                !isOpen && 'hidden '
-              )}
-            >
-              {dropDownList}
-            </ul>
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              dropDownList={dropDownList}
+            />
           </div>
           {/*  filtering transaction with tags and accounts */}
           <button

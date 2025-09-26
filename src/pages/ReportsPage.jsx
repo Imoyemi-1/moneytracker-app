@@ -1,5 +1,11 @@
+import MainPage from '../reportPage/MainPage';
+
 const ReportsPage = () => {
-  return <div>ReportsPage</div>;
+  return (
+    <div>
+      <MainPage />
+    </div>
+  );
 };
 
 export default ReportsPage;
