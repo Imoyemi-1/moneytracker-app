@@ -84,7 +84,9 @@ const Field = ({
             isOpen &&
               'border border-b-0 border-blue-200 rounded-bl-none rounded-br-none',
             !isOpen &&
-              'border border-gray-200 hover:border-gray-400 duration-300 transition-colors'
+              'border border-gray-200 hover:border-gray-400 duration-300 transition-colors',
+            id === 'tagsFieldReport' && 'bg-white text-base ',
+            id === 'accountFieldReport' && 'bg-white text-base'
           )}
         >
           <div className='flex w-full flex-wrap gap-x-3 gap-y-2 m-auto text-sm'>
@@ -93,7 +95,13 @@ const Field = ({
             {isInput && (
               <input
                 ref={inputRef}
-                className='w-full h-full min-h-9 flex-1 outline-0 placeholder:text-gray-200'
+                className={clsx(
+                  'w-full h-full min-h-9 flex-1 outline-0  placeholder:text-gray-200',
+                  id === 'tagsFieldReport' &&
+                    'placeholder:text-base placeholder:text-gray-300 min-h-10.5',
+                  id === 'accountFieldReport' &&
+                    'placeholder:text-base placeholder:text-gray-300 min-h-10.5'
+                )}
                 type='text'
                 onMouseDown={(e) => {
                   e.stopPropagation();

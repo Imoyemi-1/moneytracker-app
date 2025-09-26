@@ -14,7 +14,7 @@ const FilterDropDown = ({ ref, isOpen, setIsOpen, dropDownList }) => {
     <ul
       ref={ref}
       className={clsx(
-        'absolute bg-white min-w-full left-0 top-full cursor-pointer rounded shadow shadow-gray-100 border border-gray-100',
+        'absolute bg-white min-w-full left-0 top-full cursor-pointer rounded shadow shadow-gray-100 border border-gray-100 z-50',
         !isOpen && 'hidden '
       )}
     >

@@ -63,10 +63,13 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
       className={clsx(
         'text-sm  flex items-center justify-between px-4 py-2 border-t border-gray-50 cursor-pointer hover:bg-gray-100 pointer-events-auto',
         id === 'firstTransaction'
-          ? list.name === selected.firstAccountTransaction?.name &&
+          ? list.id === selected.firstAccountTransaction?.id &&
               'bg-gray-100 font-medium'
           : id === 'secondTransaction'
-          ? list.name === selected.secondAccountTransaction?.name &&
+          ? list.id === selected.secondAccountTransaction?.id &&
+            'bg-gray-100 font-medium'
+          : id === 'moveAccountDeleteOption'
+          ? list.id === selected.moveToDeleteAccount?.id &&
             'bg-gray-100 font-medium'
           : null
       )}
@@ -126,7 +129,9 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
       {/* display list base on the dropdown */}
       {dropDownList.length > 0 ? (
         // display list in selected type
-        id === 'groupField' || id === 'tagsFieldFilter' ? (
+        id === 'groupField' ||
+        id === 'tagsFieldFilter' ||
+        id === 'tagsFieldReport' ? (
           accountGroupList
         ) : // dropdown list for tags filters
         id === 'tagsField' ? (
@@ -152,7 +157,8 @@ const Dropdown = ({ isOpen, dropDownList, id }) => {
         id === 'firstTransaction' ||
           id === 'secondTransaction' ||
           id === 'accountFieldFilter' ||
-          id === 'moveAccountDeleteOption' ? (
+          id === 'moveAccountDeleteOption' ||
+          id === 'accountFieldReport' ? (
           accountTransactionList
         ) : (
           // list for dropdown for selection base currencies

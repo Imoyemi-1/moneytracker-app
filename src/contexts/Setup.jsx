@@ -19,6 +19,8 @@ function DropdownProvider({ children }) {
     tags: [],
     accountFilterTransaction: [],
     tagsFilterTransaction: [],
+    accountFilterReport: [],
+    tagsFilterReport: [],
     moveToDeleteAccount: {},
   });
 
@@ -144,6 +146,16 @@ function DropdownProvider({ children }) {
       }));
     }
 
+    // set tags  report filter selections for transaction report
+    else if (id === 'tagsFieldReport') {
+      setSelected((prev) => ({
+        ...prev,
+        tagsFilterReport: prev.tagsFilterReport.includes(code)
+          ? prev.tagsFilterReport
+          : [...prev.tagsFilterReport, code],
+      }));
+    }
+
     // set tags  transaction filter selections for filter transaction
     else if (id === 'accountFieldFilter') {
       setSelected((prev) => ({
@@ -154,8 +166,18 @@ function DropdownProvider({ children }) {
         ],
       }));
     }
-
     // set tags  transaction filter selections for filter transaction
+    else if (id === 'accountFieldReport') {
+      setSelected((prev) => ({
+        ...prev,
+        accountFilterReport: [
+          ...prev.accountFilterReport,
+          accounts.find((acc) => acc.id === code),
+        ],
+      }));
+    }
+
+    // set   transaction move to deletion for  transaction if account is deleted
     else if (id === 'moveAccountDeleteOption') {
       setSelected((prev) => ({
         ...prev,
@@ -220,6 +242,17 @@ function DropdownProvider({ children }) {
     });
   };
 
+  // remove tags filter from tags filter report list
+
+  const removeTagFilterReport = (tag) => {
+    setSelected((prev) => {
+      return {
+        ...prev,
+        tagsFilterReport: prev.tagsFilterReport.filter((word) => word !== tag),
+      };
+    });
+  };
+
   // remove account filter from tags filter transaction list
 
   const removeAccountFilter = (id) => {
@@ -227,6 +260,19 @@ function DropdownProvider({ children }) {
       return {
         ...prev,
         accountFilterTransaction: prev.accountFilterTransaction.filter(
+          (acc) => acc.id !== id
+        ),
+      };
+    });
+  };
+
+  // remove account filter from tags filter transaction list
+
+  const removeAccountFilterReport = (id) => {
+    setSelected((prev) => {
+      return {
+        ...prev,
+        accountFilterReport: prev.accountFilterReport.filter(
           (acc) => acc.id !== id
         ),
       };
@@ -253,6 +299,8 @@ function DropdownProvider({ children }) {
         resetFilterTransaction,
         defaultTransactionFilter,
         resetAccountGroup,
+        removeTagFilterReport,
+        removeAccountFilterReport,
       }}
     >
       {children}
