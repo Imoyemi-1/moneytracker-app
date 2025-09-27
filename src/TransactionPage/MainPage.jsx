@@ -1,7 +1,7 @@
 import { ImPlus, ImCross } from 'react-icons/im';
 import { FaCalendar, FaFilter, FaCreditCard, FaTag } from 'react-icons/fa';
 import clsx from 'clsx';
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import Modal from '../components/Modal';
 import ModalTransaction from '../components/ModalTransaction';
@@ -110,7 +110,7 @@ const MainPage = () => {
           list?.accountTransactionInfo[0]?.amount,
           list?.accountTransactionInfo[0]?.code,
           selected.baseSelection.code,
-          rates
+          rates || {}
         ) || 0
     );
 

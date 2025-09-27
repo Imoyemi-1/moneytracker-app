@@ -1,9 +1,10 @@
 const convertCurrency = (amount, fromCode, toCode, rates) => {
   if (!rates[fromCode] || !rates[toCode]) {
-    throw new Error(`Missing rate for ${fromCode} or ${toCode}`);
+    console.error(`Missing rate for ${fromCode} or ${toCode}`);
   }
-  const usdAmount = amount / rates[fromCode];
-  return usdAmount * rates[toCode];
+  const ratesAmt = rates[fromCode] || 1;
+  const usdAmount = amount / ratesAmt;
+  return usdAmount * ratesAmt;
 };
 
 // calculating total amount per account types
