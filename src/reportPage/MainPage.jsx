@@ -8,6 +8,7 @@ import Field from '../components/Field';
 import { AppContext } from '../contexts/AppContext';
 import { DashboardContext } from '../contexts/DashboardContext';
 import { useDropdown } from '../contexts/Setup';
+import { addMonths, addYears, subMonths, subYears, format } from 'date-fns';
 
 const MainPage = () => {
   const { setBaseInputEmpty, accounts } = useContext(AppContext);
@@ -16,7 +17,8 @@ const MainPage = () => {
     useDropdown();
 
   const [filterReport, setFilterReport] = useState('Expense & Income');
-  const [timeFilterReport, setTimeFilterReport] = useState('Yearly');
+  const [viewType, setViewType] = useState('Yearly');
+  const [currentDate, setCurrentDate] = useState(new Date());
   //  time range list to display and filter displayed transaction
   const filterList = [
     'Expense & Income',
@@ -25,6 +27,27 @@ const MainPage = () => {
     'Net Worth',
   ];
   const timeFilterList = ['Yearly', 'Monthly'];
+
+  // formatting display date
+  const formatDate = () => {
+    return viewType === 'Monthly'
+      ? format(currentDate, 'MMM yyy')
+      : format(currentDate, ' yyy');
+  };
+
+  // increase date
+  const handleNextDate = () => {
+    setCurrentDate((prev) =>
+      viewType === 'Monthly' ? addMonths(prev, 1) : addYears(prev, 1)
+    );
+  };
+
+  // decrease date
+  const handlePrevDate = () => {
+    setCurrentDate((prev) =>
+      viewType === 'Monthly' ? subMonths(prev, 1) : subYears(prev, 1)
+    );
+  };
 
   // use and close dropdown is it clicked out
   const [isOpen, setIsOpen] = useState(false);
@@ -56,12 +79,12 @@ const MainPage = () => {
       key={list}
       onMouseDown={(e) => {
         e.stopPropagation();
-        setTimeFilterReport(list);
+        setViewType(list);
         setIsOpenTime(false);
       }}
       className={clsx(
         'cursor-pointer  text-black/85 px-4 py-2 hover:bg-gray-100 duration-300 transition-all ease-linear',
-        list === timeFilterReport && 'bg-gray-100 font-medium'
+        list === viewType && 'bg-gray-100 font-medium'
       )}
     >
       {list}
@@ -129,7 +152,7 @@ const MainPage = () => {
             setIsOpen((prev) => !prev);
             setIsOpenTime(false);
           }}
-          className='relative flex text-nowrap items-center  border-r border-gray-300 py-2 px-5 cursor-pointer hover:text-gray-700 transition-colors duration-200'
+          className='box-border relative flex text-nowrap items-center  border-r border-gray-300 py-2 px-5 cursor-pointer hover:text-gray-700 transition-colors duration-200'
         >
           <div>{filterReport}</div>
           <IoMdArrowDropdown className='ml-2 text-base' />
@@ -141,7 +164,10 @@ const MainPage = () => {
             dropDownList={FilterDropdownList}
           />
         </div>
-        <button className='border-r border-gray-300 py-1 px-2 cursor-pointer hover:text-gray-600 transition-colors duration-200'>
+        <button
+          onClick={handlePrevDate}
+          className='border-r border-gray-300 py-1 px-2 cursor-pointer hover:text-gray-600 transition-colors duration-200'
+        >
           <MdKeyboardArrowLeft className='text-2xl ' />
         </button>
         <div className='relative'>
@@ -151,9 +177,14 @@ const MainPage = () => {
               setIsOpenTime((prev) => !prev);
               setIsOpen(false);
             }}
-            className='border-r border-gray-300 h-full  py-2 px-5.5 cursor-pointer'
+            className={clsx(
+              ' h-full  py-1 px-5.5 cursor-pointer border  hover:border-gray-500 flex items-center',
+              isOpenTime &&
+                'border rounded border-gray-500 bg-gray-200 text-black',
+              !isOpenTime && 'border-transparent'
+            )}
           >
-            2025
+            {formatDate()}
           </div>
           <FilterDropDown
             ref={timeFilterRef}
@@ -162,7 +193,10 @@ const MainPage = () => {
             dropDownList={timeDropdownList}
           />
         </div>
-        <button className='border-r border-gray-300 py-1 px-2 cursor-pointer hover:text-gray-600 transition-colors duration-200'>
+        <button
+          onClick={handleNextDate}
+          className='border-x border-gray-300 py-1 px-2 cursor-pointer hover:text-gray-600 transition-colors duration-200'
+        >
           <MdKeyboardArrowRight className='text-2xl ' />
         </button>
       </div>
