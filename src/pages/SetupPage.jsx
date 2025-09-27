@@ -4,7 +4,7 @@ import FinishSetup from '../setupPage/FinishSetup';
 
 const SetupPage = () => {
   return (
-    <div className='pt-4 bg-white max-w-[700px] m-auto '>
+    <div className='pt-4 bg-white max-w-[700px] md:mx-auto  md:my-4 md:rounded md:shadow-[0_2px_4px_0_rgba(34,36,38,0.12),0_2px_10px_0_rgba(34,36,38,0.15)] md:border border-gray-300 '>
       <header>
         <h2 className='flex items-center  ml-3.5 mb-3.5'>
           <FaCogs className='w-11 h-9' />

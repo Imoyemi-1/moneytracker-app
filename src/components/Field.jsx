@@ -68,7 +68,7 @@ const Field = ({
   return (
     // Todo: add accessibility to jsx later
 
-    <div className='mb-3.5 flex flex-col '>
+    <div className='mb-3.5 flex flex-col flex-1'>
       <label className='font-medium mb-1 text-[0.8125rem]'>{label}</label>
 
       <div

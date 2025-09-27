@@ -153,8 +153,8 @@ const AccountForm = () => {
 
   return (
     <form action={handleSubmit}>
-      <div>
-        <div className='flex flex-col '>
+      <div className='flex flex-col md:flex-row md:gap-3.5'>
+        <div className='flex flex-col flex-1 '>
           <label className='font-medium mb-1 text-sm ' htmlFor='accountName'>
             Name <span className='text-red-600 '>*</span>
           </label>

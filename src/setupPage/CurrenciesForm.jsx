@@ -51,7 +51,7 @@ const CurrenciesForm = () => {
 
   return (
     <form>
-      <div>
+      <div className='flex flex-col md:flex-row md:gap-3.5'>
         <Field
           id='baseField'
           isInput={true}

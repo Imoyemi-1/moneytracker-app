@@ -7,13 +7,14 @@
   --font-mono: 'Roboto Mono', monospace;
   --font-roboto: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
   --font-lato: 'Lato', Helvetica Neue, Arial, Helvetica, sans-serif;
-  --color-White-bg: rgba(0, 0, 0, 0.01);
+  --color-White-bg: rgba(0, 0, 0, 0.04);
   --font-bdy: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
     sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Roboto,
     Helvetica Neue;
   --color-blue-bg: #3f51b5;
   --shadow-header: 0 2px 6px 0 rgba(34, 36, 38, 0.15),
     0 2px 18px 0 rgba(34, 36, 38, 0.17);
+  --breakpoint-md: 43.75rem;
 }
 
 body {
