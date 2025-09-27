@@ -133,56 +133,58 @@ const MainPage = () => {
 
   return (
     <>
-      <main className='text-sm'>
-        <div className='border-b border-gray-300 flex text-gray-500 *:whitespace-nowrap'>
-          {/* button to display  add new transaction modal from transaction page  */}
-          <button
-            onClick={() => setIsNewTransaction(true)}
-            className=' flex items-center justify-center  relative pl-14 pr-5 py-2 flex-[1_0_auto] hover:text-gray-800 duration-200 transition-colors cursor-pointer'
-          >
-            <i className='absolute h-full  left-0 bg-gray-100  w-9 text-center flex items-center justify-center'>
-              <ImPlus className='text-[0.755rem] ' />
-            </i>
-            New
-          </button>
-          {/* display container for selection and selected time range*/}
-          <div
-            onMouseDown={(e) => {
-              e.stopPropagation();
-              setIsOpen((prev) => !prev);
-            }}
-            className={clsx(
-              ' relative flex items-center flex-[1_0_auto] border-l  border-gray-300 pl-14 pr-5 py-2 hover:text-gray-800 duration-200 transition-colors cursor-pointer',
-              isOpen && 'text-gray-800 bg-gray-100'
-            )}
-          >
-            <span>{getDateRangeLabel(transactionDisplayedTime)}</span>
-            <i
+      <main className='text-sm md:mx-1  gap-x-5 xl:bg-white xl:max-w-[60rem] xl:mx-auto xl:my-4.5 xl:rounded xl:shadow-[0_2px_4px_0_rgba(34,36,38,0.12),0_2px_10px_0_rgba(34,36,38,0.15)]'>
+        <div className='md:bg-gray-50 md:rounded-tl md:rounded-tr md:p-4 md:border-b border-gray-300'>
+          <div className='border-b border-gray-300 flex text-gray-500 *:whitespace-nowrap bg-white md:max-w-[22.5rem] md:border md:rounded md:shadow-[0_1px_2px_0_rgba(34,36,38,0.15)]'>
+            {/* button to display  add new transaction modal from transaction page  */}
+            <button
+              onClick={() => setIsNewTransaction(true)}
+              className=' flex items-center justify-center  relative pl-14 pr-5 py-2 flex-[1_0_auto] hover:text-gray-800 duration-200 transition-colors cursor-pointer'
+            >
+              <i className='absolute h-full  left-0 bg-gray-100  w-9 text-center flex items-center justify-center'>
+                <ImPlus className='text-[0.755rem] ' />
+              </i>
+              New
+            </button>
+            {/* display container for selection and selected time range*/}
+            <div
+              onMouseDown={(e) => {
+                e.stopPropagation();
+                setIsOpen((prev) => !prev);
+              }}
               className={clsx(
-                'absolute h-full  left-0 bg-gray-100  w-9 text-center flex items-center justify-center',
-                isOpen && 'bg-gray-200'
+                ' relative flex items-center flex-[1_0_auto] border-l  border-gray-300 pl-14 pr-5 py-2 hover:text-gray-800 duration-200 transition-colors cursor-pointer',
+                isOpen && 'text-gray-800 bg-gray-100'
               )}
             >
-              <FaCalendar />
-            </i>
-            {/* dropdown list to display time range list */}
-            <FilterDropDown
-              ref={dropdownRef}
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-              dropDownList={dropDownList}
-            />
+              <span>{getDateRangeLabel(transactionDisplayedTime)}</span>
+              <i
+                className={clsx(
+                  'absolute h-full  left-0 bg-gray-100  w-9 text-center flex items-center justify-center',
+                  isOpen && 'bg-gray-200'
+                )}
+              >
+                <FaCalendar />
+              </i>
+              {/* dropdown list to display time range list */}
+              <FilterDropDown
+                ref={dropdownRef}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                dropDownList={dropDownList}
+              />
+            </div>
+            {/*  filtering transaction with tags and accounts */}
+            <button
+              onClick={() => {
+                defaultTransactionFilter();
+                setIsFilterTransaction(true);
+              }}
+              className='flex-[1_0_auto] p-2.5 flex items-center justify-center border-l border-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'
+            >
+              <FaFilter />
+            </button>
           </div>
-          {/*  filtering transaction with tags and accounts */}
-          <button
-            onClick={() => {
-              defaultTransactionFilter();
-              setIsFilterTransaction(true);
-            }}
-            className='flex-[1_0_auto] p-2.5 flex items-center justify-center border-l border-gray-300 hover:text-gray-800 duration-200 transition-colors cursor-pointer'
-          >
-            <FaFilter />
-          </button>
         </div>
         {/* transactions filters applied tags */}
         {appliedTransactionFilter.accountFilter.length <= 0 &&
@@ -236,8 +238,8 @@ const MainPage = () => {
         <TransactionSection transactions={transactions} />
 
         {/*  table to display today income and expense display */}
-        <div>
-          <table className='table table-fixed text-base w-full bg-white '>
+        <div className='w-full border-t border-gray-300'>
+          <table className='table table-fixed text-base w-full  md:max-w-1/2 ml-auto'>
             <tbody className='table-row-group align-middle '>
               {/* display total income display filter transactions displayed*/}
               <tr className='border-b border-gray-200  table-row align-middle  '>
@@ -266,7 +268,7 @@ const MainPage = () => {
                 </td>
               </tr>
               {/* display total  reminder from expense and income transactions*/}
-              <tr className='border-b border-gray-200  table-row align-middle  '>
+              <tr className='  table-row align-middle  '>
                 <td className='td-ui'></td>
                 <td className='td-ui text-right font-mono'>
                   <span
