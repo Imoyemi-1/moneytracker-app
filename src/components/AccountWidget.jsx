@@ -55,7 +55,10 @@ const AccountWidget = ({ isDashboard }) => {
               onClick={(e) =>
                 e.currentTarget.nextElementSibling.classList.toggle('hidden')
               }
-              className='border-t border-gray-300 bg-gray-100 flex justify-between  py-3 px-4 cursor-pointer'
+              className={clsx(
+                'border-t border-gray-300 bg-gray-100 flex justify-between  py-3 px-4 cursor-pointer',
+                index === 0 && 'md:rounded'
+              )}
             >
               <span className='font-medium'>{type}</span>
               <span

@@ -144,7 +144,7 @@ const MainPage = () => {
   ));
 
   return (
-    <main>
+    <main className='ml-1'>
       <div className='border-b border-gray-300 flex  text-[#00000099] text-sm'>
         <div
           onMouseDown={(e) => {

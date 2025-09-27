@@ -9,13 +9,13 @@ export const MainPage = () => {
   const { transactions, accounts } = useContext(AppContext);
 
   return (
-    <main>
+    <main className='px-3.5'>
       {/* Section for dashboard net worth  and account widget section*/}
       <Section
         title='net worth'
         isNetWorth={true}
         sectionBody={
-          <div className='border-t border-gray-300 '>
+          <div className='md:border-x md:rounded md:border-b border-gray-300'>
             {accounts.length > 0 && <AccountWidget isDashboard={true} />}
           </div>
         }
