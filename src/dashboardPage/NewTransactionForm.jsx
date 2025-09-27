@@ -7,6 +7,7 @@ import { DashboardContext } from '../contexts/DashboardContext';
 import { useSaveTransactions, updateTransactions } from '../hooks/useAccount';
 import { ImCross } from 'react-icons/im';
 import { convertCurrency } from '../hooks/useExchangeRates';
+import clsx from 'clsx';
 
 const NewTransactionForm = ({ activeTab }) => {
   const { accounts, setBaseInputEmpty, rates, isEditMode, transactionToEdit } =
@@ -95,7 +96,7 @@ const NewTransactionForm = ({ activeTab }) => {
 
   return (
     <form action={handleSubmit}>
-      <div>
+      <div className='flex flex-col md:flex-row items-center md:gap-3'>
         <Field
           id='firstTransaction'
           isInput={false}
@@ -121,7 +122,7 @@ const NewTransactionForm = ({ activeTab }) => {
       </div>
       {/* show second field if only nav tab is on transfer */}
       {activeTab === 'transfer' && (
-        <div className='mt-3.5'>
+        <div className='flex flex-col md:flex-row items-center md:gap-3 mt-2.5 md:mt-0 '>
           <Field
             id='secondTransaction'
             isInput={false}
@@ -155,8 +156,8 @@ const NewTransactionForm = ({ activeTab }) => {
           />
         </div>
       )}
-      <div className='mt-3.5'>
-        <div>
+      <div className='mt-3.5 md:mt-0 md:flex md:gap-x-3'>
+        <div className='flex-1'>
           {activeTab !== 'transfer' && (
             <Field
               id='tagsField'
@@ -185,8 +186,15 @@ const NewTransactionForm = ({ activeTab }) => {
             }}
           />
         </div>
-        <div className='flex mt-3.5 gap-3'>
-          <div className='flex-1'>
+        <div
+          className={clsx(
+            'flex  gap-3 md:flex-col md:w-[31.25%] w-full',
+            activeTab !== 'transfer' && 'mt-3.5'
+          )}
+        >
+          <div
+            className={clsx('w-full ', activeTab !== 'transfer' && 'md:mt-2.5')}
+          >
             <input
               className='font-lato border text-sm w-full  border-gray-200 rounded-md px-3.5 py-2 outline-0 focus:border-blue-200 '
               required
@@ -195,7 +203,7 @@ const NewTransactionForm = ({ activeTab }) => {
               name='transactionDate'
             />
           </div>
-          <div className='flex-1'>
+          <div className='w-full md:mt-0.5'>
             <button className='w-full bg-blue-800 opacity-90 hover:opacity-100 duration-300 transition-opacity cursor-pointer text-sm  rounded-md text-white py-2'>
               {isEditMode ? 'Save' : 'Add'} {activeTab}
             </button>

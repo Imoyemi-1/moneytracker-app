@@ -54,7 +54,7 @@ const TransactionSection = ({ transactions }) => {
   const transactionList = transactions
     .slice()
     .reverse()
-    .map((list) => {
+    .map((list, index) => {
       // format date to show just day and short month
       const dateStr = list.date;
       const [y, m, d] = dateStr.split('-');
@@ -66,7 +66,10 @@ const TransactionSection = ({ transactions }) => {
       return (
         <div
           key={list.id}
-          className='px-3.5 py-2.5 border-b border-gray-300 grid grid-cols-[1fr_1fr_auto] text-sm'
+          className={clsx(
+            'px-3.5 py-2.5 border-t border-gray-300 grid grid-cols-[1fr_1fr_auto] text-sm',
+            index === 0 && 'border-t-0'
+          )}
         >
           {/* Display formatted date */}
           <div className='text-gray-500 whitespace-nowrap flex items-center'>
@@ -167,7 +170,7 @@ const TransactionSection = ({ transactions }) => {
       {transactions.length > 0 ? (
         transactionList
       ) : (
-        <div className='px-3.5 text-sm min-h-12.5 flex items-center border-b border-gray-300'>
+        <div className='px-3.5 text-sm min-h-12.5 flex items-center  '>
           No transactions found.
         </div>
       )}

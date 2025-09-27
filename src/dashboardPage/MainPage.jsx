@@ -9,7 +9,7 @@ export const MainPage = () => {
   const { transactions, accounts } = useContext(AppContext);
 
   return (
-    <main className='md:px-3.5'>
+    <main className='md:px-3.5 pb-3.5 grid lg:grid-cols-2 gap-x-5 xl:bg-white xl:max-w-[60rem] xl:mx-auto xl:my-4.5 xl:rounded xl:shadow-[0_2px_4px_0_rgba(34,36,38,0.12),0_2px_10px_0_rgba(34,36,38,0.15)] '>
       {/* Section for dashboard net worth  and account widget section*/}
       <Section
         title='net worth'
@@ -29,15 +29,18 @@ export const MainPage = () => {
           </div>
         }
       />
+
       {/* Section for creating  new Transaction*/}
-      <Section
-        title='Recent Transactions'
-        sectionBody={
-          <div className='border-t border-gray-300 '>
-            {<TransactionSection transactions={transactions} />}
-          </div>
-        }
-      />
+      <div className='col-start-2'>
+        <Section
+          title='Recent Transactions'
+          sectionBody={
+            <div className='border-t md:border md:rounded border-gray-300 '>
+              {<TransactionSection transactions={transactions} />}
+            </div>
+          }
+        />
+      </div>
     </main>
   );
 };

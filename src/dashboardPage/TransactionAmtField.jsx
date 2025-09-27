@@ -51,7 +51,7 @@ const TransactionAmtField = ({
   });
 
   return (
-    <div className='flex'>
+    <div className='flex h-fit  md:mt-2.5 md:w-[31.25%] w-full'>
       {/* input for amount transaction */}
       <input
         className={clsx(
