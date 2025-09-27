@@ -24,7 +24,7 @@ const Navbar = () => {
     <aside
       onClick={closeSideBar}
       className={clsx(
-        'fixed top-15.5 w-31 min-h-full bg-white translate -translate-x-full transition-transform duration-300 ease-linear z-50',
+        'fixed top-15.5 w-31 min-h-full bg-white translate -translate-x-full transition-transform duration-300 ease-linear z-50 md:translate-x-0 ',
         isOpenSidebar && 'translate-x-0'
       )}
     >

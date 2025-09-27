@@ -25,13 +25,20 @@ const Header = () => {
   }, [location.pathname]);
 
   return (
-    <header className='p-4 h-15.5 bg-blue-bg sticky top-0 w-full shadow-header z-50'>
+    <header className='md:px-0 p-4 h-15.5 bg-blue-bg sticky top-0 w-full  shadow-header z-50'>
       <div className='flex items-center text-white font-roboto'>
         {/* toggle sidebar */}
         <GiHamburgerMenu
           onClick={() => setOpenSidebar((prev) => !prev)}
-          className='text-[1.6875rem] cursor-pointer'
+          className='md:hidden text-[1.6875rem] cursor-pointer '
         />
+        <div className='hidden md:flex w-31 items-center justify-center'>
+          <img
+            className='w-8'
+            src='/moneytracker-logo.svg'
+            alt='moneytracker logo'
+          />
+        </div>
         {/* Dynamic page title */}
         <h2 className='pl-3 font-light flex-1 text-2xl '>{currentPageName}</h2>
       </div>
