@@ -73,7 +73,7 @@ const MainPage = () => {
   };
 
   return (
-    <main>
+    <main className='text-sm md:mx-1  gap-x-5 xl:bg-white xl:max-w-[60rem] xl:mx-auto xl:my-4.5 xl:rounded xl:shadow-[0_2px_4px_0_rgba(34,36,38,0.12),0_2px_10px_0_rgba(34,36,38,0.15)]'>
       {/*  */}
       <Section
         title='currency'
