@@ -145,60 +145,62 @@ const MainPage = () => {
 
   return (
     <main className='ml-1 text-sm md:mx-1  gap-x-5 xl:bg-white xl:max-w-[60rem] xl:mx-auto xl:my-4.5 xl:rounded xl:shadow-[0_2px_4px_0_rgba(34,36,38,0.12),0_2px_10px_0_rgba(34,36,38,0.15)]'>
-      <div className='border-b border-gray-300 flex  text-[#00000099] text-sm'>
-        <div
-          onMouseDown={(e) => {
-            e.stopPropagation();
-            setIsOpen((prev) => !prev);
-            setIsOpenTime(false);
-          }}
-          className='box-border relative flex text-nowrap items-center  border-r border-gray-300 py-2 px-5 cursor-pointer hover:text-gray-700 transition-colors duration-200'
-        >
-          <div>{filterReport}</div>
-          <IoMdArrowDropdown className='ml-2 text-base' />
-          {/* dropdown list to display time range list */}
-          <FilterDropDown
-            ref={FilterDropdownRef}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            dropDownList={FilterDropdownList}
-          />
-        </div>
-        <button
-          onClick={handlePrevDate}
-          className='border-r border-gray-300 py-1 px-2 cursor-pointer hover:text-gray-600 transition-colors duration-200'
-        >
-          <MdKeyboardArrowLeft className='text-2xl ' />
-        </button>
-        <div className='relative'>
+      <div className='md:bg-gray-50 md:rounded-tl md:rounded-tr md:p-4'>
+        <div className=' flex  text-[#00000099] text-sm bg-white md:max-w-[22.5rem] md:border md:rounded md:shadow-[0_1px_2px_0_rgba(34,36,38,0.15)] border-gray-300 w-fit border-r-0'>
           <div
             onMouseDown={(e) => {
               e.stopPropagation();
-              setIsOpenTime((prev) => !prev);
-              setIsOpen(false);
+              setIsOpen((prev) => !prev);
+              setIsOpenTime(false);
             }}
-            className={clsx(
-              ' h-full  py-1 px-5.5 cursor-pointer border  hover:border-gray-500 flex items-center',
-              isOpenTime &&
-                'border rounded border-gray-500 bg-gray-200 text-black',
-              !isOpenTime && 'border-transparent'
-            )}
+            className='box-border relative flex text-nowrap items-center  border-r border-gray-300 py-2 px-5 cursor-pointer hover:text-gray-700 transition-colors duration-200'
           >
-            {formatDate()}
+            <div>{filterReport}</div>
+            <IoMdArrowDropdown className='ml-2 text-base' />
+            {/* dropdown list to display time range list */}
+            <FilterDropDown
+              ref={FilterDropdownRef}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              dropDownList={FilterDropdownList}
+            />
           </div>
-          <FilterDropDown
-            ref={timeFilterRef}
-            isOpen={isOpenTime}
-            setIsOpen={setIsOpenTime}
-            dropDownList={timeDropdownList}
-          />
+          <button
+            onClick={handlePrevDate}
+            className='border-r border-gray-300 py-1 px-2 cursor-pointer hover:text-gray-600 transition-colors duration-200'
+          >
+            <MdKeyboardArrowLeft className='text-2xl ' />
+          </button>
+          <div className='relative'>
+            <div
+              onMouseDown={(e) => {
+                e.stopPropagation();
+                setIsOpenTime((prev) => !prev);
+                setIsOpen(false);
+              }}
+              className={clsx(
+                ' h-full  py-1 px-5.5 cursor-pointer border  hover:border-gray-500 flex items-center',
+                isOpenTime &&
+                  'border rounded border-gray-500 bg-gray-200 text-black',
+                !isOpenTime && 'border-transparent'
+              )}
+            >
+              {formatDate()}
+            </div>
+            <FilterDropDown
+              ref={timeFilterRef}
+              isOpen={isOpenTime}
+              setIsOpen={setIsOpenTime}
+              dropDownList={timeDropdownList}
+            />
+          </div>
+          <button
+            onClick={handleNextDate}
+            className='border-x border-gray-300 py-1 px-2 cursor-pointer hover:text-gray-600 transition-colors duration-200'
+          >
+            <MdKeyboardArrowRight className='text-2xl ' />
+          </button>
         </div>
-        <button
-          onClick={handleNextDate}
-          className='border-x border-gray-300 py-1 px-2 cursor-pointer hover:text-gray-600 transition-colors duration-200'
-        >
-          <MdKeyboardArrowRight className='text-2xl ' />
-        </button>
       </div>
       {/*  */}
       <div className='p-4 border-t border-gray-300 bg-[#f9fafb] text-base'>
