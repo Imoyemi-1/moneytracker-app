@@ -10,7 +10,7 @@ const NewTransactions = () => {
   return (
     <>
       {accounts.length <= 0 ? (
-        <div className='px-3.5 text-sm min-h-12.5 flex items-center border-b border-gray-300'>
+        <div className='px-3.5 text-sm min-h-12.5 flex items-center '>
           You don't have any accounts.
         </div>
       ) : (

@@ -10,6 +10,7 @@ import { IoIosOptions } from 'react-icons/io';
 import { clsx } from 'clsx/lite';
 import { useAsideBar } from '../contexts/aside';
 import Modal from './Modal';
+import { useEffect } from 'react';
 
 const Navbar = () => {
   const { isOpenSidebar, setOpenSidebar } = useAsideBar();
@@ -19,6 +20,16 @@ const Navbar = () => {
   const closeSideBar = () => {
     setOpenSidebar(false);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 700) setOpenSidebar(false);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <aside

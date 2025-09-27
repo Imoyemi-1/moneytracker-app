@@ -7,6 +7,7 @@ import ModalTransaction from '../components/ModalTransaction';
 import AccountForm from '../setupPage/AccountForm';
 import { useAsideBar } from '../contexts/aside';
 import ConfirmAccountDeletion from './ConfirmAccountDeletion';
+import clsx from 'clsx';
 
 const MainPage = () => {
   const {
@@ -14,13 +15,19 @@ const MainPage = () => {
     isNewAccount,
     isEditAccountMode,
     isConfirmAccountDelete,
+    accounts,
   } = useContext(AppContext);
   const { setupComplete } = useAsideBar();
   return (
     <>
       <main className='text-sm md:mx-1  gap-x-5 xl:bg-white xl:max-w-[60rem] xl:mx-auto xl:my-4.5 xl:rounded xl:shadow-[0_2px_4px_0_rgba(34,36,38,0.12),0_2px_10px_0_rgba(34,36,38,0.15)]'>
-        <div className='md:bg-gray-50 md:rounded-tl md:rounded-tr md:p-4'>
-          <div className='text-sm  flex text-gray-500 *:whitespace-nowrap  bg-white md:max-w-[22.5rem] md:border md:rounded md:shadow-[0_1px_2px_0_rgba(34,36,38,0.15)] border-gray-300 w-fit border-r-0'>
+        <div
+          className={clsx(
+            'md:bg-gray-50  md:rounded-tl md:rounded-tr md:p-4',
+            accounts.length === 0 && 'border-b  border-gray-300'
+          )}
+        >
+          <div className='text-sm flex text-gray-500 *:whitespace-nowrap  bg-white md:max-w-[22.5rem] md:border md:rounded md:shadow-[0_1px_2px_0_rgba(34,36,38,0.15)] border-gray-300 w-fit border-r-0'>
             {/* button to display  add new account modal from accounts page  */}
             <button
               onClick={() => setIsNewAccount(true)}
