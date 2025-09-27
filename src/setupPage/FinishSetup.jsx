@@ -24,7 +24,7 @@ const FinishSetup = () => {
     <>
       {accounts?.length > 0 && (
         <div>
-          <div className='m-4 mb-0 border-y border-gray-300 md:border md:rounded'>
+          <div className='m-4 mb-0 border-b border-gray-300 md:border md:border-t-0 md:rounded'>
             <AccountWidget />
           </div>
           <div className='flex justify-end p-4'>

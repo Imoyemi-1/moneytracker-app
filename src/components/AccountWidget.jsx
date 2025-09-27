@@ -55,7 +55,7 @@ const AccountWidget = ({ isDashboard }) => {
               onClick={(e) =>
                 e.currentTarget.nextElementSibling.classList.toggle('hidden')
               }
-              className=' bg-gray-100 flex justify-between  py-3 px-4 cursor-pointer'
+              className='border-t border-gray-300 bg-gray-100 flex justify-between  py-3 px-4 cursor-pointer'
             >
               <span className='font-medium'>{type}</span>
               <span
