@@ -37,6 +37,14 @@ function DropdownProvider({ children }) {
     };
     fetchCurrency();
   }, []);
+
+  useEffect(() => {
+    setSelected((prev) => ({
+      ...prev,
+      firstAccountTransaction: accounts[0] ?? {},
+      secondAccountTransaction: accounts[1] ?? accounts[0] ?? {},
+    }));
+  }, [accounts]);
   // set transaction form info for edit
 
   const setAccountTransactionEdit = (firstId, secondId, tags) => {

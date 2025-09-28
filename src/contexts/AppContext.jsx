@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useMemo } from 'react';
 import db from '../db/data';
 import { useLiveQuery } from 'dexie-react-hooks';
 
@@ -22,6 +22,11 @@ const AppContextProvider = ({ children }) => {
     accountFilter: [],
     tagsFilter: [],
   });
+
+  const accounts = useMemo(() => {
+    if (!allAccounts) return [];
+    return allAccounts.filter((item) => item.isArchived === false);
+  }, [allAccounts]);
 
   useEffect(() => {
     // get rate from storage and fetch from api if no rate in storage or time up
@@ -52,7 +57,7 @@ const AppContextProvider = ({ children }) => {
   }, []);
 
   if (!allAccounts || !transactions) return <div>Loading data...</div>;
-  const accounts = allAccounts.filter((item) => item.isArchived === false);
+
   return (
     <AppContext.Provider
       value={{

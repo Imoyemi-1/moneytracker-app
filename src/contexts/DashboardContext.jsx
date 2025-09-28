@@ -101,7 +101,6 @@ const DashboardContextProvider = ({ children }) => {
   const resetStateEdit = () => {
     setActiveTab('expense');
     setTransactionToEdit(null);
-    resetAccountTransaction();
     setAmount1('');
     setAccountName('');
     setNote('');
@@ -114,6 +113,7 @@ const DashboardContextProvider = ({ children }) => {
     setAccountToEdit(null);
     setIsEditAccountMode(false);
     setIsConfirmAccountDelete(false);
+    resetAccountTransaction();
   };
 
   return (
