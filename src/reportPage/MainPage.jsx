@@ -9,6 +9,7 @@ import { AppContext } from '../contexts/AppContext';
 import { DashboardContext } from '../contexts/DashboardContext';
 import { useDropdown } from '../contexts/Setup';
 import { addMonths, addYears, subMonths, subYears, format } from 'date-fns';
+import ReportChart from './ReportChart';
 
 const MainPage = () => {
   const { setBaseInputEmpty, accounts } = useContext(AppContext);
@@ -202,6 +203,8 @@ const MainPage = () => {
           </button>
         </div>
       </div>
+      {/*  */}
+      <ReportChart />
       {/*  */}
       <div className='p-4 border-t border-gray-300 bg-[#f9fafb] text-base'>
         {/* selected account to filter transaction with and dropdown  to select the account to filter with*/}
