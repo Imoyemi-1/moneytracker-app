@@ -20,7 +20,8 @@ const Section = ({ title, isNetWorth, sectionBody }) => {
   return (
     <section
       className={clsx(
-        ' text-[rgb(0,0,0,0.87)] border-t md:border-t-0 border-gray-300'
+        ' text-[rgb(0,0,0,0.87)]  border-gray-300',
+        !isOpen && 'border-b'
       )}
     >
       {/* Toggle section body if section header  is click*/}

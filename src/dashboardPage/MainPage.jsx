@@ -25,7 +25,7 @@ export const MainPage = () => {
         <Section
           title='New Transaction'
           sectionBody={
-            <div className='border-t md:border md:rounded  border-gray-300 '>
+            <div className='border-y md:border md:rounded  border-gray-300 '>
               {<NewTransactions />}
             </div>
           }
