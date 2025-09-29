@@ -33,7 +33,7 @@ const MainPage = () => {
   const formatDate = () => {
     return viewType === 'Monthly'
       ? format(currentDate, 'MMM yyy')
-      : format(currentDate, ' yyy');
+      : format(currentDate, 'yyy');
   };
 
   // increase date
@@ -180,7 +180,7 @@ const MainPage = () => {
                 setIsOpen(false);
               }}
               className={clsx(
-                ' h-full  py-1 px-5.5 cursor-pointer border  hover:border-gray-500 flex items-center',
+                ' h-full  text-nowrap py-1 px-5.5 cursor-pointer border  hover:border-gray-500 flex items-center',
                 isOpenTime &&
                   'border rounded border-gray-500 bg-gray-200 text-black',
                 !isOpenTime && 'border-transparent'
@@ -204,7 +204,7 @@ const MainPage = () => {
         </div>
       </div>
       {/*  */}
-      <ReportChart />
+      <ReportChart formatDate={formatDate} viewType={viewType} />
       {/*  */}
       <div className='p-4 border-t border-gray-300 bg-[#f9fafb] text-base'>
         {/* selected account to filter transaction with and dropdown  to select the account to filter with*/}

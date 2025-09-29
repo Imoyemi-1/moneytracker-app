@@ -13,6 +13,7 @@ import db from './db/data';
 import { useAsideBar } from './contexts/aside';
 import { AppContextProvider } from './contexts/AppContext';
 import { DashboardContextProvider } from './contexts/DashboardContext';
+import { Chart as ChartJS } from 'chart.js/auto';
 
 const App = () => {
   const { setupComplete, setSetupComplete } = useAsideBar();

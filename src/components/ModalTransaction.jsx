@@ -29,12 +29,12 @@ const ModalTransaction = ({ content }) => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className='relative bg-white h-fit w-full m-auto rounded'
+      className='relative bg-white h-fit w-full m-auto rounded max-w-[45rem]'
     >
       {/* cancel icon to close modal */}
       <ImCross
         onClick={() => resetStateEdit()}
-        className='absolute right-6 top-4.5 text-sm cursor-pointer text-gray-600 hover:text-gray-800 '
+        className='absolute right-6 top-4.5 text-sm cursor-pointer text-gray-600 hover:text-gray-800 lg:-top-8.5 lg:-right-5 lg:text-white/80 lg:hover:text-white'
       />
       <div className='border-b border-gray-300 flex items-center py-2.5 pl-3.5 pr-8'>
         {isFilterTransaction ? null : <FaRegFile className='text-3xl px-1' />}
