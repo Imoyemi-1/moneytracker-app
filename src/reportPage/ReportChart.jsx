@@ -187,27 +187,47 @@ const ReportChart = ({ formatDate, viewType, currentDate, filterReport }) => {
         <div className='flex flex-col justify-center items-center uppercase mx-6 mb-3'>
           <div>
             <span className='font-mono text-xl text-green-600'>
-              {totalIncome} {selected.baseSelection.code}
+              {filterReport === 'Net Income'
+                ? totalIncome - totalExpense
+                : totalIncome}{' '}
+              {selected.baseSelection.code}
             </span>
           </div>
           <div className='font-lato text-base font-bold text-[rgba(0,0,0,0.87)]'>
-            Total Income
+            {filterReport === 'Net Income'
+              ? 'Total Net Income'
+              : 'Total Income'}
           </div>
         </div>
         <div className='flex flex-col justify-center items-center uppercase  mx-6 '>
           <div>
             <span
               className={clsx(
-                'font-mono text-xl text-red-600',
-                totalExpense === 0 && 'text-green-600'
+                'font-mono text-xl text-green-600',
+                totalExpense > 0 &&
+                  filterReport !== 'Net Income' &&
+                  ' text-red-600',
+                filterReport === 'Net Income' &&
+                  (totalIncome - totalExpense) / 2 < 0 &&
+                  ' text-red-600'
               )}
             >
-              {totalExpense > 0 && '-'}
-              {totalExpense} {selected.baseSelection.code}
+              {filterReport !== 'Net Income' && totalExpense > 0
+                ? '-'
+                : filterReport !== 'Net Income' &&
+                  (totalIncome - totalExpense) / 2 > 0
+                ? '-'
+                : null}
+              {filterReport === 'Net Income'
+                ? (totalIncome - totalExpense) / 2
+                : totalExpense}{' '}
+              {selected.baseSelection.code}
             </span>
           </div>
           <div className='font-lato text-base font-bold text-[rgba(0,0,0,0.87)]'>
-            Total Expense
+            {filterReport === 'Net Income'
+              ? 'Average Net Income'
+              : 'Total Expense'}
           </div>
         </div>
       </div>
