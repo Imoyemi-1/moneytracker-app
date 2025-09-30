@@ -163,14 +163,14 @@ const ReportChart = ({ formatDate, viewType, currentDate, filterReport }) => {
   };
 
   if (filterReport === 'Net Income') {
-    console.log(incomeData);
+    const colors = incomeData.map((val) => (val >= 0 ? 'green' : 'red'));
     data = {
       labels: labels,
       datasets: [
         {
-          label: 'Income',
+          label: 'Net Income',
           data: incomeData,
-          backgroundColor: 'green',
+          backgroundColor: colors,
         },
       ],
     };
@@ -178,6 +178,12 @@ const ReportChart = ({ formatDate, viewType, currentDate, filterReport }) => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+    },
     scales: { x: { stacked: false }, y: { stacked: false, beginAtZero: true } },
   };
 
@@ -231,7 +237,7 @@ const ReportChart = ({ formatDate, viewType, currentDate, filterReport }) => {
           </div>
         </div>
       </div>
-      <div className='w-full'>
+      <div className='w-full h-[25rem] relative'>
         <Bar data={data} options={options} />
       </div>
     </div>
