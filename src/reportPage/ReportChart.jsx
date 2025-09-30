@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { AppContext } from '../contexts/AppContext';
-import { getYear, getMonth } from 'date-fns';
+import { getYear, getMonth, getDaysInMonth } from 'date-fns';
 import { convertCurrency } from '../hooks/useExchangeRates';
 import { useDropdown } from '../contexts/Setup';
 import clsx from 'clsx';
 
-const ReportChart = ({ formatDate, viewType }) => {
+const ReportChart = ({ formatDate, viewType, currentDate }) => {
   const { transactions, rates } = useContext(AppContext);
   const { selected } = useDropdown();
 
@@ -25,21 +25,42 @@ const ReportChart = ({ formatDate, viewType }) => {
     'Dec',
   ];
 
-  let filteredTransaction = transactions.filter((tx) => {
-    const txDate = new Date(tx.date);
-    return getYear(txDate).toString() === formatDate();
-  });
+  let filteredTransaction = transactions
+    .filter((tx) => {
+      const txDate = new Date(tx.date);
+      return (
+        (getYear(txDate).toString() === formatDate() &&
+          selected.accountFilterReport.length === 0) ||
+        selected.accountFilterReport.some(
+          (acc) => tx.accountTransactionInfo[0]?.id === acc.id
+        )
+      );
+    })
+    .filter(
+      (tx) => !tx.tags.some((tag) => selected.tagsFilterReport.includes(tag))
+    );
 
   if (viewType === 'Monthly') {
-    filteredTransaction = transactions.filter((tx) => {
-      const txDate = new Date(tx.date);
+    filteredTransaction = transactions
+      .filter((tx) => {
+        const txDate = new Date(tx.date);
 
-      return (
-        `${monthsNameArr[getMonth(txDate).toString()]} ${getYear(
-          txDate
-        ).toString()}` === formatDate()
+        return (
+          `${monthsNameArr[getMonth(txDate).toString()]} ${getYear(
+            txDate
+          ).toString()}` === formatDate()
+        );
+      })
+      .filter(
+        (tx) =>
+          selected.accountFilterReport.length === 0 ||
+          selected.accountFilterReport.some(
+            (acc) => tx.accountTransactionInfo[0]?.id !== acc.id
+          )
+      )
+      .filter(
+        (tx) => !tx.tags.some((tag) => selected.tagsFilterReport.includes(tag))
       );
-    });
   }
 
   //
@@ -73,14 +94,40 @@ const ReportChart = ({ formatDate, viewType }) => {
     );
 
   //
-  let labels = monthsNameArr;
+  let labels = [];
   let incomeData = [];
   let expenseData = [];
+  if (viewType === 'Yearly') {
+    labels = monthsNameArr;
+    //
+    incomeData = Array(12).fill(0);
+    expenseData = Array(12).fill(0);
 
-  //
-  incomeData = Array(12).fill(0);
-  expenseData = Array(12).fill(0);
+    //
+    filteredTransaction.forEach((tx) => {
+      const monthIndex = new Date(tx.date).getMonth();
+      if (tx.type === 'income')
+        incomeData[monthIndex] += tx.accountTransactionInfo[0]?.amount;
+      else expenseData[monthIndex] += tx.accountTransactionInfo[0]?.amount;
+    });
+  } else {
+    // Month: Days 01-31
 
+    const numDays = getDaysInMonth(currentDate);
+
+    labels = Array.from({ length: numDays }, (_, i) =>
+      (i + 1).toString().padStart(2, '0')
+    ); // '01', '02', ...
+    incomeData = Array(numDays).fill(0);
+    expenseData = Array(numDays).fill(0);
+
+    filteredTransaction.forEach((tx) => {
+      const dayIndex = new Date(tx.date).getDate(); // 0-based
+      if (tx.type === 'income')
+        incomeData[dayIndex] += tx.accountTransactionInfo[0]?.amount;
+      else expenseData[dayIndex] += tx.accountTransactionInfo[0]?.amount;
+    });
+  }
   //
   const data = {
     labels: labels,

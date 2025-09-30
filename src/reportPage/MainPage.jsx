@@ -204,7 +204,11 @@ const MainPage = () => {
         </div>
       </div>
       {/*  */}
-      <ReportChart formatDate={formatDate} viewType={viewType} />
+      <ReportChart
+        formatDate={formatDate}
+        viewType={viewType}
+        currentDate={currentDate}
+      />
       {/*  */}
       <div className='p-4 border-t border-gray-300 bg-[#f9fafb] text-base'>
         {/* selected account to filter transaction with and dropdown  to select the account to filter with*/}
