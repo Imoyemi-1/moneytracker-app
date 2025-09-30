@@ -6,7 +6,7 @@ import { convertCurrency } from '../hooks/useExchangeRates';
 import { useDropdown } from '../contexts/Setup';
 import clsx from 'clsx';
 
-const ReportChart = ({ formatDate, viewType, currentDate }) => {
+const ReportChart = ({ formatDate, viewType, currentDate, filterReport }) => {
   const { transactions, rates } = useContext(AppContext);
   const { selected } = useDropdown();
 
@@ -24,8 +24,9 @@ const ReportChart = ({ formatDate, viewType, currentDate }) => {
     'Nov',
     'Dec',
   ];
+  let filteredTransaction;
 
-  let filteredTransaction = transactions
+  filteredTransaction = transactions
     .filter((tx) => {
       const txDate = new Date(tx.date);
       return (
@@ -106,9 +107,15 @@ const ReportChart = ({ formatDate, viewType, currentDate }) => {
     //
     filteredTransaction.forEach((tx) => {
       const monthIndex = new Date(tx.date).getMonth();
-      if (tx.type === 'income')
-        incomeData[monthIndex] += tx.accountTransactionInfo[0]?.amount;
-      else expenseData[monthIndex] += tx.accountTransactionInfo[0]?.amount;
+      if (filterReport === 'Net Income') {
+        if (tx.type === 'income')
+          incomeData[monthIndex] += tx.accountTransactionInfo[0]?.amount;
+        else incomeData[monthIndex] -= tx.accountTransactionInfo[0]?.amount;
+      } else if (filterReport === 'Expense & Income') {
+        if (tx.type === 'income')
+          incomeData[monthIndex] += tx.accountTransactionInfo[0]?.amount;
+        else expenseData[monthIndex] += tx.accountTransactionInfo[0]?.amount;
+      }
     });
   } else {
     // Month: Days 01-31
@@ -121,15 +128,25 @@ const ReportChart = ({ formatDate, viewType, currentDate }) => {
     incomeData = Array(numDays).fill(0);
     expenseData = Array(numDays).fill(0);
 
-    filteredTransaction.forEach((tx) => {
-      const dayIndex = new Date(tx.date).getDate(); // 0-based
-      if (tx.type === 'income')
-        incomeData[dayIndex] += tx.accountTransactionInfo[0]?.amount;
-      else expenseData[dayIndex] += tx.accountTransactionInfo[0]?.amount;
-    });
+    if (filterReport === 'Net Income') {
+      filteredTransaction.forEach((tx) => {
+        const dayIndex = new Date(tx.date).getDate(); // 0-based
+        if (tx.type === 'income')
+          incomeData[dayIndex] += tx.accountTransactionInfo[0]?.amount || 0;
+        if (tx.type === 'expense')
+          incomeData[dayIndex] -= tx.accountTransactionInfo[0]?.amount || 0;
+      });
+    } else if (filterReport === 'Expense & Income') {
+      filteredTransaction.forEach((tx) => {
+        const dayIndex = new Date(tx.date).getDate(); // 0-based
+        if (tx.type === 'income')
+          incomeData[dayIndex] += tx.accountTransactionInfo[0]?.amount;
+        else expenseData[dayIndex] += tx.accountTransactionInfo[0]?.amount;
+      });
+    }
   }
   //
-  const data = {
+  let data = {
     labels: labels,
     datasets: [
       {
@@ -144,6 +161,20 @@ const ReportChart = ({ formatDate, viewType, currentDate }) => {
       },
     ],
   };
+
+  if (filterReport === 'Net Income') {
+    console.log(incomeData);
+    data = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Income',
+          data: incomeData,
+          backgroundColor: 'green',
+        },
+      ],
+    };
+  }
 
   const options = {
     responsive: true,

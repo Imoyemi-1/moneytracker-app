@@ -208,6 +208,7 @@ const MainPage = () => {
         formatDate={formatDate}
         viewType={viewType}
         currentDate={currentDate}
+        filterReport={filterReport}
       />
       {/*  */}
       <div className='p-4 border-t border-gray-300 bg-[#f9fafb] text-base'>
