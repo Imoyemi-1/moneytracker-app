@@ -108,7 +108,7 @@ const AccountForm = () => {
                 isEditAccountMode
                   ? accToEditCur.find((c) => c.code === cur.code)?.enabled ??
                     false
-                  : false
+                  : true
               }
             />
             {cur.name}

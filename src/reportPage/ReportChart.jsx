@@ -1,10 +1,32 @@
 import { useContext } from 'react';
-import { Bar } from 'react-chartjs-2';
+import React, { Suspense } from 'react';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import { AppContext } from '../contexts/AppContext';
 import { getYear, getMonth, getDaysInMonth } from 'date-fns';
 import { convertCurrency } from '../hooks/useExchangeRates';
 import { useDropdown } from '../contexts/Setup';
 import clsx from 'clsx';
+
+const Bar = React.lazy(() =>
+  import('react-chartjs-2').then((module) => ({ default: module.Bar }))
+);
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const ReportChart = ({ formatDate, viewType, currentDate, filterReport }) => {
   const { transactions, rates } = useContext(AppContext);
@@ -238,7 +260,9 @@ const ReportChart = ({ formatDate, viewType, currentDate, filterReport }) => {
         </div>
       </div>
       <div className='w-full h-[25rem] relative'>
-        <Bar data={data} options={options} />
+        <Suspense fallback={<div>Loading chart...</div>}>
+          <Bar data={data} options={options} />
+        </Suspense>
       </div>
     </div>
   );
